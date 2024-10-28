@@ -25,13 +25,16 @@ font_bold = ctk.CTkFont(family="Space Grotesk", size=16, weight="bold")
 input_limit = 2000
 
 # Chatbox window (output display)
-chatbox = ctk.CTkTextbox(app, width=700, fg_color=COLOR_BLACK, text_color=COLOR_OFF_WHITE, font=font_bold, wrap="word", corner_radius=25)
+chatbox = ctk.CTkTextbox(app, width=700, fg_color="transparent", text_color=COLOR_OFF_WHITE, font=font_bold, wrap="word", corner_radius=25)
 chatbox.pack(fill="y", expand=True)
 chatbox.configure(state="disabled")
 
+divider = ctk.CTkFrame(app, height=2, width=600, fg_color=COLOR_DARK_GREY)
+divider.pack()
+
 # Character limit indicator
 char_limit_label = ctk.CTkLabel(app, text=f"0 / {input_limit}", text_color=COLOR_BLACK, font=font_reg, anchor="center", bg_color="transparent")
-char_limit_label.pack(fill="x", padx=25, pady=(5, 5))
+char_limit_label.pack(fill="x", padx=25, pady=5)
 
 # User input textbox (for entering messages)
 user_input_frame = ctk.CTkFrame(app, fg_color=COLOR_DARK_GREY, corner_radius=25, width=650)
