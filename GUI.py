@@ -15,7 +15,7 @@ app = ctk.CTk()
 app.geometry("700x700")
 app.minsize(700, 700)
 app.title("FlashForge")
-app.configure(fg_color=COLOR_DARK_GREY)
+app.configure(fg_color=COLOR_BLACK)
 
 # Load custom font
 font_reg = ctk.CTkFont(family="Space Grotesk", size=16, weight="normal")
@@ -25,21 +25,22 @@ font_bold = ctk.CTkFont(family="Space Grotesk", size=16, weight="bold")
 input_limit = 2000
 
 # Chatbox window (output display)
-chatbox = ctk.CTkTextbox(app, width=650, height=500, fg_color=COLOR_BLACK, text_color=COLOR_OFF_WHITE, font=font_bold, wrap="word", corner_radius=0)
-chatbox.pack(fill="both", expand=True)
+chatbox = ctk.CTkTextbox(app, width=700, fg_color=COLOR_BLACK, text_color=COLOR_OFF_WHITE, font=font_bold, wrap="word", corner_radius=25)
+chatbox.pack(fill="y", expand=True)
 chatbox.configure(state="disabled")
 
 # User input textbox (for entering messages)
-user_input_frame = ctk.CTkFrame(app, fg_color=COLOR_DARK_GREY, corner_radius=0)
-user_input_frame.pack(fill="x")
+user_input_frame = ctk.CTkFrame(app, fg_color=COLOR_DARK_GREY, corner_radius=25, width=650)
+user_input_frame.pack()
 
-user_input = ctk.CTkTextbox(user_input_frame, fg_color=COLOR_DARK_GREY, text_color=COLOR_OFF_WHITE, font=font_reg, height=150, wrap="word")
-user_input.grid(row=0, column=0, padx=(10, 5), pady=(5, 0), sticky="new")
+user_input = ctk.CTkTextbox(user_input_frame, fg_color="transparent", text_color=COLOR_OFF_WHITE, corner_radius=25, font=font_reg, height=150, wrap="word", width=530)
+user_input.grid(row=0, column=0, padx=25, pady=0, sticky="nwse")
 user_input_frame.columnconfigure(0, weight=1)
 
 # Send button (arrow icon)
-send_button = ctk.CTkButton(user_input_frame, text="⮝", width=40, height=40, fg_color=COLOR_OFF_WHITE, font=font_bold, text_color=COLOR_BLACK)
-send_button.grid(row=0, column=1, padx=(10, 15), pady=(15, 0), sticky="ne")
+send_button = ctk.CTkButton(user_input_frame, text="⮝", width=40, height=40, fg_color=COLOR_OFF_WHITE, font=font_bold, text_color=COLOR_BLACK, corner_radius=10)
+send_button.grid(row=0, column=1, padx=(15, 15), pady=(15, 0), sticky="ne")
+send_button.columnconfigure(1, weight=0)
 
 # Function to handle gradual color transition
 def gradual_color_transition(widget, start_color, end_color, steps=50, interval=1):
@@ -64,8 +65,8 @@ send_button.bind("<Enter>", lambda e: gradual_color_transition(send_button, get_
 send_button.bind("<Leave>", lambda e: gradual_color_transition(send_button, get_current_color(send_button), COLOR_OFF_WHITE))
 
 # Character limit indicator
-char_limit_label = ctk.CTkLabel(app, text=f"0 / {input_limit}", text_color=COLOR_DARK_GREY, font=font_reg, anchor="w")
-char_limit_label.pack(side="bottom", anchor="sw", padx=18, pady=(0, 10))
+char_limit_label = ctk.CTkLabel(app, text=f"0 / {input_limit}", text_color=COLOR_BLACK, font=font_reg, anchor="center")
+char_limit_label.pack(side="bottom", fill="x", padx=25, pady=(10, 10))
 
 # Function to update character limit indicator
 def update_char_limit(event):
@@ -73,7 +74,7 @@ def update_char_limit(event):
     percentage = current_length / input_limit
 
     # Calculate the new color based on the percentage
-    start_rgb = app.winfo_rgb(COLOR_DARK_GREY)
+    start_rgb = app.winfo_rgb(COLOR_BLACK)
     end_rgb = app.winfo_rgb(COLOR_OFF_WHITE)
     new_rgb = tuple(int(start + (end - start) * percentage) for start, end in zip(start_rgb, end_rgb))
     new_color = "#%04x%04x%04x" % new_rgb
@@ -93,10 +94,10 @@ def send_message():
         if len(message) <= input_limit:
             # Simulate adding message to chatbox
             chatbox.configure(state="normal")
-            chatbox.insert("end", f"User: {message}\n")
+            chatbox.insert("end", f"User: {message}\n\n")
             chatbox.configure(state="disabled")
             user_input.delete("1.0", "end")
-            char_limit_label.configure(text=f"0 / {input_limit}", text_color=COLOR_DARK_GREY)
+            char_limit_label.configure(text=f"0 / {input_limit}", text_color=COLOR_BLACK)
         else:
             messagebox.showwarning("Warning", f"Message exceeds {input_limit} character limit.")
     else:
