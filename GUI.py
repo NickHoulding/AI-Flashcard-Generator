@@ -29,9 +29,13 @@ chatbox = ctk.CTkTextbox(app, width=700, fg_color=COLOR_BLACK, text_color=COLOR_
 chatbox.pack(fill="y", expand=True)
 chatbox.configure(state="disabled")
 
+# Character limit indicator
+char_limit_label = ctk.CTkLabel(app, text=f"0 / {input_limit}", text_color=COLOR_BLACK, font=font_reg, anchor="center", bg_color="transparent")
+char_limit_label.pack(fill="x", padx=25, pady=(5, 5))
+
 # User input textbox (for entering messages)
 user_input_frame = ctk.CTkFrame(app, fg_color=COLOR_DARK_GREY, corner_radius=25, width=650)
-user_input_frame.pack()
+user_input_frame.pack(pady=(0, 25))
 
 user_input = ctk.CTkTextbox(user_input_frame, fg_color="transparent", text_color=COLOR_OFF_WHITE, corner_radius=25, font=font_reg, height=150, wrap="word", width=530)
 user_input.grid(row=0, column=0, padx=25, pady=0, sticky="nwse")
@@ -63,10 +67,6 @@ def get_current_color(widget):
 # Bind the gradual color transition to the hover event
 send_button.bind("<Enter>", lambda e: gradual_color_transition(send_button, get_current_color(send_button), COLOR_DARK_WHITE))
 send_button.bind("<Leave>", lambda e: gradual_color_transition(send_button, get_current_color(send_button), COLOR_OFF_WHITE))
-
-# Character limit indicator
-char_limit_label = ctk.CTkLabel(app, text=f"0 / {input_limit}", text_color=COLOR_BLACK, font=font_reg, anchor="center")
-char_limit_label.pack(side="bottom", fill="x", padx=25, pady=(10, 10))
 
 # Function to update character limit indicator
 def update_char_limit(event):
