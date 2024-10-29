@@ -23,24 +23,24 @@ app.configure(fg_color=COLOR_BLACK)
 # Load custom font
 font_reg = ctk.CTkFont(
     family="Space Grotesk", 
-    size=16, 
-    weight="normal"
+    weight="normal", 
+    size=16
 )
 font_bold = ctk.CTkFont(
     family="Space Grotesk", 
-    size=16, 
-    weight="bold"
+    weight="bold", 
+    size=16
 )
 
 # Chatbox window (output display)
 chatbox = ctk.CTkTextbox(
     app, 
     width=700, 
-    fg_color="transparent", 
-    text_color=COLOR_OFF_WHITE, 
-    font=font_bold, 
+    corner_radius=25, 
     wrap="word", 
-    corner_radius=25
+    font=font_bold, 
+    text_color=COLOR_OFF_WHITE, 
+    fg_color="transparent"
 )
 chatbox.pack(
     fill="y", 
@@ -51,8 +51,8 @@ chatbox.configure(state="disabled")
 # Divider between chatbox and user input
 divider = ctk.CTkFrame(
     app, 
-    height=2, 
     width=600, 
+    height=2, 
     fg_color=COLOR_DARK_GREY
 )
 divider.pack()
@@ -61,10 +61,10 @@ divider.pack()
 char_limit_label = ctk.CTkLabel(
     app, 
     text=f"0 / {input_limit}", 
-    text_color=COLOR_BLACK, 
     font=font_reg, 
-    anchor="center", 
-    bg_color="transparent"
+    text_color=COLOR_BLACK, 
+    bg_color="transparent", 
+    anchor="center"
 )
 char_limit_label.pack(
     fill="x", 
@@ -75,30 +75,29 @@ char_limit_label.pack(
 # User input textbox (for entering messages)
 user_input_frame = ctk.CTkFrame(
     app, 
-    fg_color=COLOR_DARK_GREY, 
+    width=650, 
     corner_radius=25, 
-    width=650
+    fg_color=COLOR_DARK_GREY
 )
 user_input_frame.pack(
     pady=(0, 25)
 )
-
 user_input = ctk.CTkTextbox(
     user_input_frame, 
-    fg_color="transparent", 
-    text_color=COLOR_OFF_WHITE, 
-    corner_radius=25, 
-    font=font_reg, 
+    width=530, 
     height=150, 
+    corner_radius=25, 
+    fg_color="transparent", 
     wrap="word", 
-    width=530
+    font=font_reg, 
+    text_color=COLOR_OFF_WHITE
 )
 user_input.grid(
     row=0, 
     column=0, 
     padx=25, 
     pady=0, 
-    sticky="nwse"
+    sticky="nwse" 
 )
 user_input_frame.columnconfigure(
     0, 
@@ -108,13 +107,13 @@ user_input_frame.columnconfigure(
 # Send button (arrow icon)
 send_button = ctk.CTkButton(
     user_input_frame, 
-    text="⮝", 
     width=40, 
     height=40, 
+    corner_radius=10, 
     fg_color=COLOR_OFF_WHITE, 
+    text="⮝", 
     font=font_bold, 
-    text_color=COLOR_BLACK, 
-    corner_radius=10
+    text_color=COLOR_BLACK
 )
 send_button.grid(
     row=0, 
