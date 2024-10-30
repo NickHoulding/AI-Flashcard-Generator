@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from tkinter import messagebox
 from tkinter import font
+from Query import send_query
 
 # Color palette from the mockup
 COLOR_BLACK = "#1B1C22"
@@ -11,7 +12,7 @@ COLOR_OFF_WHITE = "#F4F5F6"
 COLOR_RED = "#D24235"
 
 # Set message limit
-input_limit = 2000
+input_limit = 500
 
 # Initialize main application window
 app = ctk.CTk()
@@ -199,12 +200,13 @@ def send_message():
     
     if len(message) > 0:
         if len(message) <= input_limit:
+            # Display the user message in the chatbox
             chatbox.configure(
                 state="normal"
             )
             chatbox.insert(
                 "end", 
-                f"User: {message}\n\n"
+                f"User:\n{message}\n\n"
             )
             chatbox.configure(
                 state="disabled"
@@ -216,6 +218,19 @@ def send_message():
             char_limit_label.configure(
                 text=f"0 / {input_limit}", 
                 text_color=COLOR_BLACK
+            )
+
+            # Query the AI model and display the response
+            response = send_query(message)
+            chatbox.configure(
+                state="normal"
+            )
+            chatbox.insert(
+                "end", 
+                f"FlashForge AI:\n{response}\n\n"
+            )
+            chatbox.configure(
+                state="disabled"
             )
         else:
             messagebox.showwarning(
