@@ -39,8 +39,8 @@ chatbox = ctk.CTkTextbox(
     width=700, 
     corner_radius=25, 
     wrap="word", 
-    font=font_bold, 
-    text_color=COLOR_OFF_WHITE, 
+    font=font_reg, 
+    text_color=COLOR_DARK_WHITE, 
     fg_color="transparent"
 )
 chatbox.pack(
@@ -56,22 +56,125 @@ divider = ctk.CTkFrame(
     height=2, 
     fg_color=COLOR_DARK_GREY
 )
-divider.pack()
+divider.pack(
+    side="top", 
+)
+
+# Frame to contain the divider and character limit indicator
+bottom_frame = ctk.CTkFrame(
+    app, 
+    width=600, 
+    corner_radius=0, 
+    fg_color="transparent"
+)
+bottom_frame.pack()
+
+# Create three frames inside bottom_frame
+frame_left = ctk.CTkFrame(
+    bottom_frame, 
+    width=200, 
+    height=60, 
+    fg_color="transparent"
+)
+frame_left.grid(
+    row=0, 
+    column=0, 
+    sticky="nsew"
+)
+
+frame_center = ctk.CTkFrame(
+    bottom_frame, 
+    width=200, 
+    height=60, 
+    fg_color="transparent"
+)
+frame_center.grid(
+    row=0, 
+    column=1, 
+    sticky="nsew"
+)
+
+frame_right = ctk.CTkFrame(
+    bottom_frame, 
+    width=200, 
+    height=60, 
+    fg_color="transparent"
+)
+frame_right.grid(
+    row=0, 
+    column=2, 
+    sticky="nsew"
+)
+
+# Configure the grid to ensure equal width distribution
+bottom_frame.columnconfigure(0, weight=1)
+bottom_frame.columnconfigure(1, weight=1)
+bottom_frame.columnconfigure(2, weight=1)
 
 # Character limit indicator
 char_limit_label = ctk.CTkLabel(
-    app, 
+    frame_left, 
+    width=200, 
     text=f"0 / {input_limit}", 
     font=font_reg, 
     text_color=COLOR_BLACK, 
     bg_color="transparent", 
-    anchor="center"
+    anchor="w"
 )
 char_limit_label.pack(
-    fill="x", 
-    padx=25, 
-    pady=5
+    side="left", 
+    pady=10
 )
+
+# Copy button
+copy_button = ctk.CTkButton(
+    frame_center, 
+    width=80, 
+    height=30, 
+    corner_radius=10, 
+    fg_color=COLOR_OFF_WHITE, 
+    hover_color=COLOR_DARK_WHITE,
+    text="Copy", 
+    font=font_bold, 
+    text_color=COLOR_BLACK
+)
+copy_button.pack(
+    side="left", 
+    padx=(15, 7.5), 
+    pady=15
+)
+
+# Clear button
+clear_button = ctk.CTkButton(
+    frame_center, 
+    width=80, 
+    height=30, 
+    corner_radius=10, 
+    fg_color=COLOR_OFF_WHITE, 
+    hover_color=COLOR_DARK_WHITE,
+    text="Clear", 
+    font=font_bold, 
+    text_color=COLOR_BLACK
+)
+clear_button.pack(
+    side="left", 
+    padx=(7.5, 15), 
+    pady=15
+)
+
+# Function to copy chatbox content to clipboard
+def copy_chatbox():
+    app.clipboard_clear()
+    app.clipboard_append(chatbox.get("1.0", "end").strip())
+
+# Function to clear chatbox content
+def clear_chatbox():
+    chatbox.configure(state="normal")
+    chatbox.delete("1.0", "end")
+    chatbox.configure(state="disabled")
+
+copy_button.configure(command=copy_chatbox)
+clear_button.configure(command=clear_chatbox)
 
 # User input textbox (for entering messages)
 user_input_frame = ctk.CTkFrame(
@@ -112,6 +215,7 @@ send_button = ctk.CTkButton(
     height=40, 
     corner_radius=10, 
     fg_color=COLOR_OFF_WHITE, 
+    hover_color=COLOR_DARK_WHITE,
     text="⮝", 
     font=font_bold, 
     text_color=COLOR_BLACK
@@ -126,43 +230,6 @@ send_button.grid(
 send_button.columnconfigure(
     1, 
     weight=0
-)
-
-# Function to handle gradual color transition
-def gradual_color_transition(widget, start_color, end_color, steps=50, interval=1):
-    start_rgb = widget.winfo_rgb(start_color)
-    end_rgb = widget.winfo_rgb(end_color)
-    delta_rgb = [(end - start) / steps for start, end in zip(start_rgb, end_rgb)]
-
-    def update_color(step=0):
-        if step <= steps:
-            new_color = "#%04x%04x%04x" % tuple(int(start + delta * step) for start, delta in zip(start_rgb, delta_rgb))
-
-            widget.configure(
-                fg_color=new_color
-            )
-            widget.after(
-                interval, 
-                update_color, 
-                step + 1
-            )
-
-    update_color()
-
-# Function to get the current color of the widget
-def get_current_color(widget):
-    return widget.cget("fg_color")
-
-# Bind the gradual color transition to the hover event
-send_button.bind(
-    "<Enter>", 
-    lambda e: gradual_color_transition(send_button, get_current_color(send_button), 
-    COLOR_DARK_WHITE)
-)
-send_button.bind(
-    "<Leave>", 
-    lambda e: gradual_color_transition(send_button, get_current_color(send_button), 
-    COLOR_OFF_WHITE)
 )
 
 # Function to update character limit indicator
@@ -200,17 +267,6 @@ def send_message():
     
     if len(message) > 0:
         if len(message) <= input_limit:
-            # Display the user message in the chatbox
-            chatbox.configure(
-                state="normal"
-            )
-            chatbox.insert(
-                "end", 
-                f"User:\n{message}\n\n"
-            )
-            chatbox.configure(
-                state="disabled"
-            )
             user_input.delete(
                 "1.0", 
                 "end"
@@ -219,7 +275,6 @@ def send_message():
                 text=f"0 / {input_limit}", 
                 text_color=COLOR_BLACK
             )
-
             # Query the AI model and display the response
             response = send_query(message)
             chatbox.configure(
@@ -227,7 +282,7 @@ def send_message():
             )
             chatbox.insert(
                 "end", 
-                f"FlashForge AI:\n{response}\n\n"
+                f"{response}\n"
             )
             chatbox.configure(
                 state="disabled"
