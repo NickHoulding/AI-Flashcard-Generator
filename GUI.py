@@ -2,6 +2,7 @@ import customtkinter as ctk
 from tkinter import messagebox
 from tkinter import font
 from Query import send_query
+from tkinter import filedialog
 
 # Color palette from the mockup
 COLOR_BLACK = "#1B1C22"
@@ -40,7 +41,7 @@ chatbox = ctk.CTkTextbox(
     corner_radius=25, 
     wrap="word", 
     font=font_reg, 
-    text_color=COLOR_DARK_WHITE, 
+    text_color=COLOR_OFF_WHITE, 
     fg_color="transparent"
 )
 chatbox.pack(
@@ -60,71 +61,24 @@ divider.pack(
     side="top", 
 )
 
-# Frame to contain the divider and character limit indicator
+# Frame to contain the divider
 bottom_frame = ctk.CTkFrame(
     app, 
     width=600, 
+    height=60, 
     corner_radius=0, 
     fg_color="transparent"
 )
 bottom_frame.pack()
 
-# Create three frames inside bottom_frame
-frame_left = ctk.CTkFrame(
-    bottom_frame, 
-    width=200, 
-    height=60, 
-    fg_color="transparent"
-)
-frame_left.grid(
-    row=0, 
-    column=0, 
-    sticky="nsew"
-)
-
+# Create a frame inside bottom_frame
 frame_center = ctk.CTkFrame(
     bottom_frame, 
-    width=200, 
+    width=600, 
     height=60, 
     fg_color="transparent"
 )
-frame_center.grid(
-    row=0, 
-    column=1, 
-    sticky="nsew"
-)
-
-frame_right = ctk.CTkFrame(
-    bottom_frame, 
-    width=200, 
-    height=60, 
-    fg_color="transparent"
-)
-frame_right.grid(
-    row=0, 
-    column=2, 
-    sticky="nsew"
-)
-
-# Configure the grid to ensure equal width distribution
-bottom_frame.columnconfigure(0, weight=1)
-bottom_frame.columnconfigure(1, weight=1)
-bottom_frame.columnconfigure(2, weight=1)
-
-# Character limit indicator
-char_limit_label = ctk.CTkLabel(
-    frame_left, 
-    width=200, 
-    text=f"0 / {input_limit}", 
-    font=font_reg, 
-    text_color=COLOR_BLACK, 
-    bg_color="transparent", 
-    anchor="w"
-)
-char_limit_label.pack(
-    side="left", 
-    pady=10
-)
+frame_center.pack(expand=True)
 
 # Copy button
 copy_button = ctk.CTkButton(
@@ -138,11 +92,21 @@ copy_button = ctk.CTkButton(
     font=font_bold, 
     text_color=COLOR_BLACK
 )
-copy_button.pack(
-    side="left", 
-    padx=(15, 7.5), 
-    pady=15
+copy_button.pack(side="left", pady=15)
+
+# Save button
+save_button = ctk.CTkButton(
+    frame_center, 
+    width=80, 
+    height=30, 
+    corner_radius=10, 
+    fg_color=COLOR_OFF_WHITE, 
+    hover_color=COLOR_DARK_WHITE,
+    text="Save", 
+    font=font_bold, 
+    text_color=COLOR_BLACK
 )
+save_button.pack(side="left", padx=(15, 15), pady=15)
 
 # Clear button
 clear_button = ctk.CTkButton(
@@ -156,25 +120,7 @@ clear_button = ctk.CTkButton(
     font=font_bold, 
     text_color=COLOR_BLACK
 )
-clear_button.pack(
-    side="left", 
-    padx=(7.5, 15), 
-    pady=15
-)
-
-# Function to copy chatbox content to clipboard
-def copy_chatbox():
-    app.clipboard_clear()
-    app.clipboard_append(chatbox.get("1.0", "end").strip())
-
-# Function to clear chatbox content
-def clear_chatbox():
-    chatbox.configure(state="normal")
-    chatbox.delete("1.0", "end")
-    chatbox.configure(state="disabled")
-
-copy_button.configure(command=copy_chatbox)
-clear_button.configure(command=clear_chatbox)
+clear_button.pack(side="left", pady=15)
 
 # User input textbox (for entering messages)
 user_input_frame = ctk.CTkFrame(
@@ -183,9 +129,7 @@ user_input_frame = ctk.CTkFrame(
     corner_radius=25, 
     fg_color=COLOR_DARK_GREY
 )
-user_input_frame.pack(
-    pady=(0, 25)
-)
+user_input_frame.pack()
 user_input = ctk.CTkTextbox(
     user_input_frame, 
     width=530, 
@@ -231,6 +175,52 @@ send_button.columnconfigure(
     1, 
     weight=0
 )
+
+# Frame to contain the character limit indicator
+char_limit_frame = ctk.CTkFrame(
+    app, 
+    width=600, 
+    height=22.5, 
+    fg_color="transparent"
+)
+char_limit_frame.pack(pady=(0, 2.5))
+
+# Add character limit indicator inside the new frame
+char_limit_label = ctk.CTkLabel(
+    char_limit_frame, 
+    width=100, 
+    text=f"0 / {input_limit}", 
+    font=font_reg, 
+    text_color=COLOR_BLACK, 
+    bg_color="transparent", 
+    anchor="center"
+)
+char_limit_label.pack(expand=True)
+
+# Function to copy chatbox content to clipboard
+def copy_chatbox():
+    app.clipboard_clear()
+    app.clipboard_append(chatbox.get("1.0", "end").strip())
+
+# Function to clear chatbox content
+def clear_chatbox():
+    chatbox.configure(state="normal")
+    chatbox.delete("1.0", "end")
+    chatbox.configure(state="disabled")
+
+# Function to save chatbox content to a file
+def save_chatbox():
+    file_path = filedialog.asksaveasfilename(
+        defaultextension=".txt",
+        filetypes=[("Text files", "*.txt"), ("All files", "*.*")]
+    )
+    if file_path:
+        with open(file_path, "w") as file:
+            file.write(chatbox.get("1.0", "end").strip())
+
+save_button.configure(command=save_chatbox)
+copy_button.configure(command=copy_chatbox)
+clear_button.configure(command=clear_chatbox)
 
 # Function to update character limit indicator
 def update_char_limit(event):
