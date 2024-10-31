@@ -108,6 +108,20 @@ save_button = ctk.CTkButton(
 )
 save_button.pack(side="left", padx=(15, 15), pady=15)
 
+# Load button
+load_button = ctk.CTkButton(
+    frame_center, 
+    width=80, 
+    height=30, 
+    corner_radius=10, 
+    fg_color=COLOR_OFF_WHITE, 
+    hover_color=COLOR_DARK_WHITE,
+    text="Load", 
+    font=font_bold, 
+    text_color=COLOR_BLACK
+)
+load_button.pack(side="left", padx=(0, 15), pady=15)
+
 # Clear button
 clear_button = ctk.CTkButton(
     frame_center, 
@@ -218,6 +232,21 @@ def save_chatbox():
         with open(file_path, "w") as file:
             file.write(chatbox.get("1.0", "end").strip())
 
+# Function to load chatbox content from a file
+def load_chatbox():
+    file_path = filedialog.askopenfilename(
+        defaultextension=".txt",
+        filetypes=[("Text files", "*.txt"), ("All files", "*.*")]
+    )
+    if file_path:
+        with open(file_path, "r") as file:
+            content = file.read()
+            chatbox.configure(state="normal")
+            chatbox.delete("1.0", "end")
+            chatbox.insert("1.0", content)
+            chatbox.configure(state="disabled")
+
+load_button.configure(command=load_chatbox)
 save_button.configure(command=save_chatbox)
 copy_button.configure(command=copy_chatbox)
 clear_button.configure(command=clear_chatbox)
