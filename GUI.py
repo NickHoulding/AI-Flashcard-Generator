@@ -2,6 +2,7 @@ import customtkinter as ctk
 from tkinter import messagebox
 from tkinter import font
 from Query import send_query
+from Query import get_models
 from tkinter import filedialog
 
 # Color palette from the mockup
@@ -14,6 +15,9 @@ COLOR_RED = "#D24235"
 
 # Set message limit
 input_limit = 500
+
+# Set the default model to use
+MODEL = "GPT-3.5 Turbo"
 
 # Initialize main application window
 app = ctk.CTk()
@@ -33,6 +37,41 @@ font_bold = ctk.CTkFont(
     weight="bold", 
     size=16
 )
+
+# Dropdown menu for selecting the model
+model_var = ctk.StringVar(value=MODEL)
+
+def update_model(*args):
+    global MODEL
+    MODEL = model_var.get()
+
+model_var.trace("w", update_model)
+model_dropdown_frame = ctk.CTkFrame(
+    app,
+    width=600,
+    height=30,
+    fg_color="transparent"
+)
+model_dropdown_frame.pack(pady=(25, 0))
+model_dropdown = ctk.CTkOptionMenu(
+    model_dropdown_frame,
+    width=80,
+    height=30,
+    corner_radius=10,
+    hover=False,
+    dynamic_resizing=True,
+    fg_color=COLOR_BLACK,
+    text_color=COLOR_OFF_WHITE,
+    button_color=COLOR_BLACK,
+    button_hover_color=COLOR_DARK_GREY,
+    dropdown_text_color=COLOR_OFF_WHITE,
+    dropdown_fg_color=COLOR_BLACK,
+    dropdown_hover_color=COLOR_DARK_GREY,
+    font=font_reg,
+    variable=model_var,
+    values=get_models()
+)
+model_dropdown.pack()
 
 # Chatbox window (output display)
 chatbox = ctk.CTkTextbox(
@@ -295,7 +334,7 @@ def send_message():
                 text_color=COLOR_BLACK
             )
             # Query the AI model and display the response
-            response = send_query(message)
+            response = send_query(message, MODEL)
             chatbox.configure(
                 state="normal"
             )

@@ -1,11 +1,23 @@
 import os  
-from openai import AzureOpenAI  
+from openai import AzureOpenAI
 
-def send_query(text):
-    endpoint = 0
-    deployment = 0
-    subscription_key = 0
-    # The above variables have been zeroes in the pushed code for security reasons.
+# Storage structure: {display_name: (deployment_name, endpoint_url)}
+models = {
+
+}
+
+API_KEY = ""
+# Above information has been removed in the pushed code for security reasons
+
+# Get the list of available models
+def get_models():
+    return list(models.keys())
+
+# Send a query to the Azure OpenAI API
+def send_query(text, model):
+    endpoint = os.getenv("ENDPOINT_URL", models[model][1])
+    deployment = os.getenv("DEPLOYMENT_NAME", models[model][0])
+    subscription_key = os.getenv("AZURE_OPENAI_API_KEY", API_KEY)
 
     # Initialize Azure OpenAI client with key-based authentication
     client = AzureOpenAI(  
