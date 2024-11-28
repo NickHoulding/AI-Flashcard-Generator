@@ -17,7 +17,7 @@ COLOR_RED = "#D24235"
 input_limit = 500
 
 # Set the default model to use
-MODEL = "GPT-3.5 Turbo"
+MODEL = get_models()[0]
 
 # Initialize main application window
 app = ctk.CTk()
