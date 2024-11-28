@@ -62,8 +62,6 @@ def cloud_query(text, model_name):
     return completion.choices[0].message.content
 
 
-from transformers import AutoTokenizer, AutoModelForCausalLM
-
 def local_query(text, model_name):
     model_name = "./meta-llama-3.2-1B-Instruct"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
