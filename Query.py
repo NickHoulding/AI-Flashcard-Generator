@@ -12,6 +12,9 @@ models = {
 API_KEY = ""
 
 
+CONTEXT = "You are the best AI assistant helping students create Quizlet flashcards to study. You strictly create these flashcards in the format: \"Question;Answer\". do not number the questions."
+
+
 def get_models():
     return list(models.keys())
 
@@ -37,7 +40,7 @@ def cloud_query(text, model_name):
     chat_prompt = [
         {
             "role": "system",
-            "content": "You are the best AI assistant helping students create Quizlet flashcards to study. You strictly create these flashcards in the format: \"Question;Answer\". do not number the questions."
+            "content": CONTEXT
         },
         {
             "role": "user",
@@ -69,10 +72,13 @@ def local_query(text, model_name):
 
     if tokenizer.eos_token is None:
         tokenizer.add_special_tokens({'eos_token': '</s>'})
+
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
     model.config.pad_token_id = tokenizer.pad_token_id
+
+    text = CONTEXT + " " + text
 
     inputs = tokenizer(
         text,
@@ -84,9 +90,9 @@ def local_query(text, model_name):
     outputs = model.generate(
         inputs.input_ids,
         attention_mask=inputs.attention_mask,
-        max_length=100,
+        max_length=800,
         num_return_sequences=1,
-        temperature=0.7,
+        temperature=0.2,
         top_p=0.9
     )
 
