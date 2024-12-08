@@ -1,0 +1,85 @@
+@font-face {
+    font-family: 'SpaceGrotesk';
+    src: url('/static/fonts/SpaceGrotesk-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+.header {
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    padding: 0px;
+    margin: 0px;
+    z-index: 3;
+    background: var(--primary-color);
+    display: flex;
+    align-items: center;
+    transition: width, left 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.hamburger {
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    top: 7.5px;
+    left: 7.5px;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    opacity: 100%;
+    cursor: pointer;
+    color: var(--text-color);
+    background: transparent;
+    transition: background 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+
+.hamburger:hover {
+    cursor: pointer;
+    background: var(--secondary-color);
+    transition: background 0.3s ease;
+}
+
+.hamburger.hidden {
+    opacity: 0%;
+    cursor: default;
+    transition: opacity 0.3s ease;
+}
+
+.logo {
+    position: fixed;
+    left: var(--logo-left-margin);
+    font-family: 'SpaceGrotesk';
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--text-color);
+    transition: left 0.3s ease, color 0.3s ease;
+}
+
+.theme {
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    top: 7.5px;
+    right: 7.5px;
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    color: var(--text-color);
+    background: transparent;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.theme svg {
+    fill: var(--text-color);
+    rotate: var(--theme-button-rotation);    
+    transition: fill 0.3s ease, rotate 0.3s ease;
+}
+
+.theme:hover {
+    cursor: pointer;
+    background: var(--secondary-color);
+    transition: background 0.3s ease;
+}

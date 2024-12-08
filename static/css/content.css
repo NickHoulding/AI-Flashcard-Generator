@@ -1,0 +1,38 @@
+@font-face {
+    font-family: 'SpaceGrotesk';
+    src: url('/static/fonts/SpaceGrotesk-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--content-width);
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    padding: 0px;
+    margin: 0px;
+    z-index: 1;
+    background: var(--primary-color);
+    transition: width 0.3s ease, background 0.3s ease;
+}
+
+.chat {
+    max-width: 700px;
+    height: 100%;
+    position: fixed;
+    padding-left: 50px;
+    padding-right: 50px;
+    top: 50px;
+    margin: 0px;
+    font-family: 'SpaceGrotesk';
+    font-weight: normal;
+    color: var(--text-color);
+    background: transparent;
+    transition: width 0.3s ease, color 0.3s ease;
+}
