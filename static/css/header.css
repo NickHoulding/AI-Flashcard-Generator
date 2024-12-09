@@ -83,3 +83,10 @@
     background: var(--secondary-color);
     transition: background 0.3s ease;
 }
+
+@media (max-width: 480px) {
+    .logo {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
