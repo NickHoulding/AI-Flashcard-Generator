@@ -37,3 +37,21 @@ function toggleTheme() {
 
     root.setAttribute('data-theme', newTheme);
 }
+
+function setInitialTheme() {
+    const root = document.documentElement;
+    const prefersDarkScheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const currentTheme = prefersDarkScheme ? 'dark' : 'light';
+    root.setAttribute('data-theme', currentTheme);
+
+    const icon = document.getElementById('theme');
+    if (currentTheme === 'dark') {
+        root.style.setProperty('--theme-button-rotate', '180deg');
+    } else {
+        root.style.setProperty('--theme-button-rotate', '0deg');
+    }
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    setInitialTheme();
+});
