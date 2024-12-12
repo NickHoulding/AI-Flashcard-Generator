@@ -55,3 +55,10 @@ function setInitialTheme() {
 window.addEventListener('DOMContentLoaded', () => {
     setInitialTheme();
 });
+
+const userInput = document.querySelector('.user-input');
+
+userInput.addEventListener('input', () => {
+    userInput.style.height = 'auto'; // Reset the height
+    userInput.style.height = `${userInput.scrollHeight}px`; // Adjust height to content
+});
