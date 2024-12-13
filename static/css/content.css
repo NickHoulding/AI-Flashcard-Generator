@@ -27,7 +27,7 @@
     width: 100%;
     position: fixed;
     top: 50px;
-    bottom: calc(25px + 15px + 75px);
+    bottom: 125px;
     font-family: 'SpaceGrotesk';
     font-weight: normal;
     color: var(--text-color);
@@ -40,8 +40,7 @@
     align-items: center;
     max-width: 650px;
     width: 100%;
-    min-height: 0;
-    max-height: auto;
+    height: 100px;
     position: fixed;
     bottom: 25px;
     border: none;
@@ -53,7 +52,7 @@
 .user-input {
     background: transparent;
     width: calc(100% - 45px);
-    height: auto;
+    height: 100%;
     padding: 12.5px;
     margin: 0;
     border: none;
@@ -93,12 +92,14 @@
     .chat {
         position: fixed;
         top: 50px;
-        width: 100%;
+        width: calc(100% - 25px);
+        height: calc(100% - 162.5px);
     }
 
     .chatbox {
         position: fixed;
         bottom: 12.5px;
         width: calc(100% - 25px);
+        height: 100px;
     }
 }

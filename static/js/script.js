@@ -56,9 +56,23 @@ window.addEventListener('DOMContentLoaded', () => {
     setInitialTheme();
 });
 
-const userInput = document.querySelector('.user-input');
+async function sendMessage() {
+    const textbox = document.getElementById('user-input');
+    const message = textbox.value;
+    textbox.value = '';
 
-userInput.addEventListener('input', () => {
-    userInput.style.height = 'auto'; // Reset the height
-    userInput.style.height = `${userInput.scrollHeight}px`; // Adjust height to content
-});
+    const response = await fetch('/send-message', {
+        method: 'POST', 
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message }),
+    });
+    
+    if (response.ok) {
+        const data = await response.json();
+        alert(data.response);
+    } else {
+        alert('Error sending message');
+    }
+}
