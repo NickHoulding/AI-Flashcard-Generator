@@ -27,13 +27,21 @@ def send_message():
     return jsonify({'response': response})
 
 def query(message):
-    input_ids = tokenizer.encode("Query: " + message, return_tensors="pt").to(device)
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+
+    input_ids = tokenizer.encode(message, return_tensors="pt").to(device)
+
+    attention_mask = input_ids.ne(tokenizer.pad_token_id).to(device)
 
     output = model.generate(
-        input_ids,
+        input_ids=input_ids,
+        attention_mask=attention_mask,
         max_length=1000,
-        temperature=0.9,
-        pad_token_id=tokenizer.eos_token_id
+        temperature=0.7,
+        pad_token_id=tokenizer.pad_token_id,
+        do_sample=True,
+        no_repeat_ngram_size=2,
     )
 
     response = tokenizer.decode(output[0], skip_special_tokens=True)
