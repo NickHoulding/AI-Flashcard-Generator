@@ -40,7 +40,7 @@
     transform: translate(-50%, -50%);
     width: 80%;
     max-width: 600px;
-    min-height: 200px;
+    height: 400px;
     padding: 20px;
     background-color: var(--primary-color);
     border-radius: 10px;
@@ -92,43 +92,87 @@
     align-self: center;
 }
 
+.file-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    background: transparent;
+    border-radius: 5px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.divider {
+    width: 100%;
+    height: 2px;
+    background: var(--secondary-color);
+}
+
+.labels {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    background: transparent;
+    border-radius: 5px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.labels p {
+    width: calc((100% - 50px) / 2);
+    height: auto;
+    color: var(--text-color);
+    font-family: 'SpaceGrotesk';
+    font-size: 0.8rem;
+    font-weight: normal;
+    text-align: left;
+    margin: 0px;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+}
+
+.file-name-label {
+    padding-left: 20px;
+}
+
+.file-status-label {
+    padding-left: 10px;
+}
+
 .file {
     display: flex;
     flex-direction: row;
     width: 100%;
-    height: 50px;
-    border: 2px solid var(--secondary-color);
+    border-radius: 5px;
     background: transparent;
     box-sizing: border-box;
 }
 
-.file-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-    height: 50px;
-    background: transparent;
-    color: var(--text-color);
-    transition: color 0.3s ease;
+.file:hover {
+    background: var(--secondary-color);
+    transition: background 0.3s ease;
 }
 
 .file-name {
-    width: calc(50% - 50px);
+    width: calc((100% - 50px) / 2);
     height: 50px;
+    padding-left: 20px;
     font-family: 'SpaceGrotesk';
     font-size: 1rem;
     font-weight: normal;
     color: var(--text-color);
     background: transparent;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
+    overflow: hidden;
     transition: color 0.3s ease;
 }
 
 .file-status {
-    width: calc(50% - 50px);
+    width: calc((100% - 50px) / 2);
     height: 50px;
     font-family: 'SpaceGrotesk';
     font-size: 1rem;
@@ -136,8 +180,9 @@
     color: var(--text-color);
     background: transparent;
     display: flex;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
+    overflow: hidden;    
     transition: color 0.3s ease;
 }
 
@@ -145,8 +190,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    right: 20px;
     width: 50px;
     height: 50px;
     background: transparent;
@@ -169,7 +212,7 @@
 }
 
 .delete-button:hover {
-    background: red;
+    background: var(--red);
     color: white;
     transition: background 0.3s ease, color 0.3s ease;
 }

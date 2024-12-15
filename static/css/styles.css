@@ -2,6 +2,7 @@
     --primary-color: #F5F5F5;
     --secondary-color: #E0E0E0;
     --text-color: #2D2D2D;
+    --red: #AA1111;
     --sidebar-width: 250px;
     --sidebar-pos: calc(var(--sidebar-width) * -1);
     --header-width: calc(100% - var(--sidebar-width));
@@ -15,6 +16,7 @@
     --primary-color: #2D2D2D;
     --secondary-color: #1A1A1A;
     --text-color: #EAEAEA;
+    --red: #AA1111;
     --sidebar-width: 250px;
     --sidebar-pos: calc(var(--sidebar-width) * -1);
     --header-width: calc(100% - var(--sidebar-width));
