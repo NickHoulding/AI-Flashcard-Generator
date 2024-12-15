@@ -52,7 +52,7 @@
     position: fixed;
     left: var(--logo-left-margin);
     font-family: 'SpaceGrotesk';
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     font-weight: bold;
     color: var(--text-color);
     transition: left 0.3s ease, color 0.3s ease;

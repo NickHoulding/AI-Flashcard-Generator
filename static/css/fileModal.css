@@ -33,6 +33,8 @@
 }
 
 .modal {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     z-index: 5;
     left: 50%;
@@ -40,24 +42,14 @@
     transform: translate(-50%, -50%);
     width: 80%;
     max-width: 600px;
-    height: 400px;
-    padding: 20px;
+    height: 40%;
+    padding: 10px 20px;
     background-color: var(--primary-color);
-    border-radius: 10px;
+    border-radius: 26px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     line-height: 1.75;
     color: var(--text-color);
-    overflow: auto;
-}
-
-.head {
-    display: flex;
-    flex-direction: row;
-    background: transparent;
-    width: 100%;
-    height: auto;
-    align-items: center;
-    margin-bottom: 20px;
+    overflow: hidden;
 }
 
 .title {
@@ -65,18 +57,22 @@
     height: auto;
     color: var(--text-color);
     font-family: 'SpaceGrotesk';
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     font-weight: bold;
     text-align: left;
     margin: 0px;
+    margin-bottom: 10px;
 }
 
 .x {
-    width: 35px;
-    height: 35px;
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
     color: var(--text-color);
     border: none;
-    border-radius: 5px;
+    border-radius: 16px;
     background: transparent;
     cursor: pointer;
 }
@@ -96,16 +92,34 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: auto;
+    flex-grow: 1;
     background: transparent;
-    border-radius: 5px;
     margin: 0px;
+    margin-bottom: 42px;
     padding: 0px;
+    overflow: overlay;
+    scrollbar-gutter: stable;
+}
+
+.file-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.file-list::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.file-list::-webkit-scrollbar-track {
+    background: transparent;
+    cursor: default;
 }
 
 .divider {
     width: 100%;
-    height: 2px;
+    height: 1.5px;
     background: var(--secondary-color);
 }
 
@@ -117,11 +131,10 @@
     background: transparent;
     border-radius: 5px;
     margin: 0px;
-    padding: 0px;
 }
 
 .labels p {
-    width: calc((100% - 50px) / 2);
+    width: calc((100% - 40px) / 2);
     height: auto;
     color: var(--text-color);
     font-family: 'SpaceGrotesk';
@@ -133,16 +146,9 @@
     box-sizing: border-box;
 }
 
-.file-name-label {
-    padding-left: 20px;
-}
-
-.file-status-label {
-    padding-left: 10px;
-}
-
 .file {
     display: flex;
+    align-items: center;
     flex-direction: row;
     width: 100%;
     border-radius: 5px;
@@ -150,15 +156,9 @@
     box-sizing: border-box;
 }
 
-.file:hover {
-    background: var(--secondary-color);
-    transition: background 0.3s ease;
-}
-
 .file-name {
-    width: calc((100% - 50px) / 2);
+    width: calc((100% - 32px) / 2);
     height: 50px;
-    padding-left: 20px;
     font-family: 'SpaceGrotesk';
     font-size: 1rem;
     font-weight: normal;
@@ -172,7 +172,7 @@
 }
 
 .file-status {
-    width: calc((100% - 50px) / 2);
+    width: calc((100% - 32px) / 2);
     height: 50px;
     font-family: 'SpaceGrotesk';
     font-size: 1rem;
@@ -182,7 +182,7 @@
     display: flex;
     justify-content: left;
     align-items: center;
-    overflow: hidden;    
+    overflow: hidden;
     transition: color 0.3s ease;
 }
 
@@ -190,8 +190,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50px;
-    height: 50px;
+    width: 32px;
+    height: 32px;
     background: transparent;
     border: none;
 }
@@ -214,5 +214,33 @@
 .delete-button:hover {
     background: var(--red);
     color: white;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.add-file {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    width: 32px;
+    height: 32px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    border: none;
+    border-radius: 16px;
+    color: var(--primary-color);
+    background: var(--text-color);
+}
+
+.add-file svg {
+    width: 100%;
+    height: 100%;
+    align-self: center;
+}
+
+.add-file:hover {
+    background: var(--secondary-color);
+    color: var(--text-color);
+    cursor: pointer;
     transition: background 0.3s ease, color 0.3s ease;
 }
