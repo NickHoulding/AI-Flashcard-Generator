@@ -1,0 +1,175 @@
+@font-face {
+    font-family: 'SpaceGrotesk';
+    src: url('/static/fonts/SpaceGrotesk-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpaceGrotesk';
+    src: url('/static/fonts/SpaceGrotesk-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.modal-background {
+    position: fixed;
+    z-index: 4;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-background.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal {
+    position: absolute;
+    z-index: 5;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 600px;
+    min-height: 200px;
+    padding: 20px;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    line-height: 1.75;
+    color: var(--text-color);
+    overflow: auto;
+}
+
+.head {
+    display: flex;
+    flex-direction: row;
+    background: transparent;
+    width: 100%;
+    height: auto;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.title {
+    width: 100%;
+    height: auto;
+    color: var(--text-color);
+    font-family: 'SpaceGrotesk';
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: left;
+    margin: 0px;
+}
+
+.x {
+    width: 35px;
+    height: 35px;
+    color: var(--text-color);
+    border: none;
+    border-radius: 5px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.x:hover {
+    background: var(--secondary-color);
+    transition: background 0.3s ease;
+}
+
+.x svg {
+    width: 100%;
+    height: 100%;
+    align-self: center;
+}
+
+.file {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 50px;
+    border: 2px solid var(--secondary-color);
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.file-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+.file-name {
+    width: calc(50% - 50px);
+    height: 50px;
+    font-family: 'SpaceGrotesk';
+    font-size: 1rem;
+    font-weight: normal;
+    color: var(--text-color);
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.file-status {
+    width: calc(50% - 50px);
+    height: 50px;
+    font-family: 'SpaceGrotesk';
+    font-size: 1rem;
+    font-weight: normal;
+    color: var(--text-color);
+    background: transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.file-delete {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: transparent;
+    border: none;
+}
+
+.delete-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 5px;
+    color: var(--text-color);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.delete-button:hover {
+    background: red;
+    color: white;
+    transition: background 0.3s ease, color 0.3s ease;
+}
