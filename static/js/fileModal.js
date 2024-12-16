@@ -1,13 +1,9 @@
-let hidden = true;
+function toggleModal(id) {
+    const modal = document.getElementById(id);
 
-function toggleModal() {
-    const modal = document.getElementById('modal-background');
-
-    if (visible) {
-        modal.classList.add('hidden');
+    if (modal) {
+        modal.toggle();
     } else {
-        modal.classList.remove('hidden');
+        console.error('Modal element with id ' + id + ' not found');
     }
-
-    visible = !visible;
 }

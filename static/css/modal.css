@@ -1,0 +1,82 @@
+.modal-background {
+    position: absolute;
+    z-index: 4;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-background.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.modal {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 5;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    min-width: 100px;
+    max-width: 600px;
+    min-height: 100px;
+    max-height: 500px;
+    height: auto;
+    padding: 10px 20px;
+    background: var(--primary-color);
+    border-radius: 26px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    line-height: 1.75;
+    color: var(--text-color);
+    overflow: hidden;
+    transition: background 0.3s ease;
+}
+
+.title {
+    width: 100%;
+    height: auto;
+    color: var(--text-color);
+    font-family: 'SpaceGrotesk';
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: left;
+    margin: 0px;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+.x {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    color: var(--text-color);
+    border: none;
+    border-radius: 16px;
+    background: transparent;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.x:hover {
+    background: var(--secondary-color);
+    transition: background 0.3s ease;
+}
+
+.x svg {
+    width: 100%;
+    height: 100%;
+    align-self: center;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
