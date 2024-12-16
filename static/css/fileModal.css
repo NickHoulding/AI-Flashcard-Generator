@@ -134,7 +134,7 @@
 }
 
 .labels p {
-    width: calc((100% - 40px) / 2);
+    width: calc((100% - 50px) / 2);
     height: auto;
     color: var(--text-color);
     font-family: 'SpaceGrotesk';
@@ -144,6 +144,11 @@
     margin: 0px;
     border: 1px solid transparent;
     box-sizing: border-box;
+    overflow: hidden;
+}
+
+.status-label {
+    padding-left: 10px;
 }
 
 .file {
@@ -157,7 +162,7 @@
 }
 
 .file-name {
-    width: calc((100% - 32px) / 2);
+    width: calc((100% - 42px) / 2);
     height: 50px;
     font-family: 'SpaceGrotesk';
     font-size: 1rem;
@@ -172,7 +177,7 @@
 }
 
 .file-status {
-    width: calc((100% - 32px) / 2);
+    width: calc((100% - 42px) / 2);
     height: 50px;
     font-family: 'SpaceGrotesk';
     font-size: 1rem;
@@ -182,6 +187,8 @@
     display: flex;
     justify-content: left;
     align-items: center;
+    padding-left: 10px;
+    box-sizing: border-box;
     overflow: hidden;
     transition: color 0.3s ease;
 }
