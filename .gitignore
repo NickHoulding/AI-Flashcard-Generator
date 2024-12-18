@@ -1,2 +1,3 @@
 *.bat
 /models/
+__pycache__/
