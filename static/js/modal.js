@@ -39,7 +39,7 @@ class Modal extends HTMLElement {
 
 customElements.define('modal-custom', Modal);
 
-function toggleModal(id) {
+export function toggleModal(id) {
     const modal = document.getElementById(id);
 
     if (modal) {

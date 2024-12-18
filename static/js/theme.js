@@ -1,4 +1,4 @@
-function toggleTheme() {
+export function toggleTheme() {
     const root = document.documentElement;
     const currentTheme = root.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';

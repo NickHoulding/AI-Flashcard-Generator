@@ -1,4 +1,4 @@
-async function sendMessage() {
+export async function sendMessage() {
     const textbox = document.getElementById('user-input');
     const chat = document.getElementById('chat');
     const message = textbox.value;

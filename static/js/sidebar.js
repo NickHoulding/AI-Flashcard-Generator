@@ -1,6 +1,6 @@
 let visible = false;
 
-function toggleSidebar() {
+export function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const hamburger = document.getElementById('hamburger');
     const root = document.documentElement;
