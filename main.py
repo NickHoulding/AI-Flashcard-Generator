@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from query import query
+import os
 
 app = Flask(__name__)
 
@@ -19,17 +20,17 @@ def send_message():
 def add_file():
     app = QApplication([])
     file_dialog = QFileDialog()
-    file_path, _ = file_dialog.getOpenFileName(
-        caption='Select a file',
-        filter='Text files (*.txt);;PDF files (*.pdf)'
+    file_paths = file_dialog.getOpenFileNames(
+        caption='Select File', 
+        filter='*.pdf;;*.txt'
     )
 
-    if file_path:
-        file_name = file_path.split('/')[-1]
+    if len(file_paths[0]) > 0:
+        file_names = [os.path.basename(file_path) for file_path in file_paths[0]]
     else:
-        file_name = None
+        file_names = None
 
-    return jsonify({'filename': file_name})
+    return jsonify({'filenames': file_names})
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1')

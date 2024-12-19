@@ -67,7 +67,7 @@ class File extends HTMLElement {
     deleteFile() {
         this.dispatchEvent(new CustomEvent('delete', { detail: { filename: this.filename } }));
         this.remove();
-        // Write more code here later to delete the actual file
+        // TODO: Write more code here later to delete the actual file
     }
 }
 
@@ -83,11 +83,14 @@ export async function addFile() {
 
     const data = await response.json();
 
-    if (data.filename != null) {
-        const file = new File();
-        file.setAttribute('filename', data.filename);
+    if (data.filenames && data.filenames.length > 0) {
         const fileModal = document.getElementById('file-modal');
         const fileList = fileModal ? fileModal.querySelector('.file-list') : null;
-        fileList.appendChild(file);
+
+        data.filenames.forEach(filename => {
+            const file = new File();
+            file.setAttribute('filename', filename);
+            fileList.appendChild(file);
+        });
     }
 }

@@ -7,6 +7,11 @@ export async function sendMessage() {
     const messageElement = document.createElement('div');
     messageElement.className = 'user-message';
     messageElement.textContent = message;
+
+    if (messageElement.textContent.trim() === '') {
+        return;
+    }
+    
     chat.appendChild(messageElement);
 
     const response = await fetch('/send-message', {
