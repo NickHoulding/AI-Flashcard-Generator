@@ -17,11 +17,13 @@ class File extends HTMLElement {
         this.shadowRoot.innerHTML = `
             <link rel="stylesheet" href="/static/css/file.css">
             <div class="file">
-                <div class="file-name">
-                    <p id="filename">${this.filename}</p>
-                </div>
-                <div class="file-status">
-                    <p id="status">${this.status}</p>
+                <div class="file-info">
+                    <div class="file-name">
+                        <p id="filename">${this.filename}</p>
+                    </div>
+                    <div class="file-status">
+                        <p id="status">${this.status}</p>
+                    </div>
                 </div>
                 <div class="file-delete">
                     <button class="delete-button">

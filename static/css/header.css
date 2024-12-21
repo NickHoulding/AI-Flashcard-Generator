@@ -58,7 +58,7 @@
     transition: left 0.3s ease, color 0.3s ease;
 }
 
-.theme {
+.settings {
     width: 35px;
     height: 35px;
     position: absolute;
@@ -72,13 +72,13 @@
     transition: background 0.3s ease, color 0.3s ease;
 }
 
-.theme svg {
+.settings svg {
     fill: var(--text-color);
     rotate: var(--theme-button-rotation);    
     transition: fill 0.3s ease, rotate 0.3s ease;
 }
 
-.theme:hover {
+.settings:hover {
     cursor: pointer;
     background: var(--secondary-color);
     transition: background 0.3s ease;

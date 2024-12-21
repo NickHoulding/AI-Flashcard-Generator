@@ -7,7 +7,6 @@
     --sidebar-pos: calc(var(--sidebar-width) * -1);
     --header-width: calc(100% - var(--sidebar-width));
     --logo-left-margin: 50px;
-    --theme-button-rotation: 0deg;
     --content-width: 100%;
     --hamburger-opacity: 100%;
 }
@@ -21,7 +20,6 @@
     --sidebar-pos: calc(var(--sidebar-width) * -1);
     --header-width: calc(100% - var(--sidebar-width));
     --logo-left-margin: 50px;
-    --theme-button-rotation: 180deg;
     --content-width: 100%;
     --hamburger-opacity: 100%;    
 }

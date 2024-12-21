@@ -28,9 +28,7 @@
     width: 80%;
     min-width: 100px;
     max-width: 600px;
-    min-height: 100px;
-    max-height: 500px;
-    height: auto;
+    height: 40vh;
     padding: 10px 20px;
     background: var(--primary-color);
     border-radius: 26px;

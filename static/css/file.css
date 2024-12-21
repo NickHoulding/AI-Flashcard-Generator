@@ -22,9 +22,17 @@
     box-sizing: border-box;
 }
 
+.file-info {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 52px);
+    margin: 0px;
+    padding-left: 10px;
+}
+
 .file-name {
-    width: calc((100% - 42px) / 2);
-    height: 50px;
+    width: 100%;
+    height: 25px;
     font-family: 'SpaceGrotesk';
     font-size: 1rem;
     font-weight: normal;
@@ -38,17 +46,16 @@
 }
 
 .file-status {
-    width: calc((100% - 42px) / 2);
-    height: 50px;
+    width: 100%;
+    height: 25px;
     font-family: 'SpaceGrotesk';
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: normal;
     color: var(--text-color);
     background: transparent;
     display: flex;
     justify-content: left;
     align-items: center;
-    padding-left: 10px;
     box-sizing: border-box;
     overflow: hidden;
     transition: color 0.3s ease;
