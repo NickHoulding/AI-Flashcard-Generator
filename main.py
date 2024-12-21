@@ -1,9 +1,12 @@
 from flask import Flask, render_template, request, jsonify
 from PyQt5.QtWidgets import QApplication, QFileDialog
-from query import query
+import requests
+import ollama
 import os
 
 app = Flask(__name__)
+ollama_url = "http://127.0.0.1:11434/api/chat"
+model_name = "llama3.2"
 
 @app.route('/')
 def main():
@@ -13,8 +16,18 @@ def main():
 def send_message():
     data = request.get_json()
     message = data.get('message', '')
-    response = query(message)
-    return jsonify({'response': response})
+
+    if not message:
+        return jsonify({'error': 'Message is required'}), 400
+
+    response = ollama.chat(model=model_name, messages=[
+        {
+            "role": "user",
+            "content": message
+        },
+    ])
+
+    return jsonify({'message': {'content': response['message']['content']}})
 
 @app.route('/add-file', methods=['POST'])
 def add_file():

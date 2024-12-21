@@ -27,13 +27,14 @@ export async function sendMessage() {
         const responseElement = document.createElement('div');
         responseElement.className = 'ai-response';
         chat.appendChild(responseElement);
-        typeResponse(data.response, responseElement);
+        typeResponse(data, responseElement);
     } else {
         alert('Error sending message');
     }
 }
 
-function typeResponse(text, element) {
+function typeResponse(data, element) {
+    const text = data.message.content;
     let i = 0;
 
     function type() {
