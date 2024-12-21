@@ -47,3 +47,12 @@ function typeResponse(data, element) {
 
     type();
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('user-input').addEventListener('keydown', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendMessage();
+        }
+    });
+});
