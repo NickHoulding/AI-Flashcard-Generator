@@ -20,14 +20,20 @@
     border-radius: 5px;
     background: transparent;
     box-sizing: border-box;
+    padding: 5px 0px 5px 10px;
+    transition: background 0.3s ease;
+}
+
+.file:hover {
+    background: var(--secondary-color);
+    transition: background 0.3s ease;
 }
 
 .file-info {
     display: flex;
     flex-direction: column;
-    width: calc(100% - 52px);
+    width: calc(100% - 42px);
     margin: 0px;
-    padding-left: 10px;
 }
 
 .file-name {
@@ -35,7 +41,7 @@
     height: 25px;
     font-family: 'SpaceGrotesk';
     font-size: 1rem;
-    font-weight: normal;
+    font-weight: bold;
     color: var(--text-color);
     background: transparent;
     display: flex;
@@ -50,7 +56,7 @@
     height: 25px;
     font-family: 'SpaceGrotesk';
     font-size: 0.8rem;
-    font-weight: normal;
+    font-weight: lighter;
     color: var(--text-color);
     background: transparent;
     display: flex;

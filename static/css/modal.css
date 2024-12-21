@@ -31,7 +31,7 @@
     height: 40vh;
     padding: 10px 20px;
     background: var(--primary-color);
-    border-radius: 26px;
+    border-radius: 15px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
     line-height: 1.75;
     color: var(--text-color);
@@ -60,7 +60,7 @@
     height: 32px;
     color: var(--text-color);
     border: none;
-    border-radius: 16px;
+    border-radius: 5px;
     background: transparent;
     cursor: pointer;
     transition: color 0.3s ease;
