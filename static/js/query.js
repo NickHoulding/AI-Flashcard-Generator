@@ -34,7 +34,7 @@ export async function sendMessage() {
 }
 
 function typeResponse(data, element) {
-    const text = data.message.content;
+    const text = data.message.content + "\n" + data.message.sources;
     let i = 0;
 
     function type() {
