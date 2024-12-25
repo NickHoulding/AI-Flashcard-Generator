@@ -1,9 +1,10 @@
+import langchain_chroma
+
 from get_embedding_function import get_embedding_function
 from langchain_community.vectorstores import Chroma
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.schema.document import Document
-import langchain_chroma
 
 def load_documents():
     document_loader = PyPDFDirectoryLoader(r"data")
@@ -61,6 +62,7 @@ def add_to_chroma(chunks: list[Document]):
     
     print("done")
 
-documents = load_documents()
-chunks = split_documents(documents)
-add_to_chroma(chunks)
+def update_database():
+    documents = load_documents()
+    chunks = split_documents(documents)
+    add_to_chroma(chunks)

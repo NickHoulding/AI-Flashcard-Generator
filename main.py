@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request, jsonify
-from PyQt5.QtWidgets import QApplication, QFileDialog
-from query_data import query_rag
 import requests
 import ollama
+import shutil
 import os
+
+from flask import Flask, render_template, request, jsonify
+from PyQt5.QtWidgets import QApplication, QFileDialog
+from populate_database import update_database
+from query_data import query_rag
 
 app = Flask(__name__)
 ollama_url = "http://127.0.0.1:11434/api/chat"
@@ -44,6 +47,10 @@ def add_file():
     else:
         file_names = None
 
+    for file_path in file_paths[0]:
+        shutil.copy(file_path, 'data')
+
+    update_database()
     return jsonify({'filenames': file_names})
 
 if __name__ == '__main__':

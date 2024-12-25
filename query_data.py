@@ -1,9 +1,10 @@
+import langchain_chroma
+import os
+
 from get_embedding_function import get_embedding_function
 from langchain_chroma import Chroma
 from langchain_ollama import OllamaLLM
 from langchain.prompts import ChatPromptTemplate
-import langchain_chroma
-import os
 
 PROMPT_TEMPLATE = """
 Answer the questions based only on the following context:
