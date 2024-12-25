@@ -3,6 +3,7 @@ from langchain_chroma import Chroma
 from langchain_ollama import OllamaLLM
 from langchain.prompts import ChatPromptTemplate
 import langchain_chroma
+import os
 
 PROMPT_TEMPLATE = """
 Answer the questions based only on the following context:
@@ -14,7 +15,7 @@ Answer the question based on the above context: {question}
 
 def query_rag(query_text: str):
     db = langchain_chroma.Chroma(
-        persist_directory="chroma_db", 
+        persist_directory=r"chroma_db", 
         embedding_function=get_embedding_function(),
     )
 
@@ -25,7 +26,7 @@ def query_rag(query_text: str):
 
     model = OllamaLLM(model="llama3.2")
     response_text = model.invoke(prompt)
-    sources = list(set([f"{doc.metadata.get('source', 'Unknown')}:{doc.metadata.get('page', 'Unknown')}" for doc in results]))
+    sources = list(set([f"{os.path.basename(doc.metadata.get('source', 'Unknown'))}:{doc.metadata.get('page', 'Unknown')}" for doc in results]))
     print(response_text)
     print(sources)
 
