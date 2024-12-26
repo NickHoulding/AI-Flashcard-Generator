@@ -44,13 +44,17 @@ def add_file():
 
     if len(file_paths[0]) > 0:
         file_names = [os.path.basename(file_path) for file_path in file_paths[0]]
+
+        for file_path in file_paths[0]:
+            shutil.copy(file_path, 'data')
+
+        update_database()
+
+        for file_name in file_names:
+            shutil.os.remove(f"./data/{file_name}")
     else:
         file_names = None
 
-    for file_path in file_paths[0]:
-        shutil.copy(file_path, 'data')
-
-    update_database()
     return jsonify({'filenames': file_names})
 
 if __name__ == '__main__':

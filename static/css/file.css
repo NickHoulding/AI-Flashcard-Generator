@@ -20,7 +20,7 @@
     border-radius: 5px;
     background: transparent;
     box-sizing: border-box;
-    padding: 5px 0px 5px 10px;
+    padding: 5px;
     transition: background 0.3s ease;
 }
 
@@ -32,13 +32,13 @@
 .file-info {
     display: flex;
     flex-direction: column;
-    width: calc(100% - 42px);
+    width: calc(100% - 32px);
     margin: 0px;
 }
 
 .file-name {
     width: 100%;
-    height: 25px;
+    height: 32px;
     font-family: 'SpaceGrotesk';
     font-size: 1rem;
     font-weight: bold;
@@ -51,28 +51,12 @@
     transition: color 0.3s ease;
 }
 
-.file-status {
-    width: 100%;
-    height: 25px;
-    font-family: 'SpaceGrotesk';
-    font-size: 0.8rem;
-    font-weight: lighter;
-    color: var(--text-color);
-    background: transparent;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    box-sizing: border-box;
-    overflow: hidden;
-    transition: color 0.3s ease;
-}
-
 .file-delete {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 32px;
-    height: 32px;
+    height: 100%;
     background: transparent;
     border: none;
 }

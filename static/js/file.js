@@ -1,6 +1,6 @@
 class File extends HTMLElement {
     static get observedAttributes() {
-        return ['filename', 'status'];
+        return ['filename'];
     }
 
     constructor() {
@@ -8,9 +8,6 @@ class File extends HTMLElement {
 
         if (!this.hasAttribute('filename')) {
             this.setAttribute('filename', 'default_filename');
-        }
-        if (!this.hasAttribute('status')) {
-            this.setAttribute('status', '0%');
         }
 
         this.attachShadow({ mode: 'open' });
@@ -20,9 +17,6 @@ class File extends HTMLElement {
                 <div class="file-info">
                     <div class="file-name">
                         <p id="filename">${this.filename}</p>
-                    </div>
-                    <div class="file-status">
-                        <p id="status">${this.status}</p>
                     </div>
                 </div>
                 <div class="file-delete">
@@ -58,18 +52,10 @@ class File extends HTMLElement {
         return this.getAttribute('filename');
     }
 
-    set status(status) {
-        this.shadowRoot.getElementById('status').textContent = status;
-    }
-
-    get status() {
-        return this.getAttribute('status');
-    }
-
     deleteFile() {
         this.dispatchEvent(new CustomEvent('delete', { detail: { filename: this.filename } }));
         this.remove();
-        // TODO: Write more code here later to delete the actual file
+        // TODO: Write more code here later to delete the actual file.
     }
 }
 
@@ -82,17 +68,5 @@ export async function addFile() {
             'Content-Type': 'application/json',
         },
     });
-
-    const data = await response.json();
-
-    if (data.filenames && data.filenames.length > 0) {
-        const fileModal = document.getElementById('file-modal');
-        const fileList = fileModal ? fileModal.querySelector('.file-list') : null;
-
-        data.filenames.forEach(filename => {
-            const file = new File();
-            file.setAttribute('filename', filename);
-            fileList.appendChild(file);
-        });
-    }
+    // TODO: Add notification of file added.
 }

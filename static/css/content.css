@@ -16,7 +16,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: var(--content-width);
+    width:100%;
     height: 100%;
     position: fixed;
     top: 0px;
@@ -34,7 +34,7 @@
     width: 100%;
     position: fixed;
     top: 50px;
-    bottom: 175px;
+    bottom: 150px;
     font-family: 'SpaceGrotesk';
     font-weight: normal;
     line-height: 1.75;
@@ -190,100 +190,6 @@
     background: transparent;
     align-self: flex-start;
     margin-right: auto;
-    transition: background 0.3s ease, color 0.3s ease;
-}
-
-.file-list {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-height: 300px;
-    background: transparent;
-    margin: 0px;
-    margin-bottom: 42px;
-    padding: 0px;
-    overflow: overlay;
-    scrollbar-gutter: stable;
-}
-
-.file-list::-webkit-scrollbar {
-    width: 8px;
-}
-
-.file-list::-webkit-scrollbar-thumb {
-    background: var(--secondary-color);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.file-list::-webkit-scrollbar-track {
-    background: transparent;
-    cursor: default;
-}
-
-.divider {
-    width: 100%;
-    height: 1.5px;
-    background: var(--secondary-color);
-    transition: background 0.3s ease;
-}
-
-.labels {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: auto;
-    background: transparent;
-    border-radius: 5px;
-    margin: 0px;
-}
-
-.labels p {
-    width: calc((100% - 50px) / 2);
-    height: auto;
-    color: var(--text-color);
-    font-family: 'SpaceGrotesk';
-    font-size: 0.8rem;
-    font-weight: normal;
-    text-align: left;
-    margin: 0px;
-    border: 1px solid transparent;
-    box-sizing: border-box;
-    overflow: hidden;
-    transition: color 0.3s ease;
-}
-
-.status-label {
-    padding-left: 10px;
-}
-
-.add-file {
-    display: flex;
-    align-items: center;
-    justify-items: center;
-    width: 32px;
-    height: 32px;
-    position: fixed;
-    bottom: 10px;
-    right: 10px;
-    border: none;
-    border-radius: 5px;
-    color: var(--primary-color);
-    background: var(--text-color);
-    transition: background 0.3s ease, color 0.3s ease;
-}
-
-.add-file svg {
-    width: 100%;
-    height: 100%;
-    align-self: center;
-}
-
-.add-file:hover {
-    background: var(--secondary-color);
-    color: var(--text-color);
-    cursor: pointer;
     transition: background 0.3s ease, color 0.3s ease;
 }
 

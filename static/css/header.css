@@ -6,6 +6,17 @@
 }
 
 .header {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    z-index: 4;
+}
+
+.cards {
     width: 100%;
     height: 50px;
     position: absolute;
@@ -20,7 +31,7 @@
     transition: width, left 0.3s ease, background-color 0.3s ease, color 0.3s ease;
 }
 
-.hamburger {
+.cards {
     width: 35px;
     height: 35px;
     position: absolute;
@@ -36,13 +47,13 @@
     transition: background 0.3s ease, color 0.3s ease, opacity 0.3s ease;
 }
 
-.hamburger:hover {
+.cards:hover {
     cursor: pointer;
     background: var(--secondary-color);
     transition: background 0.3s ease;
 }
 
-.hamburger.hidden {
+.cards.hidden {
     opacity: 0%;
     cursor: default;
     transition: opacity 0.3s ease;
@@ -50,12 +61,12 @@
 
 .logo {
     position: fixed;
-    left: var(--logo-left-margin);
+    left: 50px;
     font-family: 'SpaceGrotesk';
     font-size: 1.4rem;
     font-weight: bold;
     color: var(--text-color);
-    transition: left 0.3s ease, color 0.3s ease;
+    transition: color 0.3s ease;
 }
 
 .settings {
@@ -74,8 +85,7 @@
 
 .settings svg {
     fill: var(--text-color);
-    rotate: var(--theme-button-rotation);    
-    transition: fill 0.3s ease, rotate 0.3s ease;
+    transition: fill 0.3s ease;
 }
 
 .settings:hover {

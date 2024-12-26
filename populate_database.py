@@ -5,6 +5,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.schema.document import Document
+import asyncio
 
 def load_documents():
     document_loader = PyPDFDirectoryLoader(r"data")
