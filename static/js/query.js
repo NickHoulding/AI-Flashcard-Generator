@@ -27,19 +27,19 @@ export async function sendMessage() {
         const responseElement = document.createElement('div');
         responseElement.className = 'ai-response';
         chat.appendChild(responseElement);
-        typeResponse(data, responseElement);
+
+        typeResponse(data.message.content, responseElement);
     } else {
         alert('Error sending message');
     }
 }
 
-function typeResponse(data, element) {
-    const text = data.message.content + "\n" + data.message.sources;
+function typeResponse(htmlContent, element) {
     let i = 0;
 
     function type() {
-        if (i < text.length) {
-            element.textContent += text.charAt(i);
+        if (i <= htmlContent.length) {
+            element.innerHTML = htmlContent.slice(0, i);
             i++;
             setTimeout(type, 5);
         }

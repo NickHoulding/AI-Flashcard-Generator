@@ -4,6 +4,7 @@ import shutil
 import os
 
 from flask import Flask, render_template, request, jsonify
+from flaskwebgui import FlaskUI
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from populate_database import update_database
 from query_data import query_rag
@@ -24,12 +25,11 @@ def send_message():
     if not message:
         return jsonify({'error': 'Message is required'}), 400
 
-    response, sources = query_rag(message)
+    response = query_rag(message)
 
     return jsonify({
         'message': {
             'content': response,
-            'sources': sources
         }
     })
 
@@ -58,4 +58,5 @@ def add_file():
     return jsonify({'filenames': file_names})
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1')
+    ui = FlaskUI(app=app, server='flask')
+    ui.run()
