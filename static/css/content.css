@@ -193,6 +193,26 @@
     transition: background 0.3s ease, color 0.3s ease;
 }
 
+.sources-title {
+    margin: 0px;
+}
+
+.source-container {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    margin: 0px;
+}
+
+.source {
+    display: flex;
+    font-size: 0.75rem;
+    background: var(--secondary-color);
+    border-radius: 5px;
+    margin: 10px;
+    padding: 5px 10px;
+}
+
 @media (max-width: 480px) {
     .content {
         width: 100%;

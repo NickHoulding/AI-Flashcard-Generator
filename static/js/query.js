@@ -24,11 +24,12 @@ export async function sendMessage() {
     
     if (response.ok) {
         const data = await response.json();
+        
         const responseElement = document.createElement('div');
         responseElement.className = 'ai-response';
         chat.appendChild(responseElement);
 
-        typeResponse(data.message.content, responseElement);
+        typeResponse(data.message.content + data.message.sources, responseElement);
     } else {
         alert('Error sending message');
     }
@@ -36,14 +37,15 @@ export async function sendMessage() {
 
 function typeResponse(htmlContent, element) {
     let i = 0;
+    const interval = 5;
 
-    function type() {
+    const type = () => {
         if (i <= htmlContent.length) {
             element.innerHTML = htmlContent.slice(0, i);
             i++;
-            setTimeout(type, 5);
+            setTimeout(type, interval);
         }
-    }
+    };
 
     type();
 }

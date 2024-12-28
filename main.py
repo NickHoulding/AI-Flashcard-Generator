@@ -25,11 +25,12 @@ def send_message():
     if not message:
         return jsonify({'error': 'Message is required'}), 400
 
-    response = query_rag(message)
+    response, sources = query_rag(message)
 
     return jsonify({
         'message': {
             'content': response,
+            'sources': sources
         }
     })
 
