@@ -1,4 +1,5 @@
 *.bat
+requirements.txt
 /models/
 /data/
 /chroma_db/

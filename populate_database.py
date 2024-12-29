@@ -1,16 +1,15 @@
-import langchain_chroma
-
-from get_embedding_function import get_embedding_function
-from langchain_community.vectorstores import Chroma
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from get_embedding_function import get_embedding_function
 from langchain.schema.document import Document
-import asyncio
+from langchain_chroma import Chroma
 
+# Loads PDF files in the temp data directory.
 def load_documents():
     document_loader = PyPDFDirectoryLoader(r"data")
     return document_loader.load()
 
+# Splits the documents into chunks.
 def split_documents(documents: list[Document]):
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=800,
@@ -18,10 +17,22 @@ def split_documents(documents: list[Document]):
         length_function=len,
         is_separator_regex=False,
     )
+    # Return a list of chunks (list[Document]).
     return text_splitter.split_documents(documents)
 
+# Adds the chunks to the database.
 def add_to_chroma(chunks: list[Document]):
-    db = langchain_chroma.Chroma(
+    '''
+    Inserts the document chunks into the database.
+
+    Args:
+        chunks (list[Document]): Chunks to insert into the DB.
+    Returns:
+        None
+    '''
+
+    # Get a reference to the database.
+    db = Chroma(
         persist_directory=r"chroma_db", 
         embedding_function=get_embedding_function(),
     )
@@ -29,6 +40,7 @@ def add_to_chroma(chunks: list[Document]):
     last_page_id = None
     current_chunk_index = 0
 
+    # Assign unique IDs to each chunk.
     for chunk in chunks:
         source = chunk.metadata.get("source")
         page = chunk.metadata.get("page")
@@ -40,29 +52,45 @@ def add_to_chroma(chunks: list[Document]):
             current_chunk_index = 0
 
         last_page_id = current_page_id
-        chunk_id = f"{current_page_id}:{current_chunk_index}"
+        chunk_id = (
+            f"{current_page_id}:"
+            + f"{current_chunk_index}"
+        )
         chunk.metadata["id"] = chunk_id
 
+    # Check for existing chunks in the DB.
     existing_items = db.get(include=[])
     existing_ids = set(existing_items["ids"])
+
     print(f"Number of existing documents in DB: {len(existing_ids)}")
 
+    # Gather new chunks to add.
     new_chunks = []
     for chunk in chunks:
         if chunk.metadata["id"] not in existing_ids:
             new_chunks.append(chunk)
     
     print(f"Number of new documents to add: {len(new_chunks)}")
-    new_chunk_ids = [chunk.metadata["id"] for chunk in new_chunks]
-    print("adding documents")
 
+    new_chunk_ids = ([
+        chunk.metadata["id"] 
+        for chunk in new_chunks
+    ])
+
+    print("adding documents...")
+
+    # Add the new chunks to the database.
     if new_chunks:
-        db.add_documents(new_chunks, ids=new_chunk_ids)
+        db.add_documents(
+            documents=new_chunks, 
+            ids=new_chunk_ids
+        )
     else:
         print("No new documents to add")
     
     print("done")
 
+# Updates the database with the new chunks.
 def update_database():
     documents = load_documents()
     chunks = split_documents(documents)

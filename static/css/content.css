@@ -195,6 +195,7 @@
 
 .sources-title {
     margin: 0px;
+    padding: 0px;
 }
 
 .source-container {
@@ -202,15 +203,18 @@
     justify-content: left;
     align-items: left;
     margin: 0px;
+    padding: 0px;
 }
 
 .source {
     display: flex;
     font-size: 0.75rem;
+    color: var(--text-color);
     background: var(--secondary-color);
-    border-radius: 5px;
-    margin: 10px;
+    border-radius: 10px;
+    margin-right: 10px;
     padding: 5px 10px;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 @media (max-width: 480px) {
