@@ -1,6 +1,7 @@
 # Files
 *.bat
 *.txt
+*.env
 
 # Directories
 /__pycache__/

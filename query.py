@@ -1,25 +1,24 @@
 import torch
 
 from transformers import AutoTokenizer, AutoModelForCausalLM
+from config import get_env_var
 
 # Set up AI model and gpu acceleration config.
-model_name = "meta-llama/Llama-3.2-1B"
-cache_dir = "./models/Llama-3.2-1B"
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-print(f"Using device: {device}")
-print(f"Loading model: {model_name}")
+print(f"Using device: {get_env_var('DEVICE')}")
+print(f"Loading model: {get_env_var('HF_MODEL_NAME')}")
 
 # Load the AI model and tokenizer.
 tokenizer = AutoTokenizer.from_pretrained(
-    model_name, 
-    cache_dir=cache_dir
+    get_env_var('HF_MODEL_NAME'), 
+    cache_dir=get_env_var('HF_CACHE_DIR')
 )
 model = AutoModelForCausalLM.from_pretrained(
-    model_name, 
-    cache_dir=cache_dir
+    get_env_var('HF_MODEL_NAME'), 
+    cache_dir=get_env_var('HF_CACHE_DIR')
 )
-model.to(device)
+model.to(get_env_var('DEVICE'))
 
 # Query the AI model and return its response.
 def query(message):
@@ -41,10 +40,10 @@ def query(message):
     input_ids = tokenizer.encode(
         message, 
         return_tensors="pt"
-    ).to(device)
+    ).to(get_env_var('DEVICE'))
     attention_mask = input_ids.ne(
         tokenizer.pad_token_id
-    ).to(device)
+    ).to(get_env_var('DEVICE'))
 
     # Generate and decode the AI response.
     output = model.generate(

@@ -5,6 +5,7 @@ from get_embedding_function import get_embedding_function
 from langchain.prompts import ChatPromptTemplate
 from langchain_ollama import OllamaLLM
 from langchain_chroma import Chroma
+from config import get_env_var
 
 PROMPT_TEMPLATE = """
 Answer the questions based only on the following context:
@@ -37,18 +38,16 @@ def query_rag(query_text: str):
     
     # Get a reference to the database.
     db = Chroma(
-        persist_directory=r"chroma_db",
+        persist_directory=get_env_var("DB_PERSIST_DIR"),
         embedding_function=get_embedding_function(),
     )
 
     # Get and format relevant context from database.
     results = db.similarity_search(query_text, k=5)
-    context_text = "\n\n---\n\n".join(
-        [
+    context_text = "\n\n---\n\n".join([
             doc.page_content 
             for doc in results
-        ]
-    )
+    ])
     prompt_template = ChatPromptTemplate.from_template(
         PROMPT_TEMPLATE
     )
@@ -58,7 +57,7 @@ def query_rag(query_text: str):
     )
 
     # Get AI response: Sanitize format and styling.
-    model = OllamaLLM(model="llama3.2")
+    model = OllamaLLM(model=get_env_var("MODEL_NAME"))
     response_html = model.invoke(prompt)
 
     # Remove the first h1 tag and all unwanted styling.

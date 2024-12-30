@@ -3,10 +3,13 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from get_embedding_function import get_embedding_function
 from langchain.schema.document import Document
 from langchain_chroma import Chroma
+from config import get_env_var
 
 # Loads PDF files in the temp data directory.
 def load_documents():
-    document_loader = PyPDFDirectoryLoader(r"data")
+    document_loader = PyPDFDirectoryLoader(
+        get_env_var("TEMP_DATA_DIR")
+    )
     return document_loader.load()
 
 # Splits the documents into chunks.
@@ -33,7 +36,7 @@ def add_to_chroma(chunks: list[Document]):
 
     # Get a reference to the database.
     db = Chroma(
-        persist_directory=r"chroma_db", 
+        persist_directory=get_env_var("DB_PERSIST_DIR"), 
         embedding_function=get_embedding_function(),
     )
 

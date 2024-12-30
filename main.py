@@ -9,10 +9,7 @@ from populate_database import update_database
 from query_data import query_rag
 from flaskwebgui import FlaskUI
 
-# Set up Flask app and AI model.
 app = Flask(__name__)
-ollama_url = "http://127.0.0.1:11434/api/chat"
-model_name = "llama3.2"
 
 # Renders the Flask app.
 @app.route('/')
