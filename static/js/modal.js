@@ -1,6 +1,9 @@
 class Modal extends HTMLElement {
+    // Construct the custom element.
     constructor() {
         super();
+
+        // Create shadow root and define element structure.
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `
             <link 
@@ -31,20 +34,27 @@ class Modal extends HTMLElement {
         `;
     }
 
+    // Toggles this modal object's visibility.
     toggle() {
-        const modal = this.shadowRoot.querySelector('.modal-background');
+        const modal = this.shadowRoot.querySelector(
+            '.modal-background'
+        );
         modal.classList.toggle('hidden');
     }
 }
 
+// Define the custom element.
 customElements.define('modal-custom', Modal);
 
+// Toggle target modal visibility.
 export function toggleModal(id) {
     const modal = document.getElementById(id);
 
     if (modal) {
         modal.toggle();
     } else {
-        console.error('Modal element with id ' + id + ' not found');
+        console.error(
+            'Modal element with id ' + id + ' not found'
+        );
     }
 }

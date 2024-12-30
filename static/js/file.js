@@ -1,15 +1,19 @@
 class File extends HTMLElement {
+    // Define element attributes that can be observed.
     static get observedAttributes() {
         return ['filename'];
     }
 
+    // Construct the custom element.
     constructor() {
         super();
 
+        // Set default values.
         if (!this.hasAttribute('filename')) {
             this.setAttribute('filename', 'default_filename');
         }
 
+        // Create shadow root and define element structure.
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `
             <link rel="stylesheet" href="/static/css/file.css">
@@ -30,37 +34,63 @@ class File extends HTMLElement {
         `;
     }
 
+    // Deletes element when clicked.
     connectedCallback() {
-        this.shadowRoot.querySelector('.delete-button').addEventListener('click', () => this.deleteFile());
+        this.shadowRoot
+            .querySelector('.delete-button')
+            .addEventListener(
+                'click', 
+                () => this.deleteFile()
+            );
     }
 
+    // Removes event listener when element is deleted.
     disconnectedCallback() {
-        this.shadowRoot.querySelector('.delete-button').removeEventListener('click', () => this.deleteFile());
+        this.shadowRoot
+            .querySelector('.delete-button')
+            .removeEventListener(
+                'click', 
+                () => this.deleteFile()
+            );
     }
 
+    // Updates element when an attribute changes.
     attributeChangedCallback(name, oldValue, newValue) {
         if (oldValue !== newValue) {
             this[name] = newValue;
         }
     }
 
+    // Getters and setters for filename attribute.
     set filename(name) {
-        this.shadowRoot.getElementById('filename').textContent = name;
+        this.shadowRoot
+            .getElementById('filename')
+            .textContent = name;
     }
 
     get filename() {
-        return this.getAttribute('filename');
+        return this
+            .getAttribute('filename');
     }
 
+    // Dispatches delete event and removes element.
     deleteFile() {
-        this.dispatchEvent(new CustomEvent('delete', { detail: { filename: this.filename } }));
+        this.dispatchEvent(
+            new CustomEvent('delete', {
+            detail: {
+                filename: this.filename
+            }
+            })
+        );
         this.remove();
-        // TODO: Write more code here later to delete the actual file.
+        // TODO: Actually delete the file.
     }
 }
 
+// Define the custom element.
 customElements.define('file-item', File);
 
+// Fetches the list of names of added files.
 export async function addFile() {
     const response = await fetch('/add-file', {
         method: 'POST', 

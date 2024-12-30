@@ -95,7 +95,7 @@
 }
 
 @media (max-width: 480px) {
-    .logo {
+    .logo-text {
         left: 50%;
         transform: translateX(-50%);
     }

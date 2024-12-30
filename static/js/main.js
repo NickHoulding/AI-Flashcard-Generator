@@ -3,6 +3,7 @@ import { toggleModal } from "./modal.js";
 import { addFile } from "./file.js";
 import { sendMessage } from "./query.js";
 
+// Assign functions to global window to access from html.
 window.sendMessage = sendMessage;
 window.toggleTheme = toggleTheme;
 window.toggleModal = toggleModal;
