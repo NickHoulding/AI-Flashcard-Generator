@@ -1,6 +1,9 @@
+# Files
 *.bat
-requirements.txt
+*.txt
+
+# Directories
+/__pycache__/
+/chroma_db/
 /models/
 /data/
-/chroma_db/
-__pycache__/
