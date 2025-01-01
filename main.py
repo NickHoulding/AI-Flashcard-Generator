@@ -72,25 +72,17 @@ def add_file():
     file_dialog = QFileDialog()
     file_paths = file_dialog.getOpenFileNames(
         caption='Select File', 
-        filter='*.pdf;;*.txt'
-    )
+        filter='*.pdf;'
+    )[0]
 
-    if len(file_paths[0]) > 0:
-        # Copy selected files to temp data directory.
+    if len(file_paths) > 0:
+        # Update the RAG system's knowledge base.
+        update_database(file_paths)
+
         file_names = ([
             os.path.basename(file_path) 
             for file_path in file_paths[0]
         ])
-
-        for file_path in file_paths[0]:
-            shutil.copy(file_path, 'data')
-
-        # Update the RAG system's knowledge base.
-        update_database()
-
-        # Clear the temp data directory.
-        for file_name in file_names:
-            shutil.os.remove(f"./data/{file_name}")
     else:
         file_names = None
 

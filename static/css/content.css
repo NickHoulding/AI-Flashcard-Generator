@@ -200,10 +200,14 @@
 
 .source-container {
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     justify-content: left;
     align-items: left;
     margin: 0px;
     padding: 0px;
+    column-gap: 10px;
+    row-gap: 10px;
 }
 
 .source {
@@ -212,8 +216,8 @@
     color: var(--text-color);
     background: var(--secondary-color);
     border-radius: 10px;
-    margin-right: 10px;
     padding: 5px 10px;
+    margin: 0px;
     transition: background 0.3s ease, color 0.3s ease;
 }
 

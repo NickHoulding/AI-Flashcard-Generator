@@ -12,4 +12,4 @@ def get_env_var(key: str):
     Returns:
         str: The value of the environment variable, or None if not found.
     """
-    return os.getenv('ENV')
+    return os.getenv(key)
