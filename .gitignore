@@ -2,6 +2,7 @@
 *.bat
 *.txt
 *.env
+*.pdf
 
 # Directories
 /__pycache__/
