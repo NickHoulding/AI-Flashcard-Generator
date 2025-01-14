@@ -3,13 +3,8 @@ import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from config import get_env_var
 
-# Set up AI model and gpu acceleration config.
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
-print(f"Using device: {get_env_var('DEVICE')}")
-print(f"Loading model: {get_env_var('HF_MODEL_NAME')}")
-
-# Load the AI model and tokenizer.
 tokenizer = AutoTokenizer.from_pretrained(
     get_env_var('HF_MODEL_NAME'), 
     cache_dir=get_env_var('HF_CACHE_DIR')
@@ -32,11 +27,9 @@ def query(message):
         str: The AI-generated response.
     '''
 
-    # Ensure the padding token is set.
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
-    # Encode the message and send it to the AI.
     input_ids = tokenizer.encode(
         message, 
         return_tensors="pt"
@@ -45,7 +38,6 @@ def query(message):
         tokenizer.pad_token_id
     ).to(get_env_var('DEVICE'))
 
-    # Generate and decode the AI response.
     output = model.generate(
         input_ids=input_ids,
         attention_mask=attention_mask,
@@ -61,7 +53,6 @@ def query(message):
         skip_special_tokens=True
     )
 
-    # Remove user message from the start if present.
     if response.startswith(message):
         response = response[len(message) + 1:].strip()
 

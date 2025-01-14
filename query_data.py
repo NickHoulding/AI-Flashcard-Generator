@@ -36,13 +36,11 @@ def query_rag(query_text: str):
             to generate the response, formatted in HTML.
     """
     
-    # Get a reference to the database.
     db = Chroma(
         persist_directory=get_env_var("DB_PERSIST_DIR"),
         embedding_function=get_embedding_function(),
     )
 
-    # Get and format relevant context from database.
     results = db.similarity_search(query_text, k=5)
     context_text = "\n\n---\n\n".join([
             doc.page_content 
@@ -56,11 +54,9 @@ def query_rag(query_text: str):
         question=query_text
     )
 
-    # Get AI response: Sanitize format and styling.
     model = OllamaLLM(model=get_env_var("MODEL_NAME"))
     response_html = model.invoke(prompt)
 
-    # Remove the first h1 tag and all unwanted styling.
     if response_html.startswith("<h1"):
         response_html = re.sub(
             r"<h1.*?>.*?</h1>", 
@@ -75,7 +71,6 @@ def query_rag(query_text: str):
         flags=re.DOTALL
     )
 
-    # Get sources: Sanitize format and styling.
     sources = list(
         set([
             f"{os.path.basename(doc.metadata.get('source'))}:"
@@ -95,5 +90,4 @@ def query_rag(query_text: str):
         + "</div>"
     )
 
-    # Return response and source html formatted strings.
     return response_html, sources_html

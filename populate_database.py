@@ -41,7 +41,6 @@ def split_documents(documents: list[Document]):
             text_splitter.split_documents(document)
         )
 
-    # Return a list of chunks (list[Document]).
     return chunks
 
 # Adds the chunks to the database.
@@ -55,7 +54,6 @@ def add_to_chroma(chunks: list[Document]):
         None
     '''
 
-    # Get a reference to the database.
     db = Chroma(
         persist_directory=get_env_var("DB_PERSIST_DIR"), 
         embedding_function=get_embedding_function(),
@@ -64,7 +62,6 @@ def add_to_chroma(chunks: list[Document]):
     last_page_id = None
     current_chunk_index = 0
 
-    # Assign unique IDs to each chunk.
     for chunk in chunks:
         source = chunk.metadata.get("source")
         page = chunk.metadata.get("page")
@@ -82,13 +79,11 @@ def add_to_chroma(chunks: list[Document]):
         )
         chunk.metadata["id"] = chunk_id
 
-    # Check for existing chunks in the DB.
     existing_items = db.get(include=[])
     existing_ids = set(existing_items["ids"])
 
     print(f"Number of existing documents in DB: {len(existing_ids)}")
 
-    # Gather new chunks to add.
     new_chunks = []
     for chunk in chunks:
         if chunk.metadata["id"] not in existing_ids:
@@ -103,7 +98,6 @@ def add_to_chroma(chunks: list[Document]):
 
     print("adding documents...")
 
-    # Add the new chunks to the database.
     if new_chunks:
         db.add_documents(
             documents=new_chunks, 
