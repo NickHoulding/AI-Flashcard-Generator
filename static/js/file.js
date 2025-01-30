@@ -100,3 +100,33 @@ export async function addFile() {
     });
     // TODO: Add notification of file added.
 }
+
+document.getElementById('add-file').addEventListener('click', function() {
+    document.getElementById('fileInput').click();
+});
+
+document.getElementById('fileInput').addEventListener('change', function(event) {
+    const files = event.target.files;
+    const formData = new FormData();
+
+    for (let i = 0; i < files.length; i++) {
+        formData.append('file', files[i]);
+        formData.append('filename', files[i].name);
+    }
+
+    sendFilesToBackend(formData);
+});
+
+async function sendFilesToBackend(formData) {
+    fetch('/add-file', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}

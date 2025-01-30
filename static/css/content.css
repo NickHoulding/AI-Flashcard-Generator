@@ -16,7 +16,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width:100%;
+    width: var(--content-width);
     height: 100%;
     position: fixed;
     top: 0px;
@@ -34,7 +34,7 @@
     width: 100%;
     position: fixed;
     top: 50px;
-    bottom: 150px;
+    bottom: 175px;
     font-family: 'SpaceGrotesk';
     font-weight: normal;
     line-height: 1.75;
@@ -161,6 +161,27 @@
 .attatchment:hover {
     background: var(--text-color);
     color: var(--primary-color);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.add-file {
+    width: 35px;
+    height: 35px;
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    background: transparent;
+    color: var(--text-color);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.add-file:hover {
+    background: var(--secondary-color);
+    color: var(--text-color);
     transition: background 0.3s ease, color 0.3s ease;
 }
 

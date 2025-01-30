@@ -1,4 +1,4 @@
-from langchain_community.document_loaders import PyPDFLoader
+from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from get_embedding_function import get_embedding_function
 from langchain.schema.document import Document
@@ -6,16 +6,9 @@ from langchain_chroma import Chroma
 from config import get_env_var
 
 # Loads PDF files in the temp data directory.
-def load_documents(file_paths):
-    docs = []
-
-    for file_path in file_paths:
-        document_loader = PyPDFLoader(
-            file_path=file_path,
-        )
-        docs.append(document_loader.load())
-    
-    return docs
+def load_documents():
+    document_loader = PyPDFDirectoryLoader(r"./tmp")
+    return document_loader.load()
 
 # Splits the documents into chunks.
 def split_documents(documents: list[Document]):
@@ -34,14 +27,7 @@ def split_documents(documents: list[Document]):
         length_function=len,
         is_separator_regex=False,
     )
-
-    chunks = []
-    for document in documents:
-        chunks.extend(
-            text_splitter.split_documents(document)
-        )
-
-    return chunks
+    return text_splitter.split_documents(documents)
 
 # Adds the chunks to the database.
 def add_to_chroma(chunks: list[Document]):
@@ -109,7 +95,7 @@ def add_to_chroma(chunks: list[Document]):
     print("done")
 
 # Updates the database with the new chunks.
-def update_database(file_paths):
-    documents = load_documents(file_paths)
+def update_database():
+    documents = load_documents()
     chunks = split_documents(documents)
     add_to_chroma(chunks)

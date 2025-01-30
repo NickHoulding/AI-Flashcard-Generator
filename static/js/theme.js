@@ -10,15 +10,10 @@ export function toggleTheme() {
     root.setAttribute('data-theme', newTheme);
 }
 
-// Set initial theme based on user preference.
+// Set initial theme to dark.
 function setInitialTheme() {
     const root = document.documentElement;
-    const prefersDarkScheme = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-    ).matches;
-    const currentTheme = prefersDarkScheme 
-        ? 'dark' 
-        : 'light';
+    const currentTheme = 'dark';
     root.setAttribute('data-theme', currentTheme);
 }
 

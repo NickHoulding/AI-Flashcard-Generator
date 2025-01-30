@@ -2,9 +2,11 @@
 *.txt
 *.env
 *.pdf
+*.bat
+*.sh
 
 # Directories
 /__pycache__/
 /chroma_db/
 /models/
-/data/
+/data/W
