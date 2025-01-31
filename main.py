@@ -2,11 +2,12 @@ import requests
 import ollama
 import shutil
 import os
+import io
 
 from flask import Flask, render_template, request, jsonify
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from populate_database import update_database
-from query_data import query_rag
+from query_data import query_rag, delete_file_chunks
 from flaskwebgui import FlaskUI
 
 app = Flask(__name__)
@@ -53,35 +54,43 @@ def send_message():
 @app.route('/add-file', methods=['POST'])
 def add_file():
     """
-    Processes user-selected files to add to the RAG
-    system's knowledge base.
+    Processes incoming files, saves them to the local directory,
+    """
+
+    uploaded_files = request.files.getlist('file')
+    filenames = request.form.getlist('filename')
+
+    for file, filename in zip(uploaded_files, filenames):
+        if file:
+            file.save(os.path.join('./tmp', filename))
+
+    update_database()
+
+    for filename in filenames:
+        try:
+            os.remove(os.path.join('./tmp', filename))
+        except:
+            pass
+
+    return jsonify({
+        'message': 'Files received'
+    })
+
+# Handle user requests to delete a file.
+@app.route('/del-file', methods=['POST'])
+def deleteFile():
+    """
+    Deletes all chunks in the database associated with the specified file.
 
     Args:
         None
     Returns:
-        Response: A JSON response containing:
-            - filenames (list): A list of filenames 
-            that were added.
+        None
     """
-
-    app = QApplication([])
-    file_dialog = QFileDialog()
-    file_paths = file_dialog.getOpenFileNames(
-        caption='Select File', 
-        filter='*.pdf;'
-    )[0]
-
-    if len(file_paths) > 0:
-        update_database(file_paths)
-
-        file_names = ([
-            os.path.basename(file_path) 
-            for file_path in file_paths[0]
-        ])
-    else:
-        file_names = None
-
-    return jsonify({'filenames': file_names})
+    filename = request.get_json().get('filename')
+    delete_file_chunks(filename)
+    # Return json confirming deletion.
+    return
 
 if __name__ == '__main__':
     ui = FlaskUI(

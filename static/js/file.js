@@ -108,10 +108,15 @@ document.getElementById('add-file').addEventListener('click', function() {
 document.getElementById('fileInput').addEventListener('change', function(event) {
     const files = event.target.files;
     const formData = new FormData();
+    const fileList = document.getElementById('file-list');
 
     for (let i = 0; i < files.length; i++) {
         formData.append('file', files[i]);
         formData.append('filename', files[i].name);
+
+        const file = new File();
+        file.setAttribute('filename', files[i].name);
+        fileList.appendChild(file);
     }
 
     sendFilesToBackend(formData);
