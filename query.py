@@ -6,11 +6,11 @@ from config import get_env_var
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 tokenizer = AutoTokenizer.from_pretrained(
-    get_env_var('HF_MODEL_NAME'), 
+    get_env_var('HF_MODEL_NAME'),
     cache_dir=get_env_var('HF_CACHE_DIR')
 )
 model = AutoModelForCausalLM.from_pretrained(
-    get_env_var('HF_MODEL_NAME'), 
+    get_env_var('HF_MODEL_NAME'),
     cache_dir=get_env_var('HF_CACHE_DIR')
 )
 model.to(get_env_var('DEVICE'))
@@ -56,4 +56,4 @@ def query(message):
     if response.startswith(message):
         response = response[len(message) + 1:].strip()
 
-    return response
+    return response, None # Temp dummy value for sources

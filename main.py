@@ -87,10 +87,21 @@ def deleteFile():
     Returns:
         None
     """
-    filename = request.get_json().get('filename')
+
+    data = request.get_json()
+    filename = data.get('filename', '')
+
+    if not filename:
+        return jsonify({
+            'error': 'Filename is required'
+        }), 400
+
     delete_file_chunks(filename)
-    # Return json confirming deletion.
-    return
+
+    # return dummy json response
+    return jsonify({
+        'message': 'File deleted from database'
+    })
 
 if __name__ == '__main__':
     ui = FlaskUI(

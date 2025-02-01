@@ -83,7 +83,16 @@ class File extends HTMLElement {
             })
         );
         this.remove();
-        // TODO: Actually delete the file.
+
+        const response = fetch('/del-file', {
+            method: 'POST', 
+            body: JSON.stringify({
+                filename: this.filename,
+            }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
     }
 }
 

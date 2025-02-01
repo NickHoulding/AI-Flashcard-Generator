@@ -91,3 +91,26 @@ def query_rag(query_text: str):
     )
 
     return response_html, sources_html
+
+def delete_file_chunks(filename):
+    """
+    Deletes all chunks with a source of filename.
+
+    Args:
+        filename (str): The name of the file to delete.
+    Returns:
+        None
+    """
+
+    db = Chroma(
+        persist_directory=get_env_var("DB_PERSIST_DIR"),
+        embedding_function=get_embedding_function(),
+    )
+
+    file_source = "tmp/" + filename
+    matching_chunks = db.get(
+        where={"source": file_source}
+    )
+    print(len(matching_chunks))
+    ids = matching_chunks['ids']
+    db.delete(ids=ids)
