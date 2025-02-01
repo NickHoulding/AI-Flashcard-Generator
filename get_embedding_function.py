@@ -1,7 +1,14 @@
 from langchain_ollama import OllamaEmbeddings
 
-# Returns standard embedding function for all modules.
 def get_embedding_function():
+    """
+    Get the standard embedding function for all modules.
+
+    Args:
+        None
+    Returns:
+        OllamaEmbeddings: Embedding function for all modules.
+    """
     embeddings = OllamaEmbeddings(
         model="nomic-embed-text"
     )

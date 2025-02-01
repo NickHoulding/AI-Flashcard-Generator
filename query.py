@@ -15,18 +15,15 @@ model = AutoModelForCausalLM.from_pretrained(
 )
 model.to(get_env_var('DEVICE'))
 
-# Query the AI model and return its response.
 def query(message):
-    '''
-    Queries the AI model with the user's message 
-    and returns the response.
+    """
+    Queries the AI model with the user message.
 
     Args:
         message (str): The user query for the AI model.
     Returns:
-        str: The AI-generated response.
-    '''
-
+        tuple[str, list[str]]: The AI response and sources used.
+    """
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
 
@@ -56,4 +53,4 @@ def query(message):
     if response.startswith(message):
         response = response[len(message) + 1:].strip()
 
-    return response, None # Temp dummy value for sources
+    return response, None # Temp dummy source return value.

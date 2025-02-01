@@ -2,61 +2,42 @@ import os
 import re
 
 from get_embedding_function import get_embedding_function
-from langchain.prompts import ChatPromptTemplate
 from langchain_ollama import OllamaLLM
 from langchain_chroma import Chroma
 from config import get_env_var
+from rag import get_chroma_db, get_context_prompt
 
-PROMPT_TEMPLATE = """
-Answer the questions based only on the following context:
-{context}
-
----
-Answer the question based on the above context: {question}. 
-Respond in strictly valid HTML format only. 
-Only use tags including <p>, <ul>, <li>, and header tags.
-Ensure your html response is ready to be rendered in a browser.
-Always begin your responses with a <h1> tag.
-"""
-
-# Augments user query wit RAG for AI model.
-def query_rag(query_text: str):
+def query_ollama(prompt):
     """
-    Queries the databse for relevant knowledge, sends it 
-    to the AI with the user's query, then sanitizes and 
-    returns the html formatted response and sources.
+    Queries Ollama AI with prompt.
 
     Args:
-        query_text (str): Query text to search the database.
+        prompt (str): The prompt to query the model.
     Returns:
-        tuple: A tuple containing two HTML formatted strings:
-            - response_html (str): The AI-generated response,
-            formatted in HTML.
-            - sources_html (str): The sources used by the AI
-            to generate the response, formatted in HTML.
+        html_response (str): The response from the Ollama model.
     """
-    
-    db = Chroma(
-        persist_directory=get_env_var("DB_PERSIST_DIR"),
-        embedding_function=get_embedding_function(),
+    model = OllamaLLM(
+        model=get_env_var("MODEL_NAME")
     )
 
-    results = db.similarity_search(query_text, k=5)
-    context_text = "\n\n---\n\n".join([
-            doc.page_content 
-            for doc in results
-    ])
-    prompt_template = ChatPromptTemplate.from_template(
-        PROMPT_TEMPLATE
-    )
-    prompt = prompt_template.format(
-        context=context_text,
-        question=query_text
-    )
+    return model.invoke(prompt)
 
-    model = OllamaLLM(model=get_env_var("MODEL_NAME"))
-    response_html = model.invoke(prompt)
+def query_huggingface(prompt):
+    # TODO: Implement HF support.
 
+    return ""
+
+def format_response(response_html, results):
+    """
+    Formats the response from the RAG model.
+
+    Args:
+        response_html (str): The HTML response from the RAG model.
+    Returns:
+        tuple:
+            response_html (str): The formatted response.
+            sources_html (str): The sources of the information.
+    """
     if response_html.startswith("<h1"):
         response_html = re.sub(
             r"<h1.*?>.*?</h1>", 
@@ -92,25 +73,39 @@ def query_rag(query_text: str):
 
     return response_html, sources_html
 
-def delete_file_chunks(filename):
+def handle_platform(prompt, platform):
     """
-    Deletes all chunks with a source of filename.
+    Delegates the query to the appropriate platform.
 
     Args:
-        filename (str): The name of the file to delete.
+        prompt (str): The prompt to query the model.
+        platform (str): The platform to query.
     Returns:
-        None
+        response_html (str): The response from the model.
     """
+    response_html = ""
 
-    db = Chroma(
-        persist_directory=get_env_var("DB_PERSIST_DIR"),
-        embedding_function=get_embedding_function(),
-    )
+    match platform:
+        case "ollama":
+            response_html = query_ollama(prompt)
+        case "huggingface":
+            response_html = query_huggingface(prompt)
 
-    file_source = "tmp/" + filename
-    matching_chunks = db.get(
-        where={"source": file_source}
-    )
-    print(len(matching_chunks))
-    ids = matching_chunks['ids']
-    db.delete(ids=ids)
+    return response_html
+
+def query(query_text, platform):
+    """
+    Queries the databse for relevant knowledge.
+
+    Args:
+        query_text (str): Query text to search the database.
+        platform (str): The platform to query.
+    Returns:
+        html_response (str): The response from the RAG model.
+        sources_html (str): The sources of the information.
+    """
+    prompt, results = get_context_prompt(query_text)
+    response_html = handle_platform(prompt, platform)
+    response = format_response(response_html, results)
+
+    return response
