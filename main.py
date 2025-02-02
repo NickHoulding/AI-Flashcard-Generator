@@ -14,7 +14,7 @@ app = Flask(__name__)
 @app.route('/')
 def main():
     """
-    Renders the main page of the Flask app.
+    Renders the Flask application.
 
     Args:
         None
@@ -24,14 +24,14 @@ def main():
     return render_template('index.html')
 
 @app.route('/send-message', methods=['POST'])
-def send_message():
+def send_message() -> tuple[jsonify, int]:
     """
     Sends user messages to the AI.
 
     Args:
         None
     Returns:
-        msg (JSON object): The AI's response and sources used.
+        tuple[jsonify, int]: JSON object with the AI's response and HTTP status code.
     """
     data = request.get_json()
     message = data.get('message', '')
@@ -55,14 +55,14 @@ def send_message():
     return ret_msg
 
 @app.route('/add-file', methods=['POST'])
-def add_file():
+def add_file() -> tuple[jsonify, int]:
     """
     Ingests uploaded pdfs and updates the database.
 
     Args:
         None
     Returns:
-        JSON object indicating file addition.
+        tuple[jsonify, int]: JSON object indicating file addition and HTTP status code.
     """
     uploaded_files = request.files.getlist('file')
     filenames = request.form.getlist('filename')
@@ -83,14 +83,14 @@ def add_file():
     return ret_msg
 
 @app.route('/del-file', methods=['POST'])
-def deleteFile():
+def deleteFile() -> tuple[jsonify, int]:
     """
-    Deletes all database data associated with a file.
+    Deletes all data associated with a file in the database.
 
     Args:
         None
     Returns:
-        JSON object indicating file deletion.
+        tuple[jsonify, int]: JSON object indicating file deletion and HTTP status code.
     """
     data = request.get_json()
     filename = data.get('filename', '')

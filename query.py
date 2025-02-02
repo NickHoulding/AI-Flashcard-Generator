@@ -8,7 +8,7 @@ from langchain_ollama import OllamaLLM
 from langchain_chroma import Chroma
 from config import get_env_var
 
-def initialize_hf_model():
+def initialize_hf_model() -> tuple[AutoModelForCausalLM, AutoTokenizer]:
     """
     Initializes the Hugging Face model and tokenizer.
 
@@ -19,6 +19,7 @@ def initialize_hf_model():
     """
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
+    print("\n" + device + "\n")
 
     tokenizer = AutoTokenizer.from_pretrained(
         get_env_var('HF_MODEL_NAME'),
@@ -35,14 +36,14 @@ def initialize_hf_model():
 if get_env_var('PLATFORM') == "hf":
     model, tokenizer = initialize_hf_model()
 
-def query_huggingface(prompt):
+def query_huggingface(prompt: str) -> tuple[str, list[str]]:
     """
-    Queries the HF AI model with the user message.
+    Queries the HF AI model with the user's prompt.
 
     Args:
         prompt (str): The prompt to query the model.
     Returns:
-        tuple[str, list[str]]: The AI response and sources used.
+        tuple[str, list[str]]: The response from the model and sources.
     """
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
@@ -58,7 +59,7 @@ def query_huggingface(prompt):
     output = model.generate(
         input_ids=input_ids,
         attention_mask=attention_mask,
-        max_length=10000,
+        max_length=get_env_var('MX_LEN'),
         temperature=0.7,
         pad_token_id=tokenizer.pad_token_id,
         do_sample=True,
@@ -73,16 +74,16 @@ def query_huggingface(prompt):
     if response.startswith(prompt[0]):
         response = response[len(prompt[0]) + 1:].strip()
 
-    return response, None # Temp dummy source return value.
+    return response, None # Temp. dummy source return value.
 
-def query_ollama(prompt):
+def query_ollama(prompt: str) -> str:
     """
-    Queries Ollama AI with prompt.
+    Queries the Ollama model with the user's prompt.
 
     Args:
         prompt (str): The prompt to query the model.
     Returns:
-        html_response (str): The response from the Ollama model.
+        html_response (str): The text response from the Ollama model.
     """
     model = OllamaLLM(
         model=get_env_var("MODEL_NAME")
@@ -90,16 +91,15 @@ def query_ollama(prompt):
 
     return model.invoke(prompt)
 
-def format_response(response_html, results):
+def format_response(response_html: str, results: list) -> tuple[str, str]:
     """
-    Formats the response from the RAG model.
+    Formats the AI model's response.
 
     Args:
         response_html (str): The HTML response from the RAG model.
+        results (list): The results from the database.
     Returns:
-        tuple:
-            response_html (str): The formatted response.
-            sources_html (str): The sources of the information.
+        tuple[str, str]: The formatted response and sources.
     """
     if response_html.startswith("<h1"):
         response_html = re.sub(
@@ -136,9 +136,9 @@ def format_response(response_html, results):
 
     return response_html, sources_html
 
-def handle_platform(prompt):
+def handle_platform(prompt: str) -> str:
     """
-    Delegates the query to the appropriate platform.
+    Delegates the user's query to the appropriate platform.
 
     Args:
         prompt (str): The prompt to query the model.
@@ -155,15 +155,14 @@ def handle_platform(prompt):
 
     return response_html
 
-def query(query_text):
+def query(query_text: str) -> tuple[str, str]:
     """
-    Queries the databse for relevant knowledge.
+    Handles database retrieval and AI queries.
 
     Args:
         query_text (str): Query text to search the database.
     Returns:
-        html_response (str): The response from the RAG model.
-        sources_html (str): The sources of the information.
+        tuple[str, str]: The formatted response and sources.
     """
     prompt, results = get_context_prompt(query_text)
     response_html = handle_platform(prompt)
