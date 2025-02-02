@@ -6,13 +6,10 @@ import io
 from flask import Flask, render_template, request, jsonify
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from rag import update_database, del_from_chroma
-from query_data import query
 from flaskwebgui import FlaskUI
+from query import query
 
 app = Flask(__name__)
-
-# Options: "ollama", "huggingface"
-platform = "ollama"
 
 @app.route('/')
 def main():
@@ -46,7 +43,7 @@ def send_message():
         }), 400
         return ret_msg
 
-    response, sources = query(message, platform)
+    response, sources = query(message)
 
     ret_msg = jsonify({
         'message': {
