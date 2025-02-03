@@ -138,6 +138,13 @@ def format_response(response_html: str, results: list) -> tuple[str, str]:
             + sources_html
         )
 
+    response_html = re.sub(
+        r"<think>.*?</think>",
+        "", 
+        response_html, 
+        flags=re.DOTALL
+    )
+
     return response_html, sources_html
 
 def handle_platform(prompt: str) -> str:
