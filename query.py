@@ -59,7 +59,7 @@ def query_huggingface(prompt: str) -> tuple[str, list[str]]:
     output = model.generate(
         input_ids=input_ids,
         attention_mask=attention_mask,
-        max_length=get_env_var('MX_LEN'),
+        max_length=int(get_env_var('MX_LEN')),
         temperature=0.7,
         pad_token_id=tokenizer.pad_token_id,
         do_sample=True,
@@ -74,7 +74,7 @@ def query_huggingface(prompt: str) -> tuple[str, list[str]]:
     if response.startswith(prompt[0]):
         response = response[len(prompt[0]) + 1:].strip()
 
-    return response, None # Temp. dummy source return value.
+    return response
 
 def query_ollama(prompt: str) -> str:
     """
@@ -103,7 +103,7 @@ def format_response(response_html: str, results: list) -> tuple[str, str]:
     """
     if response_html.startswith("<h1"):
         response_html = re.sub(
-            r"<h1.*?>.*?</h1>", 
+            r"<h1.*?.*?</h1>", 
             "", 
             response_html, 
             count=1
@@ -123,7 +123,6 @@ def format_response(response_html: str, results: list) -> tuple[str, str]:
         ])
     )
     sources_html = (
-        "<h3 class='sources-title'>Sources</h3>"
         "<div class='source-container'>"
         + "".join(
             [
@@ -133,6 +132,11 @@ def format_response(response_html: str, results: list) -> tuple[str, str]:
         )
         + "</div>"
     )
+    if len(sources) > 0:
+        sources_html = (
+            "<h3 class='sources-title'>Sources</h3>"
+            + sources_html
+        )
 
     return response_html, sources_html
 
