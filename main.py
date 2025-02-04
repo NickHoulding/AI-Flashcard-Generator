@@ -31,7 +31,7 @@ def send_message() -> tuple[jsonify, int]:
     Args:
         None
     Returns:
-        tuple[jsonify, int]: JSON object with the AI's response and HTTP status code.
+        tuple[jsonify, int]: AI response and HTTP code.
     """
     data = request.get_json()
     message = data.get('message', '')
@@ -62,7 +62,7 @@ def add_file() -> tuple[jsonify, int]:
     Args:
         None
     Returns:
-        tuple[jsonify, int]: JSON object indicating file addition and HTTP status code.
+        tuple[jsonify, int]: JSON response and HTTP code.
     """
     uploaded_files = request.files.getlist('file')
     filenames = request.form.getlist('filename')
@@ -85,12 +85,12 @@ def add_file() -> tuple[jsonify, int]:
 @app.route('/del-file', methods=['POST'])
 def deleteFile() -> tuple[jsonify, int]:
     """
-    Deletes all data associated with a file in the database.
+    Deletes all data from a file in the database.
 
     Args:
         None
     Returns:
-        tuple[jsonify, int]: JSON object indicating file deletion and HTTP status code.
+        tuple[jsonify, int]: JSON response and HTTP code.
     """
     data = request.get_json()
     filename = data.get('filename', '')

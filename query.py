@@ -8,18 +8,24 @@ from langchain_ollama import OllamaLLM
 from langchain_chroma import Chroma
 from config import get_env_var
 
-def initialize_hf_model() -> tuple[AutoModelForCausalLM, AutoTokenizer]:
+
+def initialize_hf_model() -> tuple[
+    AutoModelForCausalLM, 
+    AutoTokenizer
+]:
     """
     Initializes the Hugging Face model and tokenizer.
 
     Args:
         None
     Returns:
-        tuple[AutoModelForCausalLM, AutoTokenizer]: The model and tokenizer.
+        tuple[AutoModelForCausalLM, AutoTokenizer]: 
+            The model and tokenizer.
     """
-
-    device = "cuda" if torch.cuda.is_available() else "cpu"
-    print("\n" + device + "\n")
+    if torch.cuda.is_available():
+        device = "cuda"
+    else:
+        device = "cpu"
 
     tokenizer = AutoTokenizer.from_pretrained(
         get_env_var('HF_MODEL_NAME'),
@@ -36,14 +42,17 @@ def initialize_hf_model() -> tuple[AutoModelForCausalLM, AutoTokenizer]:
 if get_env_var('PLATFORM') == "hf":
     model, tokenizer = initialize_hf_model()
 
-def query_huggingface(prompt: str) -> tuple[str, list[str]]:
+
+def query_huggingface(
+    prompt: str
+) -> tuple[str, list[str]]:
     """
     Queries the HF AI model with the user's prompt.
 
     Args:
         prompt (str): The prompt to query the model.
     Returns:
-        tuple[str, list[str]]: The response from the model and sources.
+        tuple[str, list[str]]: AI response and sources.
     """
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
@@ -71,10 +80,8 @@ def query_huggingface(prompt: str) -> tuple[str, list[str]]:
         skip_special_tokens=True
     )
 
-    if response.startswith(prompt[0]):
-        response = response[len(prompt[0]) + 1:].strip()
-
     return response
+
 
 def query_ollama(prompt: str) -> str:
     """
@@ -83,7 +90,7 @@ def query_ollama(prompt: str) -> str:
     Args:
         prompt (str): The prompt to query the model.
     Returns:
-        html_response (str): The text response from the Ollama model.
+        html_response (str): Ollama AI response.
     """
     model = OllamaLLM(
         model=get_env_var("MODEL_NAME")
@@ -91,15 +98,19 @@ def query_ollama(prompt: str) -> str:
 
     return model.invoke(prompt)
 
-def format_response(response_html: str, results: list) -> tuple[str, str]:
+
+def format_response(
+    response_html: str, 
+    results: list
+) -> tuple[str, str]:
     """
     Formats the AI model's response.
 
     Args:
-        response_html (str): The HTML response from the RAG model.
+        response_html (str): The HTML AI response.
         results (list): The results from the database.
     Returns:
-        tuple[str, str]: The formatted response and sources.
+        tuple[str, str]: Formatted response and sources.
     """
     if response_html.startswith("<h1"):
         response_html = re.sub(
@@ -115,13 +126,15 @@ def format_response(response_html: str, results: list) -> tuple[str, str]:
         flags=re.DOTALL
     )
 
-    sources = list(
-        set([
-            f"{os.path.basename(doc.metadata.get('source'))}:"
-            + f"{doc.metadata.get('page')}"
-            for doc in results
-        ])
-    )
+    sources = set()
+    for doc in results:
+        source = doc.metadata.get("source")
+
+        if source not in sources:
+            sources.add(
+                os.path.basename(source)
+            )
+
     sources_html = (
         "<div class='source-container'>"
         + "".join(
@@ -147,14 +160,15 @@ def format_response(response_html: str, results: list) -> tuple[str, str]:
 
     return response_html, sources_html
 
+
 def handle_platform(prompt: str) -> str:
     """
-    Delegates the user's query to the appropriate platform.
+    Delegates user queries to the appropriate platform.
 
     Args:
         prompt (str): The prompt to query the model.
     Returns:
-        response_html (str): The response from the model.
+        response_html (str): AI response.
     """
     response_html = ""
 
@@ -166,14 +180,15 @@ def handle_platform(prompt: str) -> str:
 
     return response_html
 
+
 def query(query_text: str) -> tuple[str, str]:
     """
     Handles database retrieval and AI queries.
 
     Args:
-        query_text (str): Query text to search the database.
+        query_text (str): Database query text.
     Returns:
-        tuple[str, str]: The formatted response and sources.
+        tuple[str, str]: AI response and sources.
     """
     prompt, results = get_context_prompt(query_text)
     response_html = handle_platform(prompt)

@@ -6,11 +6,12 @@ load_dotenv(dotenv_path='.env')
 
 def get_env_var(key: str) -> Optional[str]:
     """
-    Gets an environment variable value, or None if it doesn't exist.
+    Gets an environment variable value, 
+    or None if it doesn't exist.
     
     Args:
-        key (str): The key of the environment variable.
+        key (str): Environment variable's key.
     Returns:
-        str: Environment variable value if it exists, else None.
+        str: The key's value if it exists, else None.
     """
     return os.getenv(key)
