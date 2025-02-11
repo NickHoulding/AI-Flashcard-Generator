@@ -144,3 +144,18 @@ async function sendFilesToBackend(formData) {
         console.error('Error:', error);
     });
 }
+
+export async function loadFiles() {
+    const response = await fetch('/load-files', {
+        method: 'POST',
+    });
+    const data = await response.json();
+    const files = data.files;
+    const fileList = document.getElementById('file-list');
+
+    for (let i = 0; i < files.length; i++) {
+        const file = new File();
+        file.setAttribute('filename', files[i]);
+        fileList.appendChild(file);
+    }
+}

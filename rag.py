@@ -226,3 +226,21 @@ def get_context_prompt(
     )
 
     return prompt, results
+
+def get_file_names():
+    """
+    Gets the names of the files in the database.
+
+    Args:
+        None
+    Returns:
+        list[str]: List of filenames.
+    """
+    db = get_chroma_db()
+    chunks = db.get(include=[])
+    sources = set([
+        cid[cid.index('/') + 1:cid.index(':')] 
+        for cid in chunks["ids"]
+    ])
+
+    return list(sources)

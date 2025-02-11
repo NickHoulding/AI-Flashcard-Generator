@@ -5,7 +5,7 @@ import os
 import io
 from flask import Flask, render_template, request, jsonify
 from PyQt5.QtWidgets import QApplication, QFileDialog
-from rag import update_database, del_from_chroma
+from rag import update_database, del_from_chroma, get_file_names
 from flaskwebgui import FlaskUI
 from query import query
 
@@ -109,6 +109,21 @@ def deleteFile() -> tuple[jsonify, int]:
     }), 200
 
     return ret_msg
+
+@app.route('/load-files', methods=['POST'])
+def loadFiles() -> tuple[jsonify, int]:
+    """
+    Loads the files present in the database.
+
+    Args:
+        None
+    Returns:
+        tuple[jsonify, int]: JSON response and HTTP code.
+    """
+    
+    return jsonify({
+        'files': get_file_names()
+    })
 
 if __name__ == '__main__':
     ui = FlaskUI(
