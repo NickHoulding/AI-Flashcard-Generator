@@ -8,65 +8,78 @@ from PyQt5.QtWidgets import QApplication, QFileDialog
 from rag import update_database, del_from_chroma, get_file_names
 from flaskwebgui import FlaskUI
 from query import query
+from typing import Text
 
 app = Flask(__name__)
 
 @app.route('/')
-def main():
+def main(
+    ) -> Text:
     """
     Renders the Flask application.
 
     Args:
         None
+    
     Returns:
         Rendered HTML template.
+    
+    Raises:
+        None
     """
     return render_template('index.html')
 
 @app.route('/send-message', methods=['POST'])
-def send_message() -> tuple[jsonify, int]:
+def send_message(
+    ) -> jsonify:
     """
     Sends user messages to the AI.
 
     Args:
         None
+    
     Returns:
-        tuple[jsonify, int]: AI response and HTTP code.
+        jsonify: AI response with HTTP code.
+    
+    Raises:
+        None
     """
     data = request.get_json()
     message = data.get('message', '')
-    ret_msg = None
 
     if not message:
-        ret_msg = jsonify({
-            'error': 'Message is required'
-        }), 400
-        return ret_msg
+        return jsonify({
+            'error': 'Message is required',
+            'status': 400
+        })
 
     response, sources = query(message)
 
-    ret_msg = jsonify({
+    return jsonify({
         'message': {
             'content': response,
             'sources': sources
-        }
-    }), 200
-
-    return ret_msg
+        },
+        'status': 200
+    })
 
 @app.route('/add-file', methods=['POST'])
-def add_file() -> tuple[jsonify, int]:
+def add_file(
+    ) -> jsonify:
     """
     Ingests uploaded pdfs and updates the database.
 
     Args:
         None
+    
     Returns:
-        tuple[jsonify, int]: JSON response and HTTP code.
+        jsonify: JSON response with HTTP code.
+    
+    Raises:
+        None
     """
     uploaded_files = request.files.getlist('file')
     filenames = request.form.getlist('filename')
-    ret_msg = None
 
     for file, filename in zip(uploaded_files, filenames):
         file.save(os.path.join('./tmp', filename))
@@ -76,55 +89,63 @@ def add_file() -> tuple[jsonify, int]:
     for filename in filenames:
         os.remove(os.path.join('./tmp', filename))
     
-    ret_msg = jsonify({
-        'message': 'File(s) addition finished'
-    }), 200
-
-    return ret_msg
+    return jsonify({
+        'message': 'File(s) addition finished',
+        'status': 200
+    })
 
 @app.route('/del-file', methods=['POST'])
-def deleteFile() -> tuple[jsonify, int]:
+def deleteFile(
+    ) -> jsonify:
     """
     Deletes all data from a file in the database.
 
     Args:
         None
+    
     Returns:
-        tuple[jsonify, int]: JSON response and HTTP code.
+        jsonify: JSON response and HTTP code.
+    
+    Raises:
+        None
     """
     data = request.get_json()
     filename = data.get('filename', '')
-    ret_msg = None
 
     if not filename:
-        ret_msg = jsonify({
-            'error': 'Filename is required'
-        }), 400
-        return ret_msg
+        return jsonify({
+            'error': 'Filename is required',
+            'status': 400
+        })
 
     del_from_chroma(filename)
 
-    ret_msg = jsonify({
-        'message': 'File deletion finished'
-    }), 200
-
-    return ret_msg
+    return jsonify({
+        'message': 'File deletion finished',
+        'status': 200
+    })
 
 @app.route('/load-files', methods=['POST'])
-def loadFiles() -> tuple[jsonify, int]:
+def loadFiles(
+    ) -> jsonify:
     """
     Loads the files present in the database.
 
     Args:
         None
-    Returns:
-        tuple[jsonify, int]: JSON response and HTTP code.
-    """
     
+    Returns:
+        jsonify: JSON response and HTTP code.
+    
+    Raises:
+        None
+    """
     return jsonify({
-        'files': get_file_names()
+        'files': get_file_names(),
+        'status': 200
     })
 
+# Entry Point
 if __name__ == '__main__':
     ui = FlaskUI(
         app=app, 

@@ -19,28 +19,38 @@ in a browser.
 Always begin your responses with a <h1> tag.
 """
 
-def get_chroma_db() -> Chroma:
+def get_chroma_db(
+    ) -> Chroma:
     """
     Gets a reference to the Chroma database.
 
     Args:
         None
+    
     Returns:
         Chroma: A reference to the Chroma database.
+    
+    Raises:
+        ValueError: If the DB_DIR environment variable is not set.
     """
     return Chroma(
         persist_directory=get_env_var("DB_DIR"), 
         embedding_function=get_embedding_function(),
     )
 
-def load_documents() -> list[Document]:
+def load_documents(
+    ) -> list[Document]:
     """
     Loads the documents from the tmp directory.
 
     Args:
         None
+    
     Returns:
         list[Document]: The loaded PDF documents.
+    
+    Raises:
+        ValueError: If the CACHE_DIR environment variable is not set.
     """
     document_loader = PyPDFDirectoryLoader(
         get_env_var("CACHE_DIR")
@@ -49,15 +59,19 @@ def load_documents() -> list[Document]:
     return document_loader.load()
 
 def split_documents(
-    documents: list[Document]
-) -> list[Document]:
+        documents: list[Document]
+    ) -> list[Document]:
     """
     Splits the documents into chunks.
 
     Args:
         documents (list[Document]): Documents to split.
+    
     Returns:
         list[Document]: The chunks of the documents.
+    
+    Raises:
+        None
     """
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=800,
@@ -69,16 +83,20 @@ def split_documents(
     return text_splitter.split_documents(documents)
 
 def create_chunk_ids(
-    chunks: list[Document], 
-    db: Chroma
-):
+        chunks: list[Document], 
+        db: Chroma
+    ) -> None:
     """
     Creates new chunk IDs for the chunks.
 
     Args:
         chunks (list[Document]): Chunks to create IDs for.
         db (Chroma): The Chroma database.
+    
     Returns:
+        None
+    
+    Raises:
         None
     """
     last_page_id = None
@@ -102,17 +120,21 @@ def create_chunk_ids(
         chunk.metadata["id"] = chunk_id
 
 def get_new_chunks(
-    chunks: list[Document], 
-    existing_ids: set
-) -> list[Document]:
+        chunks: list[Document], 
+        existing_ids: set
+    ) -> list[Document]:
     """
     Gets the new chunks to add to the database.
 
     Args:
         chunks (list[Document]): The chunks to check.
         existing_ids (set): Existing database IDs.
+    
     Returns:
         list[Document]: New chunks for the database.
+    
+    Raises:
+        None
     """
     new_chunks = []
 
@@ -123,17 +145,21 @@ def get_new_chunks(
     return new_chunks
 
 def set_chunk_ids(
-    new_chunks: list[Document], 
-    existing_ids: set
-) -> list[str]:
+        new_chunks: list[Document], 
+        existing_ids: set
+    ) -> list[str]:
     """
     Sets the new IDs for the new chunks.
 
     Args:
         new_chunks (list[Document]): New chunks to add.
         existing_ids (set): Existing database IDs.
+    
     Returns:
         list[str]: The new chunk IDs.
+    
+    Raises:
+        None
     """
     new_chunk_ids = [
         chunk.metadata["id"] 
@@ -143,14 +169,18 @@ def set_chunk_ids(
     return new_chunk_ids
 
 def add_to_chroma(
-    chunks: list[Document]
-):
+        chunks: list[Document]
+    ) -> None:
     """
     Inserts the document chunks into the database.
 
     Args:
         chunks (list[Document]): Chunks to add.
+    
     Returns:
+        None
+    
+    Raises:
         None
     """
     db = get_chroma_db()
@@ -166,14 +196,20 @@ def add_to_chroma(
             ids=new_chunk_ids
         )
 
-def del_from_chroma(filename: str):
+def del_from_chroma(
+        filename: str
+    ) -> None:
     """
     Deletes all chunks with a source of filename.
 
     Args:
         filename (str): Name of the file to delete.
+    
     Returns:
         None
+    
+    Raises:
+        ValueError: If the CACHE_DIR environment variable is not set.
     """
     db = get_chroma_db()
     file_source = get_env_var("CACHE_DIR") + "/" + filename
@@ -183,13 +219,18 @@ def del_from_chroma(filename: str):
     ids = matching_chunks['ids']
     db.delete(ids=ids)
 
-def update_database():
+def update_database(
+    ) -> None:
     """
     Updates the database with the new chunks.
 
     Args:
         None
+    
     Returns:
+        None
+    
+    Raises:
         None
     """
     documents = load_documents()
@@ -197,16 +238,19 @@ def update_database():
     add_to_chroma(chunks)
 
 def get_context_prompt(
-    query_text: str
-) -> tuple[str, list[Document]]:
+        query_text: str
+    ) -> tuple[str, list[Document]]:
     """
     Appends relevant context to the user query.
 
     Args:
         query_text (str): The user query.
+    
     Returns:
-        tuple[str, list[Document]]: 
-            The prompt and relevant documents.
+        tuple[str, list[Document]]: The prompt and relevant documents.
+    
+    Raises:
+        None
     """
     db = get_chroma_db()
     results = db.similarity_search(
@@ -227,14 +271,19 @@ def get_context_prompt(
 
     return prompt, results
 
-def get_file_names():
+def get_file_names(
+    ) -> list[str]:
     """
     Gets the names of the files in the database.
 
     Args:
         None
+    
     Returns:
         list[str]: List of filenames.
+    
+    Raises:
+        None
     """
     db = get_chroma_db()
     chunks = db.get(include=[])
