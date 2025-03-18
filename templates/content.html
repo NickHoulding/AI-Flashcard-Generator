@@ -3,30 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta 
-        name="viewport" 
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AiCard</title>
-    <link 
-        rel="stylesheet" 
-        href="/static/css/content.css">
-    <script 
-        type="module" 
-        src="/static/js/file.js" 
-        defer>
-    </script>
-    <script 
-        type="module" 
-        src="/static/js/modal.js" 
-        defer>
-    </script>
+    <link rel="stylesheet" href="/static/css/content.css">
+    <script type="module" src="/static/js/file.js" defer></script>
+    <script type="module" src="/static/js/modal.js" defer></script>
 </head>
 
 <body>
     <div class="content">
-        <div 
-            class="chat" 
-            id="chat">
+        <div class="chat" id="chat">
         </div>
         <div class="chatbox">
             <textarea 
@@ -69,16 +55,9 @@
         accept=".pdf"
         multiple>
 
-    <modal-custom
-        id="file-modal"
-        title="Files">
-        <div 
-            class="file-list"
-            id="file-list">
-        </div>
-        <button 
-            class="add-file"
-            id="add-file">
+    <modal-custom id="file-modal" title="Files">
+        <div class="file-list" id="file-list"></div>
+        <button class="add-file"id="add-file">
             <svg 
                 fill="currentColor" 
                 height="24" 
@@ -90,14 +69,8 @@
         </button>
     </modal-custom>
 
-    <script 
-        type="module" 
-        src="/static/js/main.js">
-    </script>
-    <script 
-        type="module" 
-        src="/static/js/query.js">
-    </script>
+    <script type="module" src="/static/js/main.js"></script>
+    <script type="module" src="/static/js/query.js"></script>
 </body>
 
 </html>

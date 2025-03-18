@@ -1,30 +1,17 @@
 <!DOCTYPE html>
-<html 
-    lang="en" 
-    data-theme="light">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
-    <meta 
-        name="viewport" 
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AiCard</title>
-    <link 
-        rel="stylesheet" 
-        href="/static/css/header.css">
-    <script 
-        type="module" 
-        src="/static/js/modal.js" 
-        defer>
-    </script>
+    <link rel="stylesheet" href="/static/css/header.css">
+    <script type="module" src="/static/js/modal.js" defer></script>
 </head>
 
 <body>
     <div class="header">
-        <button 
-            id="logo-icon"
-            class="logo-icon"
-            onclick="toggleSidebar()">
+        <button id="logo-icon"class="logo-icon"onclick="toggleSidebar()">
             <svg 
                 fill="currentColor" 
                 height="24" 
@@ -35,10 +22,7 @@
             </svg>
         </button>
         <h1 class="logo-text">AiCard</h1>
-        <button 
-            id="settings" 
-            class="settings" 
-            onclick="toggleModal('settings-modal')">
+        <button id="settings" class="settings" onclick="toggleModal('settings-modal')">
             <svg 
                 fill="currentColor" 
                 height="24" 
@@ -52,23 +36,12 @@
         </button>
     </div>
 
-    <modal-custom
-        id="settings-modal"
-        class="settings-modal"
-        title="Settings">
-        <button
-            onclick="toggleTheme()">temporary theme toggle
-        </button>
+    <modal-custom id="settings-modal" class="settings-modal" title="Settings">
+        <button onclick="toggleTheme()">temporary theme toggle</button>
     </modal-custom>
 
-    <script 
-        type="module" 
-        src="/static/js/sidebar.js">
-    </script>
-    <script 
-        type="module" 
-        src="/static/js/theme.js">
-    </script>
+    <script type="module" src="/static/js/sidebar.js"></script>
+    <script type="module" src="/static/js/theme.js"></script>
 </body>
 
 </html>
