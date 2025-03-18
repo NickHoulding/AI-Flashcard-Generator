@@ -4,7 +4,7 @@ A 100% local AI-generated study flashcard tool.
 
 ## Overview
 
-NeuraLM is a desktop application that uses local AI models to generate study flashcards and answer questions based on your own documents. By leveraging Retrieval-Augmented Generation (RAG), the application provides accurate, contextual responses based on the content of your uploaded PDF files.
+AiCard is a desktop application that uses local AI models to generate study flashcards and answer questions based on your own documents. By leveraging Retrieval-Augmented Generation (RAG), the application provides accurate, contextual responses based on the content of your uploaded PDF files.
 
 ## Features
 
