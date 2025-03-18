@@ -10,7 +10,7 @@ export function toggleTheme() {
     root.setAttribute('data-theme', newTheme);
 }
 
-// Set initial theme to dark.
+// Sets initial theme to dark.
 function setInitialTheme() {
     const root = document.documentElement;
     const currentTheme = 'dark';

@@ -34,64 +34,60 @@ class File extends HTMLElement {
         `;
     }
 
-    // Deletes element when clicked.
+    // Delete the file element when clicked.
     connectedCallback() {
         this.shadowRoot
-            .querySelector('.delete-button')
-            .addEventListener(
-                'click', 
-                () => this.deleteFile()
-            );
+        .querySelector('.delete-button')
+        .addEventListener(
+            'click', 
+            () => this.deleteFile()
+        );
     }
 
     // Removes event listener when element is deleted.
     disconnectedCallback() {
         this.shadowRoot
-            .querySelector('.delete-button')
-            .removeEventListener(
-                'click', 
-                () => this.deleteFile()
-            );
+        .querySelector('.delete-button')
+        .removeEventListener(
+            'click', 
+            () => this.deleteFile()
+        );
     }
 
-    // Updates element when an attribute changes.
-    attributeChangedCallback(name, oldValue, newValue) {
-        if (oldValue !== newValue) {
-            this[name] = newValue;
+    // Updates the element when an attribute changes.
+    attributeChangedCallback(name, oldVal, newVal) {
+        if (oldVal !== newVal) {
+            this[name] = newVal;
         }
     }
 
-    // Getters and setters for filename attribute.
+    // Getters and setters for the filename attribute.
     set filename(name) {
         this.shadowRoot
-            .getElementById('filename')
-            .textContent = name;
+        .getElementById('filename')
+        .textContent = name;
     }
 
     get filename() {
         return this
-            .getAttribute('filename');
+        .getAttribute('filename');
     }
 
     // Dispatches delete event and removes element.
     deleteFile() {
-        this.dispatchEvent(
-            new CustomEvent('delete', {
-            detail: {
-                filename: this.filename
-            }
+        this.dispatchEvent(new CustomEvent(
+            'delete', {
+                detail: {
+                    filename: this.filename
+                }
             })
         );
         this.remove();
 
         const response = fetch('/del-file', {
             method: 'POST', 
-            body: JSON.stringify({
-                filename: this.filename,
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            body: JSON.stringify({filename: this.filename,}),
+            headers: {'Content-Type': 'application/json',},
         });
     }
 }
@@ -103,34 +99,38 @@ customElements.define('file-item', File);
 export async function addFile() {
     const response = await fetch('/add-file', {
         method: 'POST', 
-        headers: {
-            'Content-Type': 'application/json',
-        },
+        headers: {'Content-Type': 'application/json',},
     });
-    // TODO: Add notification of file added.
 }
 
-document.getElementById('add-file').addEventListener('click', function() {
-    document.getElementById('fileInput').click();
-});
-
-document.getElementById('fileInput').addEventListener('change', function(event) {
-    const files = event.target.files;
-    const formData = new FormData();
-    const fileList = document.getElementById('file-list');
-
-    for (let i = 0; i < files.length; i++) {
-        formData.append('file', files[i]);
-        formData.append('filename', files[i].name);
-
-        const file = new File();
-        file.setAttribute('filename', files[i].name);
-        fileList.appendChild(file);
+// Trigger file input when the add file button is clicked.
+document.getElementById('add-file')
+    .addEventListener('click', function() {
+        document.getElementById('fileInput').click();
     }
+);
 
-    sendFilesToBackend(formData);
-});
+// Add files to the file list when selected.
+document.getElementById('fileInput')
+    .addEventListener('change', function(event) {
+        const files = event.target.files;
+        const formData = new FormData();
+        const fileList = document.getElementById('file-list');
 
+        for (let i = 0; i < files.length; i++) {
+            formData.append('file', files[i]);
+            formData.append('filename', files[i].name);
+
+            const file = new File();
+            file.setAttribute('filename', files[i].name);
+            fileList.appendChild(file);
+        }
+
+        sendFilesToBackend(formData);
+    }
+);
+
+// Sends selected files to the backend.
 async function sendFilesToBackend(formData) {
     fetch('/add-file', {
         method: 'POST',
@@ -145,6 +145,7 @@ async function sendFilesToBackend(formData) {
     });
 }
 
+// Load all files present in the backend.
 export async function loadFiles() {
     const response = await fetch('/load-files', {
         method: 'POST',

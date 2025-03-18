@@ -34,11 +34,9 @@ class Modal extends HTMLElement {
         `;
     }
 
-    // Toggles this modal object's visibility.
+    // Toggles this modal's visibility.
     toggle() {
-        const modal = this.shadowRoot.querySelector(
-            '.modal-background'
-        );
+        const modal = this.shadowRoot.querySelector('.modal-background');
         modal.classList.toggle('hidden');
     }
 }
@@ -46,15 +44,13 @@ class Modal extends HTMLElement {
 // Define the custom element.
 customElements.define('modal-custom', Modal);
 
-// Toggle target modal visibility.
+// Toggle target modal's visibility.
 export function toggleModal(id) {
     const modal = document.getElementById(id);
 
     if (modal) {
         modal.toggle();
     } else {
-        console.error(
-            'Modal element with id ' + id + ' not found'
-        );
+        console.error('Modal element with id ' + id + ' not found.');
     }
 }

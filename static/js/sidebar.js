@@ -11,6 +11,7 @@ export function toggleSidebar() {
         root.style.setProperty('--logo-left-margin', '50px');
         root.style.setProperty('--sidebar-pos', '250px');
         root.style.setProperty('--content-width', 'calc(100%)');
+        root.style.setProperty('--hamburger-opacity', '100%');
     } else {
         sidebar.classList.remove('hidden');
         hamburger.classList.add('hidden');
