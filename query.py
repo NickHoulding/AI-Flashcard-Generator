@@ -7,6 +7,35 @@ from embeddings import get_embedding_function
 from langchain_ollama import OllamaLLM
 from langchain_chroma import Chroma
 from config import get_env_var
+from pydantic import BaseModel
+from ollama import chat
+
+class Flashcard(BaseModel):
+    question: str
+    answer: str
+    number: int
+
+    def to_dict(self):
+        """
+        Converts the flashcard to a dictionary.
+
+        Args:
+            None
+
+        Returns:
+            dict: The flashcard as a dictionary.
+
+        Raises:
+            None
+        """
+        return {
+            "question": self.question,
+            "answer": self.answer,
+            "number": self.number
+        }
+
+class StudySet(BaseModel):
+    flashcards: list[Flashcard]
 
 def initialize_hf_model(
     ) -> tuple[AutoModelForCausalLM, AutoTokenizer]:
@@ -103,76 +132,47 @@ def query_ollama(
     Raises:
         None
     """
-    model = OllamaLLM(
-        model=get_env_var("MODEL_NAME")
+    response = chat(
+        messages=[
+            {
+                "role": "user",
+                "content": f'''
+                    Create a list of flashcards based on the prompt: {prompt}
+                '''
+            }
+        ],
+        model=get_env_var("MODEL_NAME"),
+        format=StudySet.model_json_schema()
     )
 
-    return model.invoke(prompt)
+    study_set = StudySet.model_validate_json(response.message.content)
+    flashcards = [card.to_dict() for card in study_set.flashcards]
 
-def format_response(
-        response_html: str, 
+    return flashcards
+
+def get_sources(
         results: list
-    ) -> tuple[str, str]:
+    ) -> list[str]:
     """
-    Formats the AI model's response.
+    Retrieves the sources from the database results.
 
     Args:
-        response_html (str): The HTML AI response.
         results (list): The results from the database.
     
     Returns:
-        tuple[str, str]: Formatted response and sources.
+        list[str]: The sources of the documents.
     
     Raises:
         None
     """
-    if response_html.startswith("<h1"):
-        response_html = re.sub(
-            r"<h1.*?.*?</h1>", 
-            "", 
-            response_html, 
-            count=1
-        )
-    response_html = re.sub(
-        r"<style.*?>.*?</style>", 
-        "", 
-        response_html, 
-        flags=re.DOTALL
-    )
-
     sources = set()
     for doc in results:
         source = doc.metadata.get("source")
 
         if source not in sources:
-            sources.add(
-                os.path.basename(source)
-            )
+            sources.add(os.path.basename(source))
 
-    sources_html = (
-        "<div class='source-container'>"
-        + "".join(
-            [
-                f"<p class='source'>{source}</p>"
-                for source in sources
-            ]
-        )
-        + "</div>"
-    )
-    if len(sources) > 0:
-        sources_html = (
-            "<h3 class='sources-title'>Sources</h3>"
-            + sources_html
-        )
-
-    response_html = re.sub(
-        r"<think>.*?</think>",
-        "", 
-        response_html, 
-        flags=re.DOTALL
-    )
-
-    return response_html, sources_html
+    return list(sources)
 
 def handle_platform(
         prompt: str
@@ -209,13 +209,13 @@ def query(
         query_text (str): Database query text.
     
     Returns:
-        tuple[str, str]: AI response and sources.
+        tuple[str, str]: AI flashcards and sources.
     
     Raises:
         None
     """
     prompt, results = get_context_prompt(query_text)
-    response_html = handle_platform(prompt)
-    response = format_response(response_html, results)
+    flashcards = handle_platform(prompt)
+    sources = get_sources(results)
 
-    return response
+    return flashcards, sources

@@ -36,28 +36,31 @@ export async function sendMessage() {
         responseElement.className = 'ai-response';
         chat.appendChild(responseElement);
 
-        const htmlContent = data.message.content + data.message.sources;
-        typeResponse(htmlContent, responseElement);
+        const flashcards = data.message.content;
+        typeMessage(flashcards, responseElement);
+
+        const sources = data.message.sources;
+        const sourcesElement = document.createElement('div');
+        sourcesElement.textContent = sources.join(', ');
+        responseElement.appendChild(sourcesElement);
     } else {
         alert('Error sending message');
     }
 }
 
 // Typing animation effect for AI response.
-function typeResponse(htmlContent, element) {
-    let i = 0;
-    const interval = 5;
+function typeMessage(flashcards, element) {
+    const delay = 50;
 
-    // Recursively type out content.
-    const type = () => {
-        if (i <= htmlContent.length) {
-            element.innerHTML = htmlContent.slice(0, i);
-            i++;
-            setTimeout(type, interval);
-        }
-    };
+    for (let i = 0; i < flashcards.length; i++) {
+        const line = flashcards[i].number + ": " + flashcards[i].question + " " + flashcards[i].answer;
 
-    type();
+        setTimeout(() => {
+            const lineElement = document.createElement('div');
+            lineElement.textContent = line;
+            element.appendChild(lineElement);
+        }, i * delay);
+    }
 }
 
 // Send message when user presses Enter key.

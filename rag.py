@@ -7,16 +7,11 @@ from langchain_chroma import Chroma
 from config import get_env_var
 
 PROMPT_TEMPLATE = """
-Answer the questions based only on the following context:
+Create a set of flashcards based only on the following context:
 {context}
 
 ---
-Answer the question based on the above context: {question}.
-Respond in strictly valid HTML format only. 
-Only use tags including <p>, <ul>, <li>, and header tags.
-Ensure your html response is ready to be rendered 
-in a browser.
-Always begin your responses with a <h1> tag.
+Generate a set of flashcards using the following prompt: {prompt}.
 """
 
 def get_chroma_db(
@@ -266,7 +261,7 @@ def get_context_prompt(
     )
     prompt = prompt_template.format(
         context=context_text,
-        question=query_text
+        prompt=query_text
     )
 
     return prompt, results
