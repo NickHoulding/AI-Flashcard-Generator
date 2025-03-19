@@ -1,3 +1,5 @@
+import { Flashcard } from './flashcard.js';
+
 // Handle user input and send to server for processing.
 export async function sendMessage() {
     // Get user input and chat elements.
@@ -39,10 +41,8 @@ export async function sendMessage() {
         const flashcards = data.message.content;
         typeMessage(flashcards, responseElement);
 
-        const sources = data.message.sources;
-        const sourcesElement = document.createElement('div');
-        sourcesElement.textContent = sources.join(', ');
-        responseElement.appendChild(sourcesElement);
+        // TODO: Display sources.
+
     } else {
         alert('Error sending message');
     }
@@ -53,12 +53,12 @@ function typeMessage(flashcards, element) {
     const delay = 50;
 
     for (let i = 0; i < flashcards.length; i++) {
-        const line = flashcards[i].number + ": " + flashcards[i].question + " " + flashcards[i].answer;
-
         setTimeout(() => {
-            const lineElement = document.createElement('div');
-            lineElement.textContent = line;
-            element.appendChild(lineElement);
+            const flashcard = new Flashcard();
+            flashcard.setAttribute('number', flashcards[i].number);
+            flashcard.setAttribute('question', flashcards[i].question);
+            flashcard.setAttribute('answer', flashcards[i].answer);
+            element.appendChild(flashcard);
         }, i * delay);
     }
 }

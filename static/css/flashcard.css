@@ -1,0 +1,83 @@
+@font-face {
+    font-family: 'SpaceGrotesk';
+    src: url('/static/fonts/SpaceGrotesk-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SpaceGrotesk';
+    src: url('/static/fonts/SpaceGrotesk-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+.flashcard {
+    width: calc(100% - 20px);
+    height: auto;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    background-color: var(--secondary-color);
+    transition: background-color 0.3s ease;
+}
+
+.text{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.text textarea {
+    width: 50%;
+    height: 100px;
+    resize: none;
+    border-radius: 5px;
+    padding: 5px;
+    border: none;
+    font-family: 'SpaceGrotesk';
+    font-weight: normal;
+    font-size: 1rem;
+    color: var(--text-color);
+    background-color: var(--primary-color);
+    min-height: 1rem;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5px;
+}
+
+.indicator {
+    width: calc(100% - 32px);
+    font-family: 'SpaceGrotesk';
+    font-weight: bold;
+    font-size: 1.4rem;
+    color: var(--text-color);
+    transition: color 0.3s ease;
+}
+
+.delete-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 5px;
+    color: var(--text-color);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.delete-card:hover {
+    background: var(--red);
+    color: white;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}

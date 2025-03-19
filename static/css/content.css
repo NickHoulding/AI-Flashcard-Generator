@@ -30,6 +30,8 @@
 }
 
 .chat {
+    display: flex;
+    flex-direction: column;
     max-width: 650px;
     width: 100%;
     position: fixed;
@@ -202,10 +204,9 @@
 }
 
 .ai-response {
-    max-width: 100%;
+    width: calc(100% - 10px);
     display: inline-block;
     text-align: left;
-    margin: 10px;
     border-radius: 10px;
     word-break: break-word;
     font-size: 1rem;
