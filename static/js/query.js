@@ -55,7 +55,7 @@ function typeMessage(flashcards, element) {
     for (let i = 0; i < flashcards.length; i++) {
         setTimeout(() => {
             const flashcard = new Flashcard();
-            flashcard.setAttribute('number', flashcards[i].number);
+            flashcard.setAttribute('number', i + 1);
             flashcard.setAttribute('question', flashcards[i].question);
             flashcard.setAttribute('answer', flashcards[i].answer);
             element.appendChild(flashcard);

@@ -7,11 +7,12 @@ from langchain_chroma import Chroma
 from config import get_env_var
 
 PROMPT_TEMPLATE = """
-Create a set of flashcards based only on the following context:
+Create a comprehensive set of study flashcards based only on the following context:
 {context}
 
 ---
-Generate a set of flashcards using the following prompt: {prompt}.
+Generate a comprehensive set of study flashcards from the following prompt:
+{prompt}
 """
 
 def get_chroma_db(
@@ -250,7 +251,7 @@ def get_context_prompt(
     db = get_chroma_db()
     results = db.similarity_search(
         query_text, 
-        k=5
+        k=10
     )
     context_text = "\n\n---\n\n".join([
             doc.page_content 

@@ -14,7 +14,7 @@ export class Flashcard extends HTMLElement {
 
         // Set default values.
         if (!this.hasAttribute('number')) {
-            this.setAttribute('number', '1');
+            this.setAttribute('number', '-');
         }
         if (!this.hasAttribute('question')) {
             this.setAttribute('question', '');
@@ -30,7 +30,7 @@ export class Flashcard extends HTMLElement {
             <link rel="stylesheet" href="/static/css/flashcard.css">
             <div class="flashcard">
                 <div class="info">
-                    <div class="indicator" id="indicator">Card #${this.getAttribute('number')}</div>
+                    <div class="indicator" id="indicator">${this.getAttribute('number')}</div>
                     <button class="delete-card">
                         <svg 
                             fill="currentColor" 
@@ -93,7 +93,7 @@ export class Flashcard extends HTMLElement {
                 if (name === 'number') {
                     const indicator = this.shadowRoot.querySelector('#indicator');
                     if (indicator) {
-                        indicator.textContent = `Card #${newVal}`;
+                        indicator.textContent = `${newVal}`;
                     }
                 } else if (name === 'question') {
                     const question = this.shadowRoot.querySelector('#question');

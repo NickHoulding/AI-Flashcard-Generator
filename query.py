@@ -13,7 +13,6 @@ from ollama import chat
 class Flashcard(BaseModel):
     question: str
     answer: str
-    number: int
 
     def to_dict(self):
         """
@@ -31,7 +30,6 @@ class Flashcard(BaseModel):
         return {
             "question": self.question,
             "answer": self.answer,
-            "number": self.number
         }
 
 class StudySet(BaseModel):
