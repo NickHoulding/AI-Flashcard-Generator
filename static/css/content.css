@@ -244,6 +244,27 @@
     transition: background 0.3s ease, color 0.3s ease;
 }
 
+.file-list {
+    height: 275px; /* Tentative estimate */
+    overflow-y: scroll;
+}
+
+.file-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.file-list::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.file-list::-webkit-scrollbar-track {
+    background: transparent;
+    cursor: default;
+}
+
 @media (max-width: 480px) {
     .content {
         width: 100%;

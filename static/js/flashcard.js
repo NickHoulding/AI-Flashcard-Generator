@@ -23,7 +23,6 @@ export class Flashcard extends HTMLElement {
             this.setAttribute('answer', '');
         }
         
-        
         // Create shadow root and define element structure.
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.innerHTML = `

@@ -1,3 +1,4 @@
+import threading
 import requests
 import ollama
 import shutil
@@ -10,6 +11,7 @@ from flaskwebgui import FlaskUI
 from query import query
 from typing import Text
 
+db_operation_lock = threading.Lock()
 app = Flask(__name__)
 
 @app.route('/')
@@ -84,7 +86,8 @@ def add_file(
     for file, filename in zip(uploaded_files, filenames):
         file.save(os.path.join('./tmp', filename))
 
-    update_database()
+    with db_operation_lock:
+        update_database()
 
     for filename in filenames:
         os.remove(os.path.join('./tmp', filename))
@@ -118,7 +121,8 @@ def deleteFile(
             'status': 400
         })
 
-    del_from_chroma(filename)
+    with db_operation_lock:
+        del_from_chroma(filename)
 
     return jsonify({
         'message': 'File deletion finished',
