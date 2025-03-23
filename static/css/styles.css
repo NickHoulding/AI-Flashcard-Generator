@@ -26,6 +26,23 @@
     --hamburger-opacity: 100%; 
 }
 
+/* General scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--secondary-color);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+    cursor: default;
+}
+
 .wrapper {
     width: 100vw;
     height: 100vh;

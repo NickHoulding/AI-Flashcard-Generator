@@ -54,3 +54,19 @@ export function toggleModal(id) {
         console.error('Modal element with id ' + id + ' not found.');
     }
 }
+
+// Close the modal when the Escape key is pressed.
+document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            const modals = document.querySelectorAll('modal-custom');
+            modals.forEach(modal => {
+                const modalBackground = modal.shadowRoot.querySelector('.modal-background');
+                
+                if (modalBackground && !modalBackground.classList.contains('hidden')) {
+                    toggleModal(modal.getAttribute('id'));
+                }
+            });
+        }
+    });
+});

@@ -48,22 +48,6 @@
     flex-direction: column;
 }
 
-.chat::-webkit-scrollbar {
-    width: 8px;
-}
-
-.chat::-webkit-scrollbar-thumb {
-    background: var(--secondary-color);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.chat::-webkit-scrollbar-track {
-    background: transparent;
-    cursor: default;
-}
-
 .chatbox {
     align-items: center;
     max-width: 650px;
@@ -96,20 +80,9 @@
     transition: color 0.3s ease;
 }
 
-.user-input::-webkit-scrollbar {
-    width: 8px;
-}
-
+/* Override only the thumb color for user-input */
 .user-input::-webkit-scrollbar-thumb {
     background: var(--primary-color);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.user-input::-webkit-scrollbar-track {
-    background: transparent;
-    cursor: default;
 }
 
 .send-message {
@@ -247,22 +220,6 @@
 .file-list {
     height: 275px; /* Tentative estimate */
     overflow-y: scroll;
-}
-
-.file-list::-webkit-scrollbar {
-    width: 8px;
-}
-
-.file-list::-webkit-scrollbar-thumb {
-    background: var(--secondary-color);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.file-list::-webkit-scrollbar-track {
-    background: transparent;
-    cursor: default;
 }
 
 @media (max-width: 480px) {
