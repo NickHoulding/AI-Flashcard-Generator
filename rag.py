@@ -16,7 +16,7 @@ Generate a comprehensive set of study flashcards from the following prompt:
 {prompt}
 """
 
-def get_chroma_db(
+def get_db(
     ) -> Chroma:
     """
     Gets a reference to the Chroma database.
@@ -180,7 +180,7 @@ def add_to_chroma(
     Raises:
         None
     """
-    db = get_chroma_db()
+    db = get_db()
     create_chunk_ids(chunks, db)
     existing_items = db.get(include=[])
     existing_ids = set(existing_items["ids"])
@@ -208,7 +208,7 @@ def del_from_chroma(
     Raises:
         ValueError: If the CACHE_DIR environment variable is not set.
     """
-    db = get_chroma_db()
+    db = get_db()
     file_source = os.path.join(get_absolute_path("CACHE_DIR"), filename)
     matching_chunks = db.get(
         where={"source": file_source}
@@ -249,7 +249,7 @@ def get_context_prompt(
     Raises:
         None
     """
-    db = get_chroma_db()
+    db = get_db()
     results = db.similarity_search(
         query_text, 
         k=10
@@ -282,7 +282,7 @@ def get_file_names(
     Raises:
         None
     """
-    db = get_chroma_db()
+    db = get_db()
     chunks = db.get(include=[])
     sources = set([
         os.path.basename(cid[cid.index('/') + 1:cid.index(':')]) 

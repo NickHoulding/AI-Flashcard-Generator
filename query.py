@@ -2,7 +2,7 @@ import torch
 import os
 import re
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from rag import get_chroma_db, get_context_prompt
+from rag import get_db, get_context_prompt
 from config import get_env_var, get_absolute_path
 from embeddings import get_embedding_function
 from langchain_ollama import OllamaLLM

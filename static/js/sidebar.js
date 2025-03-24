@@ -1,3 +1,5 @@
+import { is_modal_active } from "./modal.js";
+
 let visible = false;
 
 export function toggleSidebar() {
@@ -23,3 +25,12 @@ export function toggleSidebar() {
 
     visible = !visible;
 }
+
+// Toggle the sidebar when CTRL + \ is pressed
+document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && event.key === '\\' && !is_modal_active()) {
+            toggleSidebar();
+        }
+    });
+});

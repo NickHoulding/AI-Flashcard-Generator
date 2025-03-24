@@ -44,7 +44,11 @@ class Modal extends HTMLElement {
 // Define the custom element.
 customElements.define('modal-custom', Modal);
 
-let activeModal = null;
+let activeModal = null; 
+
+export function is_modal_active() {
+    return activeModal !== null;
+}
 
 // Toggle target modal's visibility.
 export function toggleModal(id) {
