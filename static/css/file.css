@@ -1,3 +1,4 @@
+/* Fonts */
 @font-face {
     font-family: 'SpaceGrotesk';
     src: url('/static/fonts/SpaceGrotesk-Bold.ttf') format('truetype');
@@ -12,6 +13,7 @@
     font-style: normal;
 }
 
+/* File element */
 .file {
     display: flex;
     align-items: center;
@@ -51,6 +53,7 @@
     transition: color 0.3s ease;
 }
 
+/* Delete button div */
 .file-delete {
     display: flex;
     justify-content: center;
@@ -61,6 +64,7 @@
     border: none;
 }
 
+/* Delete button (Trash) */
 .delete-button {
     display: flex;
     justify-content: center;

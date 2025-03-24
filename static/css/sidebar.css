@@ -1,3 +1,4 @@
+/* Sidebar parent div */
 .sidebar {
     width: var(--sidebar-width);
     height: 100%;
@@ -20,6 +21,7 @@
     transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
+/* Close button */
 .close {
     width: 35px;
     height: 35px;
@@ -40,6 +42,7 @@
     transition: background 0.3s ease;
 }
 
+/* New chat button */
 .compose {
     width: 35px;
     height: 35px;

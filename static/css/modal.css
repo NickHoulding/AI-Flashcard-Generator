@@ -1,3 +1,4 @@
+/* Modal background shadow */
 .modal-background {
     position: absolute;
     z-index: 1000;
@@ -17,6 +18,7 @@
     visibility: hidden;
 }
 
+/* Modal parent div */
 .modal {
     display: flex;
     flex-direction: column;
@@ -39,6 +41,7 @@
     transition: background 0.3s ease;
 }
 
+/* Modal title */
 .title {
     width: 100%;
     height: auto;
@@ -52,6 +55,7 @@
     transition: color 0.3s ease;
 }
 
+/* Close button */
 .x {
     position: fixed;
     top: 10px;

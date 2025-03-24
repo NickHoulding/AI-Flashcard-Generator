@@ -1,3 +1,4 @@
+/* Fonts */
 @font-face {
     font-family: 'SpaceGrotesk';
     src: url('/static/fonts/SpaceGrotesk-Bold.ttf') format('truetype');
@@ -12,6 +13,7 @@
     font-style: normal;
 }
 
+/* Content master div */
 .content {
     display: flex;
     align-items: center;
@@ -29,6 +31,7 @@
     transition: width 0.3s ease, background 0.3s ease;
 }
 
+/* Chat content div */
 .chat {
     display: flex;
     flex-direction: column;
@@ -48,6 +51,7 @@
     flex-direction: column;
 }
 
+/* User input chatbox textarea */
 .chatbox {
     align-items: center;
     max-width: 650px;
@@ -80,11 +84,12 @@
     transition: color 0.3s ease;
 }
 
-/* Override only the thumb color for user-input */
+/* Scrollbar */
 .user-input::-webkit-scrollbar-thumb {
     background: var(--primary-color);
 }
 
+/* Send button */
 .send-message {
     display: flex;
     position: absolute;
@@ -112,6 +117,7 @@
     transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* File attatchment modal button */
 .attatchment {
     display: flex;
     position: absolute;
@@ -139,6 +145,7 @@
     transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* + File button */
 .add-file {
     width: 32px;
     height: 32px;
@@ -161,6 +168,7 @@
     transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* User chat message */
 .user-message {
     max-width: 70%;
     display: inline-block;
@@ -176,6 +184,7 @@
     transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* AI chat message */
 .ai-response {
     width: calc(100% - 10px);
     display: inline-block;
@@ -189,6 +198,7 @@
     transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* AI Sources */
 .sources-title {
     margin: 0px;
     padding: 0px;
@@ -217,11 +227,13 @@
     transition: background 0.3s ease, color 0.3s ease;
 }
 
+/* List of added files */
 .file-list {
     height: 275px; /* Tentative estimate */
     overflow-y: scroll;
 }
 
+/* Mobile styling */
 @media (max-width: 480px) {
     .content {
         width: 100%;

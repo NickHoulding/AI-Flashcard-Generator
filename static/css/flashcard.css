@@ -1,3 +1,4 @@
+/* Fonts */
 @font-face {
     font-family: 'SpaceGrotesk';
     src: url('/static/fonts/SpaceGrotesk-Regular.ttf') format('truetype');
@@ -12,6 +13,7 @@
     font-style: normal;
 }
 
+/* Flashcard element parent div */
 .flashcard {
     width: calc(100% - 20px);
     height: auto;
@@ -22,6 +24,7 @@
     transition: background-color 0.3s ease;
 }
 
+/* Textarea container div */
 .text{
     width: 100%;
     display: flex;
@@ -29,6 +32,7 @@
     gap: 10px;
 }
 
+/* Textareas */
 .text textarea {
     width: 50%;
     height: 100px;
@@ -45,6 +49,7 @@
     transition: color 0.3s ease, background-color 0.3s ease;
 }
 
+/* Flashcard information */
 .info {
     display: flex;
     flex-direction: row;
@@ -60,6 +65,7 @@
     transition: color 0.3s ease;
 }
 
+/* Delete button */
 .delete-card {
     display: flex;
     justify-content: center;
