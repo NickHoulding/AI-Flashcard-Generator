@@ -44,12 +44,21 @@ class Modal extends HTMLElement {
 // Define the custom element.
 customElements.define('modal-custom', Modal);
 
+let activeModal = null;
+
 // Toggle target modal's visibility.
 export function toggleModal(id) {
     const modal = document.getElementById(id);
 
     if (modal) {
         modal.toggle();
+        
+        const modalBackground = modal.shadowRoot.querySelector('.modal-background');
+        if (modalBackground && !modalBackground.classList.contains('hidden')) {
+            activeModal = modal;
+        } else {
+            activeModal = null;
+        }
     } else {
         console.error('Modal element with id ' + id + ' not found.');
     }
@@ -58,15 +67,8 @@ export function toggleModal(id) {
 // Close the modal when the Escape key is pressed.
 document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            const modals = document.querySelectorAll('modal-custom');
-            modals.forEach(modal => {
-                const modalBackground = modal.shadowRoot.querySelector('.modal-background');
-                
-                if (modalBackground && !modalBackground.classList.contains('hidden')) {
-                    toggleModal(modal.getAttribute('id'));
-                }
-            });
+        if (event.key === 'Escape' && activeModal) {
+            toggleModal(activeModal.getAttribute('id'));
         }
     });
 });
