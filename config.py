@@ -2,7 +2,8 @@ import os
 from dotenv import load_dotenv
 from typing import Optional
 
-load_dotenv(dotenv_path='.env')
+PROG_PATH = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(dotenv_path=os.path.join(PROG_PATH, '.env'))
 
 def get_env_var(
         key: str
@@ -21,3 +22,30 @@ def get_env_var(
         None
     """
     return os.getenv(key)
+
+def get_absolute_path(
+        env_key: str
+    ) -> str:
+    """
+    Gets an absolute path from an environment variable.
+    If the path is relative, it will be resolved relative to PROG_PATH.
+    
+    Args:
+        env_key (str): Environment variable key for the path.
+    
+    Returns:
+        str: The absolute path.
+    
+    Raises:
+        ValueError: If the environment variable doesn't exist.
+    """
+    path = get_env_var(env_key)
+    if path is None:
+        raise ValueError(f"Environment variable {env_key} not found")
+
+    # Check if it's already an absolute path
+    if os.path.isabs(path):
+        return path
+    
+    # Otherwise, make it relative to the program path
+    return os.path.join(PROG_PATH, path)

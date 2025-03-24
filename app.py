@@ -7,6 +7,7 @@ import io
 from flask import Flask, render_template, request, jsonify
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from rag import update_database, del_from_chroma, get_file_names
+from config import get_absolute_path
 from flaskwebgui import FlaskUI
 from query import query
 from typing import Text
@@ -83,14 +84,17 @@ def add_file(
     uploaded_files = request.files.getlist('file')
     filenames = request.form.getlist('filename')
 
+    tmp_dir = get_absolute_path('CACHE_DIR')
+    os.makedirs(tmp_dir, exist_ok=True)
+    
     for file, filename in zip(uploaded_files, filenames):
-        file.save(os.path.join('./tmp', filename))
+        file.save(os.path.join(tmp_dir, filename))
 
     with db_operation_lock:
         update_database()
 
     for filename in filenames:
-        os.remove(os.path.join('./tmp', filename))
+        os.remove(os.path.join(tmp_dir, filename))
     
     return jsonify({
         'message': 'File(s) addition finished',

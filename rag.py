@@ -1,10 +1,11 @@
 from langchain_community.document_loaders import PyPDFDirectoryLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from config import get_env_var, get_absolute_path
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.document import Document
 from embeddings import get_embedding_function
 from langchain_chroma import Chroma
-from config import get_env_var
+import os
 
 PROMPT_TEMPLATE = """
 Create a comprehensive set of study flashcards based only on the following context:
@@ -30,7 +31,7 @@ def get_chroma_db(
         ValueError: If the DB_DIR environment variable is not set.
     """
     return Chroma(
-        persist_directory=get_env_var("DB_DIR"), 
+        persist_directory=get_absolute_path("DB_DIR"), 
         embedding_function=get_embedding_function(),
     )
 
@@ -49,7 +50,7 @@ def load_documents(
         ValueError: If the CACHE_DIR environment variable is not set.
     """
     document_loader = PyPDFDirectoryLoader(
-        get_env_var("CACHE_DIR")
+        get_absolute_path("CACHE_DIR")
     )
 
     return document_loader.load()
@@ -208,7 +209,7 @@ def del_from_chroma(
         ValueError: If the CACHE_DIR environment variable is not set.
     """
     db = get_chroma_db()
-    file_source = get_env_var("CACHE_DIR") + "/" + filename
+    file_source = os.path.join(get_absolute_path("CACHE_DIR"), filename)
     matching_chunks = db.get(
         where={"source": file_source}
     )
@@ -284,7 +285,7 @@ def get_file_names(
     db = get_chroma_db()
     chunks = db.get(include=[])
     sources = set([
-        cid[cid.index('/') + 1:cid.index(':')] 
+        os.path.basename(cid[cid.index('/') + 1:cid.index(':')]) 
         for cid in chunks["ids"]
     ])
 

@@ -3,10 +3,10 @@ import os
 import re
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from rag import get_chroma_db, get_context_prompt
+from config import get_env_var, get_absolute_path
 from embeddings import get_embedding_function
 from langchain_ollama import OllamaLLM
 from langchain_chroma import Chroma
-from config import get_env_var
 from pydantic import BaseModel
 from ollama import chat
 
@@ -56,11 +56,11 @@ def initialize_hf_model(
 
     tokenizer = AutoTokenizer.from_pretrained(
         get_env_var('HF_MODEL_NAME'),
-        cache_dir=get_env_var('HF_CACHE_DIR')
+        cache_dir=get_absolute_path('HF_CACHE_DIR')
     )
     model = AutoModelForCausalLM.from_pretrained(
         get_env_var('HF_MODEL_NAME'),
-        cache_dir=get_env_var('HF_CACHE_DIR')
+        cache_dir=get_absolute_path('HF_CACHE_DIR')
     )
     model.to(get_env_var('DEVICE'))
 
