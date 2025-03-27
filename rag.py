@@ -1,11 +1,15 @@
-from langchain_community.document_loaders import PyPDFDirectoryLoader
+import tempfile
+import PyPDF2
+import uuid
+import io
+import os
+from langchain_community.document_loaders import PyPDFDirectoryLoader, PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from config import get_env_var, get_absolute_path
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.document import Document
 from embeddings import get_embedding_function
 from langchain_chroma import Chroma
-import os
 
 PROMPT_TEMPLATE = """
 Create a comprehensive set of study flashcards based only on the following context:
@@ -192,6 +196,47 @@ def add_to_chroma(
             documents=new_chunks, 
             ids=new_chunk_ids
         )
+
+def process_file(
+        file_content: bytes,
+        filename: str
+    ) -> None:
+    """
+    Process a single file from memory and add it to the database.
+
+    Args:
+        file_content (bytes): The content of the file.
+        filename (str): The name of the file.
+    
+    Returns:
+        None
+    
+    Raises:
+        None
+    """
+    file_obj = io.BytesIO(file_content)
+    pdf_reader = PyPDF2.PdfReader(file_obj)
+    documents = []
+    
+    for i, page in enumerate(pdf_reader.pages):
+        text = page.extract_text()
+        
+        if text.strip():
+            source_path = os.path.join(get_absolute_path("CACHE_DIR"), filename)
+            metadata = {
+                "source": source_path,
+                "page": i,
+                "total_pages": len(pdf_reader.pages)
+            }
+            documents.append(
+                Document(
+                    page_content=text, 
+                    metadata=metadata
+                )
+            )
+    
+    chunks = split_documents(documents)
+    add_to_chroma(chunks)
 
 def del_from_chroma(
         filename: str

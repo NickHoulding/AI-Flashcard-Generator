@@ -1,3 +1,5 @@
+let activeModal = null;
+
 class Modal extends HTMLElement {
     // Construct the custom element.
     constructor() {
@@ -38,14 +40,19 @@ class Modal extends HTMLElement {
     toggle() {
         const modal = this.shadowRoot.querySelector('.modal-background');
         modal.classList.toggle('hidden');
+        
+        if (!modal.classList.contains('hidden')) {
+            activeModal = this;
+        } else {
+            activeModal = null;
+        }
     }
 }
 
 // Define the custom element.
 customElements.define('modal-custom', Modal);
 
-let activeModal = null; 
-
+// Check if a modal is currently active.
 export function is_modal_active() {
     return activeModal !== null;
 }
@@ -56,13 +63,6 @@ export function toggleModal(id) {
 
     if (modal) {
         modal.toggle();
-        
-        const modalBackground = modal.shadowRoot.querySelector('.modal-background');
-        if (modalBackground && !modalBackground.classList.contains('hidden')) {
-            activeModal = modal;
-        } else {
-            activeModal = null;
-        }
     } else {
         console.error('Modal element with id ' + id + ' not found.');
     }

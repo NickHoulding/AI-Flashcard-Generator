@@ -4,9 +4,9 @@ import ollama
 import shutil
 import os
 import io
+from rag import update_database, del_from_chroma, get_file_names, process_file
 from flask import Flask, render_template, request, jsonify
 from PyQt5.QtWidgets import QApplication, QFileDialog
-from rag import update_database, del_from_chroma, get_file_names
 from config import get_absolute_path
 from flaskwebgui import FlaskUI
 from query import query
@@ -70,7 +70,7 @@ def send_message(
 def add_file(
     ) -> jsonify:
     """
-    Ingests uploaded pdfs and updates the database.
+    Ingests uploaded pdfs and processes each individually in memory.
 
     Args:
         None
@@ -83,18 +83,13 @@ def add_file(
     """
     uploaded_files = request.files.getlist('file')
     filenames = request.form.getlist('filename')
-
-    tmp_dir = get_absolute_path('CACHE_DIR')
-    os.makedirs(tmp_dir, exist_ok=True)
     
-    for file, filename in zip(uploaded_files, filenames):
-        file.save(os.path.join(tmp_dir, filename))
-
     with db_operation_lock:
-        update_database()
-
-    for filename in filenames:
-        os.remove(os.path.join(tmp_dir, filename))
+        for file, filename in zip(uploaded_files, filenames):
+            file_content = file.read()
+            
+            process_file(file_content, filename)
+            print("Processed file:", filename)
     
     return jsonify({
         'message': 'File(s) addition finished',
