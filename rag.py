@@ -1,5 +1,5 @@
+import concurrent.futures
 import tempfile
-# Replace PyPDF2 with pypdf
 import pypdf
 import uuid
 import io
@@ -126,7 +126,7 @@ def get_new_chunks(
         existing_ids: set
     ) -> list[Document]:
     """
-    Gets the new chunks to add to the database.
+    Gets the new chunks to add to the database using efficient filtering.
 
     Args:
         chunks (list[Document]): The chunks to check.
@@ -138,13 +138,7 @@ def get_new_chunks(
     Raises:
         None
     """
-    new_chunks = []
-
-    for chunk in chunks:
-        if chunk.metadata["id"] not in existing_ids:
-            new_chunks.append(chunk)
-    
-    return new_chunks
+    return [chunk for chunk in chunks if chunk.metadata["id"] not in existing_ids]
 
 def set_chunk_ids(
         new_chunks: list[Document], 
@@ -198,12 +192,57 @@ def add_to_chroma(
             ids=new_chunk_ids
         )
 
+def _process_batch(
+        batch_start: int, 
+        batch_end: int, 
+        pdf_reader: pypdf.PdfReader, 
+        source_path: str, 
+        filename: str, 
+        total_pages: int
+    ) -> None:
+    """
+    Helper function to process a single batch of PDF pages.
+    
+    Args:
+        batch_start (int): Starting page index.
+        batch_end (int): Ending page index.
+        pdf_reader (PdfReader): The PDF reader.
+        source_path (str): Path to source file.
+        filename (str): Name of the file.
+        total_pages (int): Total pages in the PDF.
+        
+    Returns:
+        None
+    """
+    documents = []
+    
+    for i in range(batch_start, batch_end):
+        text = pdf_reader.pages[i].extract_text()
+        
+        if text.strip():
+            metadata = {
+                "source": source_path,
+                "page": i,
+                "total_pages": total_pages
+            }
+            documents.append(
+                Document(
+                    page_content=text, 
+                    metadata=metadata
+                )
+            )
+    
+    if documents:
+        chunks = split_documents(documents)
+        add_to_chroma(chunks)
+
 def process_file(
         file_content: bytes,
         filename: str
     ) -> None:
     """
     Process a single file from memory and add it to the database.
+    Uses multithreaded batch processing for improved performance.
 
     Args:
         file_content (bytes): The content of the file.
@@ -215,29 +254,46 @@ def process_file(
     Raises:
         None
     """
-    file_obj = io.BytesIO(file_content)
-    pdf_reader = pypdf.PdfReader(file_obj)
-    documents = []
+    with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+        temp_file.write(file_content)
+        temp_file_path = temp_file.name
     
-    for i, page in enumerate(pdf_reader.pages):
-        text = page.extract_text()
+    try:
+        pdf_reader = pypdf.PdfReader(temp_file_path)
+        total_pages = len(pdf_reader.pages)
+        source_path = os.path.join(get_absolute_path("CACHE_DIR"), filename)
         
-        if text.strip():
-            source_path = os.path.join(get_absolute_path("CACHE_DIR"), filename)
-            metadata = {
-                "source": source_path,
-                "page": i,
-                "total_pages": len(pdf_reader.pages)
-            }
-            documents.append(
-                Document(
-                    page_content=text, 
-                    metadata=metadata
-                )
+        batch_size = 5
+        tpe = concurrent.futures.ThreadPoolExecutor(
+            max_workers=min(
+                os.cpu_count() * 2, 
+                8
             )
-    
-    chunks = split_documents(documents)
-    add_to_chroma(chunks)
+        )
+
+        with tpe as executor:
+            futures = []
+            
+            for batch_start in range(0, total_pages, batch_size):
+                batch_end = min(batch_start + batch_size, total_pages)
+                
+                futures.append(
+                    executor.submit(
+                        _process_batch,
+                        batch_start,
+                        batch_end,
+                        pdf_reader,
+                        source_path,
+                        filename,
+                        total_pages
+                    )
+                )
+            
+            concurrent.futures.wait(futures)
+            
+    finally:
+        if os.path.exists(temp_file_path):
+            os.unlink(temp_file_path)
 
 def del_from_chroma(
         filename: str
@@ -256,29 +312,13 @@ def del_from_chroma(
     """
     db = get_db()
     file_source = os.path.join(get_absolute_path("CACHE_DIR"), filename)
+    
     matching_chunks = db.get(
         where={"source": file_source}
     )
+    
     ids = matching_chunks['ids']
     db.delete(ids=ids)
-
-def update_database(
-    ) -> None:
-    """
-    Updates the database with the new chunks.
-
-    Args:
-        None
-    
-    Returns:
-        None
-    
-    Raises:
-        None
-    """
-    documents = load_documents()
-    chunks = split_documents(documents)
-    add_to_chroma(chunks)
 
 def get_context_prompt(
         query_text: str
@@ -330,9 +370,10 @@ def get_file_names(
     """
     db = get_db()
     chunks = db.get(include=[])
-    sources = set([
-        os.path.basename(cid[cid.index('/') + 1:cid.index(':')]) 
-        for cid in chunks["ids"]
-    ])
-
-    return list(sources)
+    
+    seen = {}
+    for cid in chunks["ids"]:
+        filename = os.path.basename(cid[cid.index('/') + 1:cid.index(':')])
+        seen[filename] = True
+    
+    return sorted(seen.keys())

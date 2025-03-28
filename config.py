@@ -43,9 +43,7 @@ def get_absolute_path(
     if path is None:
         raise ValueError(f"Environment variable {env_key} not found")
 
-    # Check if it's already an absolute path
     if os.path.isabs(path):
         return path
     
-    # Otherwise, make it relative to the program path
     return os.path.join(PROG_PATH, path)

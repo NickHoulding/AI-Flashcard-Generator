@@ -1,10 +1,9 @@
 import threading
 import requests
 import ollama
-import shutil
 import os
 import io
-from rag import update_database, del_from_chroma, get_file_names, process_file
+from rag import del_from_chroma, get_file_names, process_file
 from flask import Flask, render_template, request, jsonify
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from config import get_absolute_path
@@ -87,9 +86,7 @@ def add_file(
     with db_operation_lock:
         for file, filename in zip(uploaded_files, filenames):
             file_content = file.read()
-            
             process_file(file_content, filename)
-            print("Processed file:", filename)
     
     return jsonify({
         'message': 'File(s) addition finished',
