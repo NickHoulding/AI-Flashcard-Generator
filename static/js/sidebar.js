@@ -29,11 +29,11 @@ export function toggleSidebar() {
 // Toggle the sidebar when CTRL + \ is pressed
 document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('keydown', function(event) {
-        event.preventDefault();
         
         if ((!is_modal_active()) &&
             (event.ctrlKey && event.key === '\\')
         ) {
+            event.preventDefault();
             toggleSidebar();
         }
     });
