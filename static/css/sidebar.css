@@ -36,13 +36,19 @@
     transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
+/* Div container for top buttons */
+.top-buttons {
+    display: flex;
+    width: calc(100% - 20px);
+    height: 35px;
+    padding: 0px 10px;
+    margin: 10px 0px;
+}
+
 /* Close button */
 .close {
     width: 35px;
     height: 35px;
-    position: fixed;
-    top: 7.5px;
-    left: 7.5px;
     padding: 5px;
     cursor: pointer;
     border-radius: 5px;
@@ -61,10 +67,8 @@
 .compose {
     width: 35px;
     height: 35px;
-    position: absolute;
-    top: 7.5px;
-    right: 7.5px;
     padding: 5px;
+    margin-left: auto;
     cursor: pointer;
     border-radius: 5px;
     border: none;
