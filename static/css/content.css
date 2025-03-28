@@ -149,7 +149,7 @@
 .add-file {
     width: 32px;
     height: 32px;
-    position: fixed;
+    position: absolute;
     display: flex;
     align-items: center;
     bottom: 10px;
@@ -229,7 +229,9 @@
 
 /* List of added files */
 .file-list {
-    height: 275px; /* Tentative estimate */
+    height: calc(100% - 37px);
+    border: 2px solid var(--secondary-color);
+    border-radius: 5px;
     overflow-y: scroll;
 }
 

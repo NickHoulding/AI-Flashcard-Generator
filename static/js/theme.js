@@ -1,20 +1,19 @@
-// Toggle dark/light app theme.
-export function toggleTheme() {
+// Theme management for the application.
+export function setTheme(val) {
     const root = document.documentElement;
-    const currentTheme = root.getAttribute(
-        'data-theme'
-    );
-    const newTheme = currentTheme === 'dark' 
-        ? 'light' 
-        : 'dark';
-    root.setAttribute('data-theme', newTheme);
+    root.setAttribute('data-theme', val);
+    localStorage.setItem('theme', val);
 }
 
-// Sets initial theme to dark.
+// Sets initial theme based on saved preference or defaults to dark.
 function setInitialTheme() {
     const root = document.documentElement;
-    const currentTheme = 'dark';
-    root.setAttribute('data-theme', currentTheme);
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    const themeButton = document.getElementById('theme-dropdown');
+
+    themeButton.value = currentTheme;
+    setTheme(currentTheme);
+    localStorage.setItem('theme', currentTheme);
 }
 
 // Set initial theme when the page loads.

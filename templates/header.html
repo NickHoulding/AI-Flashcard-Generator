@@ -37,10 +37,16 @@
     </div>
 
     <modal-custom id="settings-modal" class="settings-modal" title="Settings">
-        <button onclick="toggleTheme()">temporary theme toggle</button>
+        <div class="theme-selector">
+            <select id="theme-dropdown" onchange="setTheme(this.value)">
+            <option value="light">Light Mode</option>
+            <option value="dark">Dark Mode</option>
+            </select>
+        </div>
     </modal-custom>
 
     <script type="module" src="/static/js/sidebar.js"></script>
+    <script type="module" src="/static/js/main.js"></script>
     <script type="module" src="/static/js/theme.js"></script>
 </body>
 

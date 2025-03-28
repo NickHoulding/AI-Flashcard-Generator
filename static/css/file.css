@@ -18,7 +18,7 @@
     display: flex;
     align-items: center;
     flex-direction: row;
-    width: calc(100% - 10px);
+    width: calc(100% - 8px);
     border-radius: 5px;
     background: transparent;
     box-sizing: border-box;
