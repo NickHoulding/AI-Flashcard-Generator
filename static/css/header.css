@@ -1,7 +1,7 @@
 /* Fonts */
 @font-face {
-    font-family: 'SpaceGrotesk';
-    src: url('/static/fonts/SpaceGrotesk-Bold.ttf') format('truetype');
+    font-family: 'Satoshi';
+    src: url('/static/fonts/Satoshi-Bold.otf') format('truetype');
     font-weight: bold;
     font-style: normal;
 }
@@ -65,7 +65,7 @@
 .logo-text {
     position: fixed;
     left: var(--logo-left-margin);
-    font-family: 'SpaceGrotesk';
+    font-family: 'Satoshi', sans-serif;
     font-size: 1.4rem;
     font-weight: bold;
     color: var(--text-color);

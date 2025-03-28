@@ -1,8 +1,8 @@
 /* Light mode */
 :root {
-    --primary-color: #F7F9FB;
-    --secondary-color: #DCE2E8;
-    --text-color: #2D3440;
+    --primary-color: #F8F8F8;
+    --secondary-color: #E0E0E0;
+    --text-color: #333333;
     --red: #C1272D;
 
     --sidebar-width: 250px;
@@ -15,9 +15,9 @@
 
 /* Dark mode */
 [data-theme="dark"] {
-    --primary-color: #2B3038;
-    --secondary-color: #191D23;
-    --text-color: #D9DEE5;
+    --primary-color: #2A2A2A;
+    --secondary-color: #1A1A1A;
+    --text-color: #F0F0F0;
     --red: #C1272D;
 
     --sidebar-width: 250px;

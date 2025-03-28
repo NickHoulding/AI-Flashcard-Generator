@@ -1,14 +1,14 @@
 /* Fonts */
 @font-face {
-    font-family: 'SpaceGrotesk';
-    src: url('/static/fonts/SpaceGrotesk-Bold.ttf') format('truetype');
+    font-family: 'Satoshi';
+    src: url('/static/fonts/Satoshi-Bold.otf') format('truetype');
     font-weight: bold;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'SpaceGrotesk';
-    src: url('/static/fonts/SpaceGrotesk-Regular.ttf') format('truetype');
+    font-family: 'Satoshi';
+    src: url('/static/fonts/Satoshi-Regular.otf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
@@ -41,7 +41,7 @@
 .file-name {
     width: 100%;
     height: 32px;
-    font-family: 'SpaceGrotesk';
+    font-family: 'Satoshi', sans-serif;
     font-size: 1rem;
     font-weight: bold;
     color: var(--text-color);

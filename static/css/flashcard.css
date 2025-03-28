@@ -1,15 +1,15 @@
 /* Fonts */
 @font-face {
-    font-family: 'SpaceGrotesk';
-    src: url('/static/fonts/SpaceGrotesk-Regular.ttf') format('truetype');
-    font-weight: normal;
+    font-family: 'Satoshi';
+    src: url('/static/fonts/Satoshi-Bold.otf') format('truetype');
+    font-weight: bold;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'SpaceGrotesk';
-    src: url('/static/fonts/SpaceGrotesk-Bold.ttf') format('truetype');
-    font-weight: bold;
+    font-family: 'Satoshi';
+    src: url('/static/fonts/Satoshi-Regular.otf') format('truetype');
+    font-weight: normal;
     font-style: normal;
 }
 
@@ -40,7 +40,7 @@
     border-radius: 5px;
     padding: 5px;
     border: none;
-    font-family: 'SpaceGrotesk';
+    font-family: 'Satoshi', sans-serif;
     font-weight: normal;
     font-size: 1rem;
     color: var(--text-color);
@@ -58,7 +58,7 @@
 
 .indicator {
     width: calc(100% - 32px);
-    font-family: 'SpaceGrotesk';
+    font-family: 'Satoshi', sans-serif;
     font-weight: bold;
     font-size: 1.4rem;
     color: var(--text-color);

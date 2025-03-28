@@ -1,3 +1,18 @@
+/* Fonts */
+@font-face {
+    font-family: 'Satoshi';
+    src: url('/static/fonts/Satoshi-Bold.otf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Satoshi';
+    src: url('/static/fonts/Satoshi-Regular.otf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Sidebar parent div */
 .sidebar {
     width: var(--sidebar-width);
