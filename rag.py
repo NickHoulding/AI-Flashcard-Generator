@@ -1,5 +1,6 @@
 import tempfile
-import PyPDF2
+# Replace PyPDF2 with pypdf
+import pypdf
 import uuid
 import io
 import os
@@ -215,7 +216,7 @@ def process_file(
         None
     """
     file_obj = io.BytesIO(file_content)
-    pdf_reader = PyPDF2.PdfReader(file_obj)
+    pdf_reader = pypdf.PdfReader(file_obj)
     documents = []
     
     for i, page in enumerate(pdf_reader.pages):
