@@ -148,6 +148,34 @@
     transition: background 0.3s ease, color 0.3s ease;
 }
 
+.export {
+    display: flex;
+    position: absolute;
+    left: 52px;
+    bottom: 10px;
+    width: 32px;
+    height: 32px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border: 1px solid color-mix(in srgb, var(--text-color) 25%, transparent);
+    cursor: pointer;
+    background: var(--primary-color);
+    color: var(--text-color);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.export svg {
+    width: 32px;
+    height: 32px;
+    align-self: center;
+}
+
+.export:hover {
+    background: var(--text-color);
+    color: var(--primary-color);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
 /* + File button */
 .add-file {
     width: 32px;
