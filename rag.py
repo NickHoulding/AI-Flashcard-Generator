@@ -40,26 +40,6 @@ def get_db(
         embedding_function=get_embedding_function(),
     )
 
-def load_documents(
-    ) -> list[Document]:
-    """
-    Loads the documents from the tmp directory.
-
-    Args:
-        None
-    
-    Returns:
-        list[Document]: The loaded PDF documents.
-    
-    Raises:
-        ValueError: If the CACHE_DIR environment variable is not set.
-    """
-    document_loader = PyPDFDirectoryLoader(
-        get_absolute_path("CACHE_DIR")
-    )
-
-    return document_loader.load()
-
 def split_documents(
         documents: list[Document]
     ) -> list[Document]:
@@ -138,7 +118,10 @@ def get_new_chunks(
     Raises:
         None
     """
-    return [chunk for chunk in chunks if chunk.metadata["id"] not in existing_ids]
+    return [chunk 
+        for chunk in chunks 
+        if chunk.metadata["id"] not in existing_ids
+    ]
 
 def set_chunk_ids(
         new_chunks: list[Document], 
