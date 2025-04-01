@@ -373,7 +373,8 @@ def get_file_names(
     
     seen = {}
     for cid in chunks["ids"]:
-        filename = os.path.basename(cid[cid.index('/') + 1:cid.index(':')])
+        source_path = cid.split(':')[1]
+        filename = os.path.basename(source_path)
         seen[filename] = True
     
     return sorted(seen.keys())
