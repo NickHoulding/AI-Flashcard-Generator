@@ -77,16 +77,21 @@ def add_file(
     Raises:
         None
     """
-    uploaded_files = request.files.getlist('file')
-    filenames = request.form.getlist('filename')
+    uploaded_file = request.files.get('file')
+    filename = request.form.get('filename')
     
+    if not uploaded_file or not filename:
+        return jsonify({
+            'error': 'File and filename are required',
+            'status': 400
+        })
+
     with db_operation_lock:
-        for file, filename in zip(uploaded_files, filenames):
-            file_content = file.read()
-            process_file(file_content, filename)
+        file_content = uploaded_file.read()
+        process_file(file_content, filename)
     
     return jsonify({
-        'message': 'File(s) addition finished',
+        'message': 'File added successfully',
         'status': 200
     })
 

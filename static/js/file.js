@@ -132,17 +132,27 @@ document.getElementById('fileInput')
 
 // Sends selected files to the backend.
 async function sendFilesToBackend(formData) {
-    fetch('/add-file', {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+    const files = formData.getAll('file');
+    
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const filename = file.name;
+        const singleFileData = new FormData();
+        
+        singleFileData.append('file', file);
+        singleFileData.append('filename', filename);
+        
+        try {
+            const response = await fetch('/add-file', {
+                method: 'POST',
+                body: singleFileData,
+            });
+            const data = await response.json();
+            console.log('Success:', data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
 }
 
 // Load all files present in the backend.
