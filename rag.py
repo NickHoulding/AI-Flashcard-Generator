@@ -1,15 +1,12 @@
 import concurrent.futures
 import tempfile
 import pypdf
-import uuid
-import io
 import os
-from langchain_community.document_loaders import PyPDFDirectoryLoader, PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from config import get_env_var, get_absolute_path
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.document import Document
 from embeddings import get_embedding_function
+from config import get_absolute_path
 from langchain_chroma import Chroma
 
 PROMPT_TEMPLATE = """

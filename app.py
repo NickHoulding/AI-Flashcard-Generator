@@ -1,11 +1,8 @@
 import threading
 import requests
 import ollama
-import os
-import io
 from rag import del_from_chroma, get_file_names, process_file
 from flask import Flask, render_template, request, jsonify
-from PyQt5.QtWidgets import QApplication, QFileDialog
 from config import get_absolute_path
 from flaskwebgui import FlaskUI
 from query import query

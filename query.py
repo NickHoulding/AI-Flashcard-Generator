@@ -1,11 +1,6 @@
-import torch
 import os
-import re
-from config import get_env_var, get_absolute_path
-from embeddings import get_embedding_function
-from rag import get_db, get_context_prompt
-from langchain_ollama import OllamaLLM
-from langchain_chroma import Chroma
+from rag import get_context_prompt
+from config import get_env_var
 from pydantic import BaseModel
 from ollama import chat
 
