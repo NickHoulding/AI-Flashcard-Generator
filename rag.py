@@ -316,10 +316,16 @@ def get_context_prompt(
         None
     """
     db = get_db()
-    results = db.similarity_search(
+    results = db.similarity_search_with_relevance_scores(
         query_text, 
         k=10
     )
+    results = [
+        results[i][0] 
+        for i in range(len(results)) 
+        if results[i][1] > 0.5
+    ]
+
     context_text = "\n\n---\n\n".join([
             doc.page_content 
             for doc in results
