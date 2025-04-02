@@ -1,0 +1,14 @@
+.loader {
+    width: 15px;
+    height: 15px;
+    border: 3px solid var(--secondary-color);
+    border-top: 3px solid var(--text-color);
+    border-radius: 50%;
+    animation: spin 1s ease-in-out infinite;
+    transition: border 0.3s ease, border-top 0.3s ease;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
