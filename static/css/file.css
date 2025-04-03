@@ -43,7 +43,7 @@
     height: 32px;
     font-family: 'Satoshi', sans-serif;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: normal;
     color: var(--text-color);
     background: transparent;
     display: flex;

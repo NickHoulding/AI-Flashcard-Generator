@@ -40,15 +40,18 @@
 .top-buttons {
     display: flex;
     width: calc(100% - 20px);
-    height: 35px;
+    height: 32px;
     padding: 0px 10px;
     margin: 10px 0px;
 }
 
 /* Close button */
 .close {
-    width: 35px;
-    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;    
+    width: 32px;
+    height: 32px;
     padding: 5px;
     cursor: pointer;
     border-radius: 5px;
@@ -65,8 +68,11 @@
 
 /* New chat button */
 .compose {
-    width: 35px;
-    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
     padding: 5px;
     margin-left: auto;
     cursor: pointer;
