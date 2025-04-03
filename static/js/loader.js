@@ -1,4 +1,4 @@
-class Loader extends HTMLElement {
+export class Loader extends HTMLElement {
     // Construct the custom element.
     constructor() {
         super();

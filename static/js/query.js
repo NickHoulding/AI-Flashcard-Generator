@@ -20,31 +20,49 @@ export async function sendMessage() {
     else {
         chat.appendChild(messageElement);
     }
-
-    // Send message and await AI response.
-    const response = await fetch('/send-message', {
-        method: 'POST', 
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ message }),
-    });
     
-    // Display AI response.
-    if (response.ok) {
-        const data = await response.json();
+    // Create and append loader.
+    const loaderContainer = document.createElement('div');
+    loaderContainer.className = 'loader-container';
+    const loader = document.createElement('loader-custom');
+    loaderContainer.appendChild(loader);
+    chat.appendChild(loaderContainer);
+
+    try {
+        // Send message and await AI response.
+        const response = await fetch('/send-message', {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message }),
+        });
         
-        const responseElement = document.createElement('div');
-        responseElement.className = 'ai-response';
-        chat.appendChild(responseElement);
+        if (chat.contains(loaderContainer)) {
+            chat.removeChild(loaderContainer);
+        }
+        
+        // Display AI response.
+        if (response.ok) {
+            const data = await response.json();
+            
+            const responseElement = document.createElement('div');
+            responseElement.className = 'ai-response';
+            chat.appendChild(responseElement);
 
-        const flashcards = data.message.content;
-        typeMessage(flashcards, responseElement);
+            const flashcards = data.message.content;
+            typeMessage(flashcards, responseElement);
 
-        // TODO: Display sources.
+            // TODO: Display sources.
 
-    } else {
-        alert('Error sending message');
+        } else {
+            alert('Error sending message');
+        }
+    } catch (error) {
+        if (chat.contains(loaderContainer)) {
+            chat.removeChild(loaderContainer);
+        }
+        alert('Error sending message: ' + error.message);
     }
 }
 
