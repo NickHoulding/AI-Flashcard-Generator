@@ -1,3 +1,12 @@
+// Theme toggle functionality for the header button.
+export function toggleTheme() {
+    const root = document.documentElement;
+    const currentTheme = root.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+    setTheme(newTheme);
+}
+
 // Theme management for the application.
 export function setTheme(val) {
     const root = document.documentElement;
@@ -9,11 +18,8 @@ export function setTheme(val) {
 function setInitialTheme() {
     const root = document.documentElement;
     const currentTheme = localStorage.getItem('theme') || 'dark';
-    const themeButton = document.getElementById('theme-dropdown');
 
-    themeButton.value = currentTheme;
     setTheme(currentTheme);
-    localStorage.setItem('theme', currentTheme);
 }
 
 // Set initial theme when the page loads.

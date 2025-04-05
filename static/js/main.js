@@ -4,12 +4,13 @@ import { toggleModal } from "./modal.js";
 import { addFile } from "./file.js";
 import { sendMessage } from "./query.js";
 import { loadFiles } from "./file.js";
-import { setTheme } from './theme.js';
+import { setTheme, toggleTheme } from './theme.js';
 
 window.sendMessage = sendMessage;
 window.toggleSidebar = toggleSidebar;
+window.toggleTheme = toggleTheme;
 window.toggleModal = toggleModal;
-window.addFile = addFile;
 window.setTheme = setTheme;
+window.addFile = addFile;
 
 loadFiles();

@@ -25,7 +25,7 @@
     --header-width: calc(100% - var(--sidebar-width));
     --logo-left-margin: 50px;
     --content-width: 100%;
-    --hamburger-opacity: 100%; 
+    --hamburger-opacity: 100%;
 }
 
 /* General scrollbar styling */
