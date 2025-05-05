@@ -18,42 +18,9 @@
     z-index: 4;
 }
 
-/* Application logo */
-.logo-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    padding: 5px;
-    position: fixed;
-    left: 10px;
-    margin-top: auto;
-    margin-bottom: auto;
-    border-radius: 5px;
-    border: none;
-    opacity: 100%;
-    cursor: pointer;
-    color: var(--text-color);
-    background: transparent;
-    transition: background 0.3s ease, color 0.3s ease, opacity 0.3s ease;
-}
-
-.logo-icon:hover {
-    cursor: pointer;
-    background: var(--secondary-color);
-    transition: background 0.3s ease;
-}
-
-.logo-icon.hidden {
-    opacity: 0%;
-    cursor: default;
-    transition: opacity 0.3s ease;
-}
-
 .logo-text {
     position: fixed;
-    left: var(--logo-left-margin);
+    left: 10px;
     font-family: 'Satoshi', sans-serif;
     font-size: 1.4rem;
     font-weight: bold;

@@ -39,7 +39,7 @@
     width: 100%;
     position: fixed;
     top: 50px;
-    bottom: 135px;
+    bottom: 150px;
     font-family: 'Satoshi', sans-serif;
     font-weight: normal;
     line-height: 1.75;
@@ -94,11 +94,11 @@
 /* Send button */
 .send-message {
     display: flex;
-    position: absolute;
-    right: 10px;
-    bottom: 10px;
     width: 32px;
     height: 32px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
     border-radius: 5px;
     border: none;
     cursor: pointer;
@@ -119,13 +119,25 @@
     transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* File attatchment modal button */
-.attatchment {
+.chatbox-buttons {
+    width: auto;
+    height: 32px;
     display: flex;
     position: absolute;
-    left: 10px;
     bottom: 10px;
-    width: 32px;
+    flex-direction: row;
+    justify-content: left;
+    align-items: left;
+    box-sizing: border-box;
+}
+
+/* Files button */
+.files-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
     height: 32px;
     border-radius: 5px;
     box-sizing: border-box;
@@ -133,16 +145,21 @@
     cursor: pointer;
     background: var(--primary-color);
     color: var(--text-color);
+    font-family: 'Satoshi', sans-serif;
+    font-weight: normal;
+    font-size: 1rem;
+    margin-left: 10px;
     transition: background 0.3s ease, color 0.3s ease;
 }
 
-.attatchment svg {
-    width: 32px;
-    height: 32px;
+.files-button svg {
+    width: 22px;
+    height: 22px;
+    margin-right: 5px;
     align-self: center;
 }
 
-.attatchment:hover {
+.files-button:hover {
     background: var(--text-color);
     color: var(--primary-color);
     transition: background 0.3s ease, color 0.3s ease;
@@ -150,10 +167,10 @@
 
 .export {
     display: flex;
-    position: absolute;
-    left: 52px;
-    bottom: 10px;
-    width: 32px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
     height: 32px;
     border-radius: 5px;
     box-sizing: border-box;
@@ -161,16 +178,54 @@
     cursor: pointer;
     background: var(--primary-color);
     color: var(--text-color);
+    font-family: 'Satoshi', sans-serif;
+    font-weight: normal;
+    font-size: 1rem;
+    margin-left: 10px;
     transition: background 0.3s ease, color 0.3s ease;
 }
 
 .export svg {
-    width: 32px;
-    height: 32px;
+    width: 22px;
+    height: 22px;
+    margin-right: 5px;
     align-self: center;
 }
 
 .export:hover {
+    background: var(--text-color);
+    color: var(--primary-color);
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.import {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    width: fit-content;
+    height: 32px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    border: 1px solid color-mix(in srgb, var(--text-color) 25%, transparent);
+    cursor: pointer;
+    background: var(--primary-color);
+    color: var(--text-color);
+    font-family: 'Satoshi', sans-serif;
+    font-weight: normal;
+    font-size: 1rem;
+    margin-left: 10px;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.import svg {
+    width: 22px;
+    height: 22px;
+    margin-right: 5px;
+    align-self: center;
+}
+
+.import:hover {
     background: var(--text-color);
     color: var(--primary-color);
     transition: background 0.3s ease, color 0.3s ease;
@@ -260,15 +315,26 @@
 
 /* List of added files */
 .file-list {
-    height: calc(100% - 37px);
+    width: 100%;
+    height: 100%;
     border-radius: 5px;
-    overflow-y: scroll;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+    scrollbar-width: none;
+    scrollbar-gutter: stable;
 }
 
-.divider{
+.loader-container {
     width: 100%;
-    height: 2px;
-    background: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0px;
 }
 
 /* Mobile styling */
