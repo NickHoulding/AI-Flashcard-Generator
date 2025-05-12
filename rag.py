@@ -2,6 +2,7 @@ import concurrent.futures
 import tempfile
 import pypdf
 import os
+import re
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema.document import Document
@@ -359,8 +360,10 @@ def get_file_names(
     
     seen = {}
     for cid in chunks["ids"]:
-        source_path = cid.split(':')[0]
-        filename = os.path.basename(source_path)
-        seen[filename] = True
+        match = re.match(r'(.+[/\\])([^/\\]+):\d+:\d+$', cid)
+
+        if match:
+            filename = os.path.basename(match.group(2))
+            seen[filename] = True
 
     return sorted(seen.keys())
