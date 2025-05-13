@@ -360,10 +360,9 @@ def get_file_names(
     
     seen = {}
     for cid in chunks["ids"]:
-        match = re.match(r'(.+[/\\])([^/\\]+):\d+:\d+$', cid)
-
-        if match:
-            filename = os.path.basename(match.group(2))
-            seen[filename] = True
+        filename = os.path.basename(
+            re.sub(r':\d+:\d+$', '', cid)
+        )
+        seen[filename] = True
 
     return sorted(seen.keys())
