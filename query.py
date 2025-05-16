@@ -47,9 +47,8 @@ def query_ollama(
     response = chat(
         messages=[{
                 "role": "user",
-                "content": f'''
-                    Create a list of flashcards based on the prompt: {prompt}
-                '''
+                "content": f"""
+                    Create a list of flashcards based on the prompt: {prompt}"""
             }],
         model=get_env_var("MODEL"),
         format=StudySet.model_json_schema()

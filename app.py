@@ -1,9 +1,6 @@
 import threading
-import requests
-import ollama
 from rag import del_from_chroma, get_file_names, process_file
 from flask import Flask, render_template, request, jsonify
-from config import get_absolute_path
 from flaskwebgui import FlaskUI
 from query import query
 from typing import Text
