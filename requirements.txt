@@ -1,11 +1,10 @@
-Flask==3.1.0
+Flask==3.1.1
 flaskwebgui==1.1.6
 langchain==0.3.25
-langchain_chroma==0.2.3
-langchain_ollama==0.3.2
+langchain_chroma==0.2.4
+langchain_ollama==0.3.3
 langchain_text_splitters==0.3.8
 ollama==0.4.8
 pydantic==2.11.4
 pypdf==5.5.0
 python-dotenv==1.1.0
-Requests==2.32.3
